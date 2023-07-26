@@ -1,5 +1,3 @@
-
-import React from 'react';
 import StyledRegister from './style';
 
 function Register() {

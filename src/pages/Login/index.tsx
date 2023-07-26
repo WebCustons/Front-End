@@ -1,5 +1,3 @@
-
-import React from 'react';
 import StyledLogin from './style';
 
 function Login() {
