@@ -1,12 +1,9 @@
 import styled, { css } from "styled-components";
+import { buttonProps} from "../types/index"
 
-interface InameButtons {
-    nameButtons: "buttonsections" | "buttonSend"
-}
-
-export const StyledButtons = styled.button`
+export const StyledButtons = styled.button<buttonProps>`
 cursor: pointer;
-${({ nameButtons }: InameButtons) => {
+${({ nameButtons }: buttonProps) => {
         switch (nameButtons) {
             case "buttonsections":
                 return css`
@@ -29,6 +26,8 @@ ${({ nameButtons }: InameButtons) => {
                 align-items: center;
                 justify-content: center;
             `;
+            default:
+                return css``
         }
     }
     }`

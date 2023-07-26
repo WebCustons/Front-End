@@ -1,5 +1,3 @@
-
-import React from 'react';
 import StyledAdverts from './style';
 
 function Adverts() {
