@@ -1,12 +1,12 @@
-import StyledHeader from './style';
+import StyledNavigation from './style';
 
-function Header() {
+function Navigation() {
     return (
-        <StyledHeader>
+        <StyledNavigation>
             
 
 
-        </StyledHeader>
+        </StyledNavigation>
     )
 }
-export default Header
+export default Navigation

@@ -13,34 +13,21 @@ const GlobalStyled = createGlobalStyle`
   --Color-Sucess:#168821;
   --Color-Information:#155BCB;
 }
-#root{
-  display: flex;
-}
+
 body{
   font-family: 'Jost', sans-serif;
   overflow-x: hidden;
-  background-color: var(--Color-gray-100);
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: var(--colorSecond);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--colorPrimary);
+  background-color: var(--bgcolor);
 }
 .container{
+  width: 90%;
   margin: 0 auto;
-  max-width: 1200px;
 }
-@media (max-width: 1000px) {
+
+@media (min-width: 1000px) {
 .container{
   margin: 0 auto;
-  width: 100vw;
+  width: 1200px;
 }
 }
 `;

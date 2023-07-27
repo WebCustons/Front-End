@@ -6,7 +6,7 @@ import ResetCSS from './styles/ResetCSS';
 
 function App() {
   return (
-    <>
+    <div className='container'>
       <ResetCSS />
       <GlobalStyled />
       <RoutePages />
@@ -22,7 +22,7 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-    </>
+    </div>
   );
 }
 
