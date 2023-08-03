@@ -1,12 +1,10 @@
-import StyledHome from './style';
+import StyledHome from "./style";
 
 function Home() {
-    return (
-        <StyledHome>
-           
-
-
-        </StyledHome>
-    )
+  return (
+    <StyledHome>
+      <h1>Home</h1>
+    </StyledHome>
+  );
 }
-export default Home
+export default Home;
