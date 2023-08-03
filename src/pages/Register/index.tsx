@@ -4,8 +4,6 @@ function Register() {
     return (
         <StyledRegister>
             
-
-
         </StyledRegister>
     )
 }

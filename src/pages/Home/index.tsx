@@ -4,8 +4,6 @@ function Home() {
     return (
         <StyledHome>
            
-
-
         </StyledHome>
     )
 }

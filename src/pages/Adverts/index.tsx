@@ -4,8 +4,6 @@ function Adverts() {
     return (
         <StyledAdverts>
             
-
-
         </StyledAdverts>
     )
 }
