@@ -1,12 +1,10 @@
-import StyledLogin from './style';
+import StyledLogin from "./style";
 
 function Login() {
-    return (
-        <StyledLogin>
-            
-
-
-        </StyledLogin>
-    )
+  return (
+    <StyledLogin>
+      <h1>Login</h1>
+    </StyledLogin>
+  );
 }
-export default Login
+export default Login;

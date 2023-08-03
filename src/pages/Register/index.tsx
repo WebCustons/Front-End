@@ -1,12 +1,10 @@
-import StyledRegister from './style';
+import StyledRegister from "./style";
 
 function Register() {
-    return (
-        <StyledRegister>
-            
-
-
-        </StyledRegister>
-    )
+  return (
+    <StyledRegister>
+      <h1>Register</h1>
+    </StyledRegister>
+  );
 }
-export default Register
+export default Register;

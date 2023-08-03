@@ -1,3 +1,4 @@
+import RoutePages from "./routes";
 import { GlobalStyle } from "./styles/GlobalStyled";
 import ResetCSS from "./styles/ResetCSS";
 
@@ -6,7 +7,7 @@ export function App() {
     <>
       <GlobalStyle />
       <ResetCSS />
+      <RoutePages />
     </>
   );
 }
-
