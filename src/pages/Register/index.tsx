@@ -1,10 +1,6 @@
 import StyledRegister from "./style";
 
 function Register() {
-  return (
-    <StyledRegister>
-      <h1>Register</h1>
-    </StyledRegister>
-  );
+  return <StyledRegister></StyledRegister>;
 }
 export default Register;
