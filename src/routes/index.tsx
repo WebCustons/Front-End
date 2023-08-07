@@ -14,7 +14,7 @@ function RoutePages() {
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<ProfileAdmin />} />
       <Route path="/profile" element={<ProfileUser />} />
-      <Route path="/adverts" element={<Adverts />} />
+      {/* <Route path="/product" element={<Adverts />} /> */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
