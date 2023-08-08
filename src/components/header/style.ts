@@ -1,7 +1,22 @@
 import styled from "styled-components"
 
-const StyledAdverts = styled.main`
 
-` 
+export const StyledMenu = styled.div`
 
-export default StyledAdverts
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding:10px;
+    align-items: center;
+    font-family: 'Lexend', sans-serif;
+
+    img{
+        width:150px;
+        height: 60px;
+
+        @media(min-width:599px){
+            width:250px;
+            height:80ox;
+        }
+    }
+`;

@@ -1,10 +1,14 @@
-import StyledHeader from './style';
+import { StyledMenu } from './style';
+import Logo from '../../assets/logo_1.png';
 
-export function Header() {
+export function Header({children}:any) {
     return (
-        <StyledHeader>
-            
-        </StyledHeader>
+        <header>
+          <StyledMenu>
+              <img src={Logo}/>
+              {children}
+        </StyledMenu>
+        </header>
     )
 }
 export default Header
