@@ -2,23 +2,10 @@ import styled from "styled-components"
 
 export const StyledHome = styled.main`
 
-    background-color: red;
+    position: relative;
 
 `; 
-export const StyledMenu = styled.div`
 
-    max-width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding:10px;
-    align-items: center;
-    font-family: 'Lexend', sans-serif;
-
-    img{
-        width:150px;
-        height: 30px;
-    }
-`;
 
 export const StyledButtonsMenu = styled.div`
 
@@ -44,6 +31,12 @@ export const StyledButtonRegister = styled.button`
 
 `;
 
+export const StyledButtonMenuItemRegister = styled.button`
+
+    color: var( --grey0);
+    font-weight: bold;
+
+`
 
 
 
@@ -53,29 +46,37 @@ export const StyledBannerPageHome = styled.div`
     width:100%;
     position: relative;
     z-index: 1;
+    text-align: center;
 
     img{
-        width:100%;
+        max-width:100%;
         height: 450px;
+        width: 100%;
+        object-fit: cover; 
     }
-
+    
     h1{
         position: absolute;
         top:30%;
-        left:35%;
-        color:white;
+        left:0%;
+        right:0%;
+        color:var(--grey10);
+        font-weight: bold;
+        font-size:25px;
     }
 
     p{
+        font-size:25px;
         max-width: 100%;
         min-width:250px;
         position: absolute;
         top:40%;
-        left:15%;
-        right:5%;
+        left:0%;
+        right:0%;
         margin: auto;
-        color:white;
+        color:var(--grey10);
         font-family: 'Lexend', sans-serif;
+        font-weight: bold;
     }
 
 `;

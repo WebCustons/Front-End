@@ -3,7 +3,7 @@ import Home from "../pages/Home/index";
 import Login from "../pages/Login/index";
 import Register from "../pages/Register/index";
 import ProfileUser from "../pages/ProfileUser/index";
-import Adverts from "../pages/Adverts";
+import Products from "../pages/Products";
 import ProfileAdmin from "../pages/ProfileAdmin";
 
 function RoutePages() {
@@ -14,7 +14,7 @@ function RoutePages() {
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<ProfileAdmin />} />
       <Route path="/profile" element={<ProfileUser />} />
-      {/* <Route path="/product" element={<Adverts />} /> */}
+      <Route path="/product" element={<Products />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
