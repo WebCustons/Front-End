@@ -13,6 +13,7 @@ export const StyledButtonsMenu = styled.div`
 export const StyledButtonLogin = styled.button`
   color: var(--grey2);
   font-weight: bold;
+
 `;
 
 export const StyledButtonRegister = styled.button`
@@ -26,7 +27,7 @@ export const StyledButtonRegister = styled.button`
 export const StyledButtonMenuItemRegister = styled.button`
   color: var(--grey0);
   font-weight: bold;
-  height: 100vh;
+  margin-top: -15px;
 `;
 
 export const StyledSection = styled.section`
