@@ -71,7 +71,13 @@ function Home() {
               variant="outline"
             ></MenuButton>
 
-            <MenuList bg={"var(--whiteFixed)"} padding={"5px"} zIndex={2}>
+            <MenuList bg={"var(--whiteFixed)"}  
+              zIndex={2} 
+              height={'80px'} 
+              display={"flex"}
+              flexDirection={"column"}
+              padding={'5px'}
+              >
               <StyledButtonLogin>Fazer Login</StyledButtonLogin>
               <br />
               <StyledButtonMenuItemRegister>
@@ -93,7 +99,7 @@ function Home() {
           <img src={Banner} />
           <h1>Web Custons</h1>
           <p>A melhor plataforma de anúncios de carros do pais</p>
-        </StyledBannerPageHome>
+        </StyledBannerPageHome><br/><br/>
 
         <StyledSection>
           <ContainerList>

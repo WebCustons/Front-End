@@ -10,7 +10,7 @@ const StyledFooter = styled.footer`
     flex-direction: column;
     position: absolute;
     width:100%;
-    bottom: 0;
+    margin-top: 110px;
 
     @media(min-width:600px){
         flex-direction: row;
