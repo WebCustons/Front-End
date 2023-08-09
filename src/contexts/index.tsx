@@ -11,6 +11,7 @@ export const Provider = ({ children }: iContextProps) => {
   return (
     <Context.Provider value={{}}>
       <ProductProvider>{children}</ProductProvider>
+      
     </Context.Provider>
   );
 };

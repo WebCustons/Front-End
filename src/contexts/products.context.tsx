@@ -1,9 +1,16 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { TAdvert } from "../interfaces/advert.interface";
 import image from "../assets/Logo.png";
 
 interface iProductContextProps {
   children: ReactNode;
+}
+type TFilters =  {
+  brand: string,
+  model: string,
+  color: string,
+  year: string,
+  fuel: string
 }
 
 interface IProductProvider {
@@ -16,22 +23,26 @@ interface IProductProvider {
   prevPage: () => void;
   setPageByNumber: (number: number) => void;
   getProducts: () => void;
+  productsList: TAdvert[] | null
+  setFilters: React.Dispatch<React.SetStateAction<TFilters[] | null>>
+  filters: TFilters[] | null | undefined
+
 }
 
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
-  const [produsctList, setProductsList] = useState<TAdvert[] | null>([
+  const [productsList, setProductsList] = useState<TAdvert[] | null>([
     {
       id: 1,
       brand: "Maserati",
       model: "Ghibli",
       year: 2019,
       fuel: "Gasoline",
-      mileage: 0,
+      mileage: 200000,
       color: "Black",
       table_fipe: false,
-      price: 0,
+      price: 10000000,
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet, neque laborum minima laudantium illum asperiores cum iste assumenda. Cupiditate iste vitae eaque blanditiis necessitatibus architecto mollitia deleniti neque labore quidem!",
       cover_image: image,
@@ -455,16 +466,27 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       },
     },
   ]);
+
   const [listPage, setListPage] = useState<number[] | null>([]);
   const [currentPage, setcurrentPage] = useState<number>(0);
   const [previousPage, setPreviousPage] = useState<number>(0);
   const [listItems, setListItems] = useState<TAdvert[] | null>();
+  const [filters,setFilters] = useState<TFilters[] | null>([])
+
+  useEffect(() => {
+    filters?.map((filter) => {
+      const filteredProduct = productsList?.filter((product) => {if(product.brand == filter.brand){
+        return product
+      }})
+      console.log(filteredProduct)
+    })
+  },[filters])
 
   const getProducts = () => {};
 
   const setPages = () => {
-    const numberOfPages: number = Math.ceil(produsctList!.length / 12);
-    const listLength: number = produsctList!.length;
+    const numberOfPages: number = Math.ceil(productsList!.length / 12);
+    const listLength: number = productsList!.length;
     let helper: number = 12;
     const itemsPage: number[] = [];
     itemsPage.push(0);
@@ -480,7 +502,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       }
     }
 
-    setListItems(produsctList!.slice(0, itemsPage[1]));
+    setListItems(productsList!.slice(0, itemsPage[1]));
     setcurrentPage(1);
     setPreviousPage(0);
     setListPage(itemsPage);
@@ -491,7 +513,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       null;
     } else if (listPage.length - 1 > 1 && listPage.length - 1 != currentPage) {
       setListItems(
-        produsctList!.slice(
+        productsList!.slice(
           listPage[previousPage + 1],
           listPage[currentPage + 1]
         )
@@ -506,7 +528,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       null;
     } else if (currentPage > 1) {
       setListItems(
-        produsctList!.slice(
+        productsList!.slice(
           listPage[previousPage - 1],
           listPage[currentPage - 1]
         )
@@ -520,7 +542,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     if (!listPage) {
       null;
     } else {
-      setListItems(produsctList!.slice(listPage[number - 1], listPage[number]));
+      setListItems(productsList!.slice(listPage[number - 1], listPage[number]));
       setcurrentPage(number);
       setPreviousPage(number - 1);
     }
@@ -538,6 +560,9 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         setPageByNumber,
         setPages,
         getProducts,
+        productsList,
+        setFilters,
+        filters
       }}
     >
       {children}
