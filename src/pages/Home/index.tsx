@@ -25,6 +25,7 @@ import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
 import { useProduct } from "../../hooks/useProduct";
 import { CardAdvert } from "../../components/cardAdvert";
+import { FiltersComponent } from "../../components/advertsFilters";
 
 function Home() {
   const [isMobile, setisMobile] = useState(false);
@@ -208,6 +209,7 @@ function Home() {
             </ButtonGroup>
           </Box>
         </StyledSection>
+        <aside><FiltersComponent/></aside>
       </StyledHome>
       <Footer />
     </>
