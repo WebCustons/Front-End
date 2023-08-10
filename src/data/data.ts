@@ -1,8 +1,10 @@
 import image from "../assets/Logo.png";
-import { TAdvert } from "../schemas/advert.schema";
+import { TPagination } from "../interfaces/advert.interface";
 
-export const dataBase:TAdvert[] =
-    [
+export const dataBase: TPagination = {
+    prevPage: "http://localhost:3000/adverts/?page=2&perPage=12",
+    nextPage: null,
+    data: [
         {
             id: 1,
             brand: "Maserati",
@@ -436,3 +438,4 @@ export const dataBase:TAdvert[] =
             },
         },
     ]
+}

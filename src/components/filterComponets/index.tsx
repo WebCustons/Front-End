@@ -1,39 +1,34 @@
 import { useProduct } from "../../hooks/useProduct";
-import { TAdvert } from "../../interfaces/advert.interface";
-import { FiltersRanges } from "../filtersComponent";
 
 
 
 interface FilterProps {
   title: string;
-  filterType: FiltersRanges;
+  filter: string[];
 }
 
-export const FilterComponets = ({ title, filterType }:FilterProps) => {
-  
-  const { productsList, setFilters, filters } = useProduct();
+export const FilterComponets = ({ title, filter }: FilterProps) => {
 
-  const getFilters = (list: TAdvert[], range: FiltersRanges): string[] => {
-  return Array.from(new Set(list.map(item => String(item[range]))));
+  const { setFilters, filters } = useProduct();
+
+
+  const handleFilterClick = (title:string,value: string): void => {
+    const newFilters = {
+      ...filters,
+      [title]: value, 
+    }
+    setFilters(newFilters);
 };
 
-  const filterValues = getFilters(productsList!, filterType);
-
-  console.log(filterValues);
-  
-  const handleFilterClick = (value: string): void => {
-    setFilters({ ...filters, [filterType]: value });
-  };
-
-  return (
-    <ul>
-      <h1>{title}</h1>
-      {filterValues.map((value) => (
-        <li key={value} onClick={() => handleFilterClick(value)}>
-          {value}
-        </li>
-      ))}
-    </ul>
-  );
+return (
+  <ul>
+    <h1>{title}</h1>
+    {filter.map((value: string) => (
+      <li key={value} onClick={() => handleFilterClick(title,value)}>
+        {value}
+      </li>
+    ))}
+  </ul>
+);
 };
 
