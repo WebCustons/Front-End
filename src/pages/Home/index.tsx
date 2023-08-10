@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   StyledHome,
   StyledBannerPageHome,
@@ -20,80 +21,101 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useEffect, useState } from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
 import { useProduct } from "../../hooks/useProduct";
 import { CardAdvert } from "../../components/cardAdvert";
-import { FiltersComponent } from "../../components/advertsFilters";
+import { AsideFilters } from "../../components/filtersComponent";
+
+type PaginationButtonProps = {
+  index: number;
+  currentPage: number;
+  onClick: (index: number) => void;
+};
+
+function PaginationButton({ index, currentPage, onClick }: PaginationButtonProps) {
+  const isActive = index === currentPage;
+
+  return (
+    <Button
+      key={`page-button-${index}`}
+      width={"fit-content"}
+      height={"fit-content"}
+      marginLeft={"0.5rem"}
+      onClick={() => onClick(index)}
+      variant="link"
+      backgroundColor={"transparent"}
+      cursor={"pointer"}
+      transition={"0.5s"}
+      borderBottom={isActive ? "1px solid var(--grey1)" : "none"}
+      _hover={{
+        borderBottom: "1px solid var(--grey1)",
+        transition: "0.5s",
+      }}
+    >
+      {index}
+    </Button>
+  );
+}
 
 function Home() {
-  const [isMobile, setisMobile] = useState(false);
   const {
     currentPage,
-    getProducts,
     listItems,
     listPage,
     nextPage,
     prevPage,
-    previousPage,
     setPageByNumber,
     setPages,
+    previousPage,
   } = useProduct();
 
   useEffect(() => {
-    getProducts();
     setPages();
   }, []);
-  useEffect(() => {
-    const screen = window.matchMedia("(max-width: 599px)");
-    setisMobile(screen.matches);
 
-    const resize = () => {
-      setisMobile(screen.matches);
-    };
+  const renderPaginationButtons = () => {
+    if (!listPage) return null;
 
-    window.addEventListener("resize", resize);
+    return listPage.map((_, index) => (
+      <PaginationButton
+        key={`page-button-${index}`}
+        index={index}
+        currentPage={currentPage}
+        onClick={setPageByNumber}
+      />
+    ));
+  };
 
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
 
   return (
     <>
       <Header>
-        {isMobile ? (
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<AiOutlineMenu />}
-              variant="outline"
-            ></MenuButton>
-
-            <MenuList bg={"var(--whiteFixed)"} padding={"5px"} zIndex={2}>
-              <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-              <br />
-              <StyledButtonMenuItemRegister>
-                Cadastrar
-              </StyledButtonMenuItemRegister>
-            </MenuList>
-          </Menu>
-        ) : (
-          <StyledButtonsMenu>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<AiOutlineMenu />}
+            variant="outline"
+          ></MenuButton>
+          <MenuList bg={"var(--whiteFixed)"} padding={"5px"} zIndex={2}>
             <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-
-            <StyledButtonRegister>Cadastrar</StyledButtonRegister>
-          </StyledButtonsMenu>
-        )}
+            <br />
+            <StyledButtonMenuItemRegister>
+              Cadastrar
+            </StyledButtonMenuItemRegister>
+          </MenuList>
+        </Menu>
+        <StyledButtonsMenu>
+          <StyledButtonLogin>Fazer Login</StyledButtonLogin>
+          <StyledButtonRegister>Cadastrar</StyledButtonRegister>
+        </StyledButtonsMenu>
       </Header>
-
       <StyledHome>
         <StyledBannerPageHome>
-          <img src={Banner} />
+          <img src={Banner} alt="Banner" />
           <h1>Web Custons</h1>
-          <p>A melhor plataforma de anúncios de carros do pais</p>
+          <p>A melhor plataforma de anúncios de carros do país</p>
         </StyledBannerPageHome>
 
         <StyledSection>
@@ -110,65 +132,9 @@ function Home() {
             gap={"2rem"}
             justifyContent={"center"}
           >
+            <ButtonGroup>{renderPaginationButtons()}</ButtonGroup>
             <ButtonGroup>
-              {listPage ? (
-                listPage.map((item, index) => {
-                  return index == 0 ? null : index == currentPage ? (
-                    <Button
-                      key={`${item}__${index}`}
-                      width={"fit-content"}
-                      height={"fit-content"}
-                      marginLeft={"0.5rem"}
-                      onClick={() => setPageByNumber(index)}
-                      variant="link"
-                      borderBottom={"1px solid var(--grey1)"}
-                      backgroundColor={"transparent"}
-                      cursor={"pointer"}
-                      transition={"0.5s"}
-                    >
-                      {index}
-                    </Button>
-                  ) : (
-                    <Button
-                      key={`${item}__${index}`}
-                      width={"fit-content"}
-                      height={"fit-content"}
-                      marginLeft={"0.5rem"}
-                      onClick={() => setPageByNumber(index)}
-                      variant="link"
-                      backgroundColor={"transparent"}
-                      cursor={"pointer"}
-                      transition={"0.5s"}
-                      _hover={{
-                        borderBottom: "1px solid var(--grey1)",
-                        transition: "0.5s",
-                      }}
-                    >
-                      {index}
-                    </Button>
-                  );
-                })
-              ) : (
-                <Button
-                  key={`1__0`}
-                  width={"fit-content"}
-                  padding={"0.5rem 1rem"}
-                  marginLeft={"0.5rem"}
-                  variant="link"
-                  backgroundColor={"var(--grey7)"}
-                  cursor={"pointer"}
-                  transition={"0.5s"}
-                  _hover={{
-                    backgroundColor: "var(--grey8)",
-                    transition: "0.5s",
-                  }}
-                >
-                  1
-                </Button>
-              )}
-            </ButtonGroup>
-            <ButtonGroup>
-              {previousPage > 0 ? (
+              {previousPage > 0 && (
                 <Button
                   fontWeight={"bold"}
                   backgroundColor={"transparent"}
@@ -186,8 +152,8 @@ function Home() {
                 >
                   Anterior
                 </Button>
-              ) : null}
-              {currentPage < listPage!.length - 1 ? (
+              )}
+              {listPage && currentPage < listPage.length - 1 && (
                 <Button
                   fontWeight={"bold"}
                   backgroundColor={"transparent"}
@@ -205,14 +171,15 @@ function Home() {
                 >
                   Seguinte
                 </Button>
-              ) : null}
+              )}
             </ButtonGroup>
           </Box>
         </StyledSection>
-        <aside><FiltersComponent/></aside>
+        <AsideFilters />
       </StyledHome>
       <Footer />
     </>
   );
 }
+
 export default Home;

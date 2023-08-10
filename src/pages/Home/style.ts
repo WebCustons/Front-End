@@ -71,8 +71,6 @@ export const ContainerList = styled.div`
   }
 `;
 
-export default StyledHome;
-
 export const StyledBannerPageHome = styled.div`
   max-width: 100%;
   width: 100%;
