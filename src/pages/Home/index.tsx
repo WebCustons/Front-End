@@ -25,38 +25,7 @@ import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
 import { useProduct } from "../../hooks/useProduct";
 import { CardAdvert } from "../../components/cardAdvert";
-import { AsideFilters } from "../../components/filtersComponent";
-
-type PaginationButtonProps = {
-  index: number;
-  currentPage: number;
-  onClick: (index: number) => void;
-};
-
-function PaginationButton({ index, currentPage, onClick }: PaginationButtonProps) {
-  const isActive = index === currentPage;
-
-  return (
-    <Button
-      key={`page-button-${index}`}
-      width={"fit-content"}
-      height={"fit-content"}
-      marginLeft={"0.5rem"}
-      onClick={() => onClick(index)}
-      variant="link"
-      backgroundColor={"transparent"}
-      cursor={"pointer"}
-      transition={"0.5s"}
-      borderBottom={isActive ? "1px solid var(--grey1)" : "none"}
-      _hover={{
-        borderBottom: "1px solid var(--grey1)",
-        transition: "0.5s",
-      }}
-    >
-      {index}
-    </Button>
-  );
-}
+import { FiltersComponent } from "../../components/advertsFilters";
 
 function Home() {
   const {
@@ -175,7 +144,7 @@ function Home() {
             </ButtonGroup>
           </Box>
         </StyledSection>
-        <AsideFilters />
+        <aside><FiltersComponent/></aside>
       </StyledHome>
       <Footer />
     </>
