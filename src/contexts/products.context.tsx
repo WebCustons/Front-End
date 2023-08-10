@@ -1,23 +1,24 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { TAdvert } from "../interfaces/advert.interface";
-import image from "../assets/Logo.png";
+import { dataBase } from './../data/data';
 
 interface iProductContextProps {
   children: ReactNode;
 }
-type TFilters =  {
-  brand: string,
-  model: string,
-  color: string,
-  year: string,
-  fuel: string
-}
+
+type TFilters = {
+  brand: string;
+  model: string;
+  color: string;
+  year: string;
+  fuel: string;
+};
 
 interface IProductProvider {
   listPage: number[] | null;
   currentPage: number;
   previousPage: number;
-  listItems: TAdvert[] | null | undefined;
+  listItems: TAdvert[] | null;
   setPages: () => void;
   nextPage: () => void;
   prevPage: () => void;
@@ -570,7 +571,11 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   } 
 
 
-  const getProducts = () => {};
+    const newPageItems = productsList!.slice(listPage[pageIndex - 1], listPage[pageIndex]);
+    setListItems(newPageItems);
+    setCurrentPage(pageIndex);
+    setPreviousPage(pageIndex - 1);
+  };
 
   const setPages = () => {
     const numberOfPages: number = Math.ceil(productsList!.length / 12);
@@ -580,14 +585,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     itemsPage.push(0);
 
     for (let i = 0; i < numberOfPages; i++) {
-      if (listLength - helper >= 0) {
-        itemsPage.push(helper);
-        helper = helper + 12;
-      } else if (helper > 12) {
-        itemsPage.push(helper);
-      } else {
-        itemsPage.push(listLength);
-      }
+      const nextPageStart = i * 12;
+      itemsPage.push(nextPageStart + 12);
     }
 
     setListItems(productsList!.slice(0, itemsPage[1]));
