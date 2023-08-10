@@ -2,7 +2,7 @@ import { useProduct } from "../../hooks/useProduct";
 import { TAdvert } from "../../interfaces/advert.interface";
 
 export const FiltersComponent = () => {
-  const { productsList,setFilters,filters } = useProduct();
+  const { productsList,setFilters,filters, getAdvertsByFilter} = useProduct();
 
   const getMax = (range: "mileage" | "price"): Number => {
     if (range == "mileage") {
@@ -29,7 +29,7 @@ export const FiltersComponent = () => {
     }
     return filters;
   };
-  console.log(getFilters(productsList!, filtersRanges.brand));
+  // console.log(getFilters(productsList!, filtersRanges.brand));
 
   return (
     <>
@@ -38,31 +38,31 @@ export const FiltersComponent = () => {
           <h1>Marca</h1>
 
           {getFilters(productsList!, filtersRanges.brand).map((brandName) => (
-            <li>{brandName}</li>
+            <li onClick={()=>{getAdvertsByFilter(String(brandName),'Marca')}}>{brandName}</li>
           ))}
         </ul>
         <ul>
           <h1>Modelo</h1>
           {getFilters(productsList!, filtersRanges.model).map((brandName) => (
-            <li>{brandName}</li>
+            <li onClick={()=>{getAdvertsByFilter(String(brandName),'Modelo')}}>{brandName}</li>
           ))}
         </ul>
         <ul>
           <h1>Cor</h1>
           {getFilters(productsList!, filtersRanges.color).map((brandName) => (
-            <li>{brandName}</li>
+            <li onClick={()=>{getAdvertsByFilter(String(brandName),'Cor')}}>{brandName}</li>
           ))}
         </ul>
         <ul>
           <h1>Ano</h1>
           {getFilters(productsList!, filtersRanges.year).map((brandName) => (
-            <li>{brandName}</li>
+            <li onClick={()=>{getAdvertsByFilter(String(brandName),'Ano')}}>{brandName}</li>
           ))}
         </ul>
         <ul>
           <h1>Combustível</h1>
           {getFilters(productsList!, filtersRanges.fuel).map((brandName) => (
-            <li onClick={() => setFilters([]) }>{brandName}</li>
+            <li  onClick={()=>{getAdvertsByFilter(String(brandName),'Combustivel')}}>{brandName}</li>
           ))}
         </ul>
         <ul>
