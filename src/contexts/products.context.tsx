@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { TPagination } from "../interfaces/advert.interface";
-import {api} from '../services/api';
+import { api } from "../services/api";
 
 interface iProductContextProps {
   children: ReactNode;
@@ -28,24 +28,23 @@ interface IProductProvider {
   nextPage: () => void;
   productsFilter: ()=> void;
   getAdvertsByFilter: (value:string, title:String)=> void;
+  paginationByNumber: (page: number) => Promise<void>;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
 
-export const ProductProvider =   ({ children }: iProductContextProps) => {
-  const [productsList, setProductsList] = useState<TPagination | undefined>();
-  const [filters, setFilters] = useState<TFilters | null>(null)
+export const ProductProvider = ({ children }: iProductContextProps) => {
+  const [productsList, setProductsList] = useState<TPagination>();
+  const [filters, setFilters] = useState<TFilters | null>(null);
 
-  const getProducts = () => {
+  useEffect(() => {
+    getProducts();
+  }, []);
 
-  }
-
-  const previusPage = () => {
-
-  }
-  const nextPage = () => {
-
-  }
+  const getProducts = async () => {
+    const response = await api.get("adverts/");
+    setProductsList(response.data);
+  };
 
   const productsFilter = async() =>{ 
       const productOption = await api.get('/adverts/adverts-filters');
@@ -53,69 +52,102 @@ export const ProductProvider =   ({ children }: iProductContextProps) => {
     }
 
     const getAdvertsByFilter = async (value:string, title:String)=>{
-
-      const body = {
-        brand:value
-      }
-
-      const advertsFilter = await api.post('/adverts/filtered',body);
-
-      const arrayFilter = advertsFilter.data
-
-      setProductsList(arrayFilter) 
-
-      // const arrayFilter = listItems?.filter((advert)=>{
-      //   if(advert.brand === nameFilter){
-      //     return advert
-      //   }
-      //   if(advert.color === nameFilter){
-      //     return advert
-      //   }
-      //   if(advert.fuel === nameFilter){
-      //     return advert
-      //   }
-      //   if(advert.model === nameFilter){
-      //     return advert
-      //   }
-      //   if(advert.year === Number(nameFilter)){
-      //     return advert
-      //   }
-      // })
       
-      // if(arrayFilter?.length === 0 && listItems?.length){
+      const arrayFilter = productsList?.data?.filter((advert)=>{
+        if(advert.brand === value){
+          return advert
+        }
+        if(advert.color === value){
+          return advert
+        }
+        if(advert.fuel === value){
+          return advert
+        }
+        if(advert.model === value){
+          return advert
+        }
+        if(advert.year === Number(value)){
+          return advert
+        }
+      })  
 
-      //   if(typeFilter === 'Marca'){
-      //     const findProduct = productsList?.filter((product)=>{
-      //       if(product.brand === nameFilter){
-      //         return product
-      //       }
-      //     })
-
-      //     setListItems(findProduct);
-      //   }else if(typeFilter != 'Marca'){
+      if(arrayFilter?.length === 0){
         
-      //   const nameBrand = listItems[0].brand;
+        if(title === 'Marca'){
+          const findProduct = await api.post('/adverts/filtered',{brand:value});
+          setProductsList(findProduct.data);
 
-      //   const findProduct = productsList?.filter((product)=>{
+          }
 
-      //     if(product.brand === nameBrand){
 
-      //       if(product.color === nameFilter){
-      //         return product
-      //       }
-      //       if(product.fuel === nameFilter){
-      //         return product
-      //       }
-      //       if(product.model === nameFilter){
-      //         return product
-      //       }
-      //       if(product.year === Number(nameFilter)){
-      //         return product
-      //       }
-      //     }
+        }else if(title != 'Marca'){
           
-      //   })
-      
+              const nameBrand = productsList?.data[0].brand
+
+
+              let objectModel = {}
+              let objectColor = {}
+              let objectFuel = {}
+        
+              if(title === 'Modelo'){
+                objectModel = {
+                  brand: nameBrand,
+                  model:value
+                }
+            }
+            if(title === 'Cor'){
+              objectColor = {
+                brand: nameBrand,
+                color:value
+              }
+          }
+            if(title === 'Combustível'){
+              objectFuel = {
+                brand: nameBrand,
+                fuel:value
+              }
+            }
+
+            const objectFinal = Object.assign({}, objectModel, objectColor, objectFuel);
+
+              const findProduct = await api.post('/adverts/filtered',objectFinal);
+
+                setProductsList(findProduct.data)
+
+        }else{
+                
+                let objectBrand = {}
+                let objectModel = {}
+                let objectColor = {}
+                let objectFuel = {}
+          
+                if(title === 'Marca'){
+                  objectBrand = {
+                    brand:value
+                  }
+                }
+                if(title === 'Modelo'){
+                  objectModel = {
+                    model:value
+                  }
+              }
+              if(title === 'Cor'){
+                objectColor = {
+                  color:value
+                }
+            }
+              if(title === 'Combustível'){
+                objectFuel = {
+                  fuel:value
+                }
+              }
+              const objectFinal = Object.assign({}, objectBrand, objectModel, objectColor, objectFuel);
+              // console.log(objectFinal);
+
+              const getAdvert = await api.post('/adverts/filtered',objectFinal);
+
+                setProductsList(getAdvert.data);
+        }
         
       //   const newListItems = findProduct;
 
@@ -131,6 +163,24 @@ export const ProductProvider =   ({ children }: iProductContextProps) => {
    
 
 
+  const previusPage = async () => {
+    if (productsList?.prevPage) {
+      const url: string[] = productsList.prevPage.split("/");
+      const response = await api.get(`${url[3]}/${url[4]}`);
+      setProductsList(response.data);
+    }
+  };
+  const nextPage = async () => {
+    if (productsList?.nextPage) {
+      const url: string[] = productsList.nextPage.split("/");
+      const response = await api.get(`${url[3]}/${url[4]}`);
+      setProductsList(response.data);
+    }
+  };
+  const paginationByNumber = async (page: number) => {
+    const response = await api.get(`adverts/?page=${page}&perPage=12`);
+    setProductsList(response.data);
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -141,13 +191,11 @@ export const ProductProvider =   ({ children }: iProductContextProps) => {
         previusPage,
         nextPage,
         productsFilter,
-        getAdvertsByFilter
+        getAdvertsByFilter,
+        paginationByNumber,
       }}
     >
       {children}
     </ProductContext.Provider>
   );
 };
-
-
-

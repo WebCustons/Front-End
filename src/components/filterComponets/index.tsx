@@ -1,5 +1,5 @@
 import { useProduct } from "../../hooks/useProduct";
-import {} from '@chakra-ui/react';
+import {StyledListOption} from './style';
 
 
 interface FilterProps {
