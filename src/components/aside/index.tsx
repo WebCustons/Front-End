@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import { StyledAside } from "./style";
 
 export const AsideFilters = () => {
-  const { filters, setFilters, productsFilter } = useProduct();
+    const { filters, setFilters, productsFilter,clearnFilters} = useProduct();
 
-  useEffect(() => {
+ useEffect(() => {
     productsFilter();
   }, []);
   const minMileage = filters?.minMileage ? filters.minMileage : 0;
   const maxMileage = filters?.maxMileage ? filters.maxMileage : 0;
+
 
   return (
     <StyledAside>
@@ -38,4 +39,5 @@ export const AsideFilters = () => {
       <button onClick={() => setFilters(null)}>Limpar Filtros</button>
     </StyledAside>
   );
+
 };

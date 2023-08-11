@@ -17,7 +17,7 @@ import discountImage from "../../assets/$.png";
 
 export function CardAdvert({ advert }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
-  //const userNameIcon: string[] = advert.Users.name.split(" ");
+  // const userNameIcon: string[] = advert.Users.name.split(" ");
   return (
     <ListItem color={`var(--grey1)`} width={"312px"} height={"350px"}>
       <Card
