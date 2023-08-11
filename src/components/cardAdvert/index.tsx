@@ -16,7 +16,7 @@ interface ICardProps {
 import discountImage from "../../assets/$.png";
 
 export function CardAdvert({ advert }: ICardProps) {
-  const userNameIcon: string[] = advert.user_advert.name.split(" ");
+  const userNameIcon: string[] = advert.Users.name.split(" ");
   return (
     <ListItem color={`var(--grey1)`} width={"312px"} height={"350px"}>
       <Card
@@ -24,22 +24,33 @@ export function CardAdvert({ advert }: ICardProps) {
         display={"flex"}
         flexDirection={"column"}
         gap={"1rem"}
-        width={"304px"}
-        height={"342px"}
+        width={"100%"}
+        height={"100%"}
         transition={"0.5s"}
-        _hover={{ boxShadow: " 1px 1px 5px black", transition: "0.5s" }}
         cursor={"pointer"}
       >
         <CardBody display={"flex"} flexDirection={"column"} gap={"1rem"}>
           {advert.table_fipe ? (
-            <Image
+            <Box
+              backgroundColor={"green"}
               position={"absolute"}
               top={"0"}
               right={"0"}
-              src={discountImage}
-              backgroundColor={"green"}
-              width={"15px"}
-            />
+              zIndex={"1"}
+              transition={"0.5s"}
+              display={"flex"}
+              gap={"0.5rem"}
+              padding={"0.2rem 0.5rem"}
+            >
+              <Text
+                display={"none"}
+                color={"var(--grey9)"}
+                backgroundColor={"green"}
+              >
+                Abaixo do preço
+              </Text>
+              <Image src={discountImage} width={"15px"} />
+            </Box>
           ) : null}
           <Image
             src={advert.cover_image}
@@ -93,7 +104,7 @@ export function CardAdvert({ advert }: ICardProps) {
                 </Text>
               </Box>
               <Text fontSize="xs" color={`var(--grey2)`}>
-                {advert.user_advert.name}
+                {advert.Users.name}
               </Text>
             </Box>
           </Box>

@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { TPagination } from "../interfaces/advert.interface";
-import { dataBase } from './../data/data';
+import { api } from "../services/api";
 
 interface iProductContextProps {
   children: ReactNode;
@@ -12,38 +12,55 @@ type TFilters = {
   color?: string[];
   year?: string[];
   fuel?: string[];
-  minPrice?: number,
-  maxPrice?: number,
-  minMileage?: number,
-  maxMileage?: number,
+  minPrice?: number;
+  maxPrice?: number;
+  minMileage?: number;
+  maxMileage?: number;
 };
 
 interface IProductProvider {
   getProducts: () => void;
-  productsList: TPagination;
+  productsList: TPagination | undefined;
   filters: TFilters | null;
   setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
   previusPage: () => void;
   nextPage: () => void;
+  paginationByNumber: (page: number) => Promise<void>;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
-  const [productsList, setProductsList] = useState<TPagination>(dataBase);
-  const [filters, setFilters] = useState<TFilters | null>(null)
+  const [productsList, setProductsList] = useState<TPagination>();
+  const [filters, setFilters] = useState<TFilters | null>(null);
 
-  const getProducts = () => {
+  useEffect(() => {
+    getProducts();
+  }, []);
 
-  }
+  const getProducts = async () => {
+    const response = await api.get("adverts/");
+    setProductsList(response.data);
+  };
 
-  const previusPage = () => {
-
-  }
-  const nextPage = () => {
-
-  }
-
+  const previusPage = async () => {
+    if (productsList?.prevPage) {
+      const url: string[] = productsList.prevPage.split("/");
+      const response = await api.get(`${url[3]}/${url[4]}`);
+      setProductsList(response.data);
+    }
+  };
+  const nextPage = async () => {
+    if (productsList?.nextPage) {
+      const url: string[] = productsList.nextPage.split("/");
+      const response = await api.get(`${url[3]}/${url[4]}`);
+      setProductsList(response.data);
+    }
+  };
+  const paginationByNumber = async (page: number) => {
+    const response = await api.get(`adverts/?page=${page}&perPage=12`);
+    setProductsList(response.data);
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -53,12 +70,10 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         setFilters,
         previusPage,
         nextPage,
+        paginationByNumber,
       }}
     >
       {children}
     </ProductContext.Provider>
   );
 };
-
-
-
