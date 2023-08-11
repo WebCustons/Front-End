@@ -26,6 +26,7 @@ import { useProduct } from "../../hooks/useProduct";
 import { CardAdvert } from "../../components/cardAdvert";
 import { AsideFilters } from "../../components/aside";
 import { StyledContainer } from "../../styles/Container";
+import { useMediaQuery } from "@chakra-ui/react";
 
 function Home() {
   const { productsList, previusPage, nextPage,paginationByNumber } = useProduct();
@@ -36,50 +37,42 @@ function Home() {
       pages.push(i + 1);
     }
   }
+  const [isWideScreen] = useMediaQuery("(min-width: 600px)");
+
 
   return (<>
-    <Header>
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<AiOutlineMenu />}
-          variant="outline"
-        ></MenuButton>
-
-          <MenuList
-            bg={"var(--whiteFixed)"}
-            zIndex={2}
-            height={"80px"}
-            display={"flex"}
-            flexDirection={"column"}
-            padding={"5px"}
-          >
-            <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-            <br />
-            <StyledButtonMenuItemRegister>
-              Cadastrar
-            </StyledButtonMenuItemRegister>
-          </MenuList>
-        </Menu>
-      </Header>
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<AiOutlineMenu />}
-          variant="outline"
-        ></MenuButton>
-        <MenuList bg={"var(--whiteFixed)"} padding={"5px"} zIndex={2}>
-          <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-          <br />
-          <StyledButtonMenuItemRegister>Cadastrar</StyledButtonMenuItemRegister>
-        </MenuList>
-      </Menu>
+   <Header>
+    {isWideScreen ? (
       <StyledButtonsMenu>
         <StyledButtonLogin>Fazer Login</StyledButtonLogin>
         <StyledButtonRegister>Cadastrar</StyledButtonRegister>
       </StyledButtonsMenu>
+    ) : (
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<AiOutlineMenu />}
+          variant="outline"
+        ></MenuButton>
+        <MenuList
+          bg={"var(--whiteFixed)"}
+          zIndex={2}
+          height={"80px"}
+          display={"flex"}
+          flexDirection={"column"}
+          padding={"5px"}
+        >
+          <StyledButtonLogin>Fazer Login</StyledButtonLogin>
+          <br />
+          <StyledButtonMenuItemRegister>
+            Cadastrar
+          </StyledButtonMenuItemRegister>
+        </MenuList>
+      </Menu>
+    )}
+  </Header>
+  
       <StyledHome>
         <StyledBannerPageHome>
           <img src={Banner} alt="Banner" />

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import {Box, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack} from '@chakra-ui/react';
 
 export const AsideFilters = () => {
-    const { filters, setFilters, productsFilter} = useProduct();
+    const { filters, setFilters, productsFilter,clearnFilters} = useProduct();
 
     useEffect(()=>{
         productsFilter();
@@ -54,7 +54,7 @@ export const AsideFilters = () => {
                 </RangeSlider>
                 </li>
             </ul>
-            <button onClick={() => setFilters(null)}            >
+            <button onClick={() => clearnFilters()}            >
                 Limpar Filtros
             </button>
         </aside>
