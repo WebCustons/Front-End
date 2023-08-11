@@ -13,6 +13,8 @@ import { AsideFilters } from "../../components/aside";
 function Home() {
   const { productsList, previusPage, nextPage } = useProduct();
 
+  //console.log(productsList);
+
   return (<>
     <Header>
       <Menu>
@@ -82,7 +84,7 @@ function Home() {
         >
           <ButtonGroup></ButtonGroup>
           <ButtonGroup>
-            {productsList.prevPage && (
+            {productsList?.prevPage && (
               <Button
                 fontWeight={"bold"}
                 backgroundColor={"transparent"}
@@ -101,7 +103,7 @@ function Home() {
                 Anterior
               </Button>
             )}
-            {productsList.nextPage && (
+            {productsList?.nextPage && (
               <Button
                 fontWeight={"bold"}
                 backgroundColor={"transparent"}

@@ -1,42 +1,57 @@
 
 import { FilterComponets } from '../filterComponets/index';
 import { useProduct } from '../../hooks/useProduct';
-
+import { useEffect } from 'react';
+import {Box, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack} from '@chakra-ui/react';
 
 export const AsideFilters = () => {
-    const { filters, setFilters } = useProduct();
+    const { filters, setFilters, productsFilter} = useProduct();
+
+    useEffect(()=>{
+        productsFilter();
+    },[])
+    const minMileage = filters?.minMileage ? filters.minMileage : 0;
+    const maxMileage = filters?.maxMileage ? filters.maxMileage : 0;
 
 
 
     return (
         <aside>
-            {filters?.brand && <FilterComponets title="Marca" filter={filters.brand} />}
-            {filters?.model && <FilterComponets title="Modelo" filter={filters.model} />}
-            {filters?.color && <FilterComponets title="Cor" filter={filters.color} />}
-            {filters?.year && <FilterComponets title="Ano" filter={filters.year} />}
-            {filters?.fuel && <FilterComponets title="Combustível" filter={filters.fuel} />}
-            <ul>
+            {filters?.brandAdvert && <FilterComponets title="Marca" filter={filters.brandAdvert} />}
+            {filters?.modelAdvert && <FilterComponets title="Modelo" filter={filters.modelAdvert} />}
+            {filters?.colorAdvert && <FilterComponets title="Cor" filter={filters.colorAdvert} />}
+            {/* {filters?.maxYear && <FilterComponets title="Ano" filter={filters.year} />} */}
+            {filters?.fuelAdvert && <FilterComponets title="Combustível" filter={filters.fuelAdvert} />}
+            {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
+            
+            <Box>
                 <h1>Km</h1>
-                <li>
-                    <input
-                        id="kilometer_input"
-                        type="range"
-                        min=""
-                        max=""
-                        step="1000"
-                    />
-                </li>
-            </ul>
+                
+                <RangeSlider
+                    aria-label={["min", "max"]}
+                    defaultValue={[minMileage, maxMileage]}
+                >
+                    <RangeSliderTrack>
+                    <RangeSliderFilledTrack />
+                    </RangeSliderTrack>
+                    <RangeSliderThumb index={0} />
+                    <RangeSliderThumb index={1} />
+                </RangeSlider>
+              
+            </Box>
             <ul>
                 <h1>Preço</h1>
                 <li>
-                    <input
-                        id="price_input"
-                        type="range"
-                        min=""
-                        max=""
-                        step="1000"
-                    />
+                <RangeSlider
+                    aria-label={["min", "max"]}
+                    defaultValue={[minMileage, maxMileage]}
+                >
+                    <RangeSliderTrack>
+                    <RangeSliderFilledTrack />
+                    </RangeSliderTrack>
+                    <RangeSliderThumb index={0} />
+                    <RangeSliderThumb index={1} />
+                </RangeSlider>
                 </li>
             </ul>
             <button onClick={() => setFilters(null)}            >
