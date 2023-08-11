@@ -20,7 +20,7 @@ export const advertSchema = z.object({
   cover_image: z.string(),
   published: z.boolean().optional(),
   image_gallery: z.array(imageGallerySchema),
-  Users: userSchema,
+  user: userSchema,
 });
 
 export type TAdvert = z.infer<typeof advertSchema>;

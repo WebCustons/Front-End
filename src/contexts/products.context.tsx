@@ -29,6 +29,7 @@ interface IProductProvider {
   productsFilter: ()=> void;
   getAdvertsByFilter: (value:string, title:String)=> void;
   paginationByNumber: (page: number) => Promise<void>;
+  clearnFilters: ()=>void;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
@@ -42,7 +43,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   }, []);
 
   const getProducts = async () => {
-    const response = await api.get("adverts/");
+    const response = await api.post("adverts/");
     setProductsList(response.data);
   };
 
@@ -50,10 +51,85 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       const productOption = await api.get('/adverts/adverts-filters');
       setFilters(productOption.data);
     }
+  
+    const clearnFilters = async()=>{
+      const filters = await api.get("adverts/");
+      setProductsList(filters.data);
+    }
 
     const getAdvertsByFilter = async (value:string, title:String)=>{
+
+
+        if(title != 'Marca'){
+          const nameBrand1 = productsList?.data[0]
+          const nameBrand2 = productsList?.data[1];
+
+
+          if(nameBrand2?.brand === nameBrand1?.brand){
+       
+            let objectModel = {}
+            let objectColor = {}
+            let objectFuel = {}
+       
+         
+             if(title === 'Modelo'){
+               objectModel = {
+                 model:value
+               }
+           }
+           if(title === 'Cor'){
+             objectColor = {
+               color:value
+             }
+         }
+           if(title === 'Combustível'){
+             objectFuel = {
+               fuel:value
+             }
+           }
+
+           const objectFinale = Object.assign({},objectModel,objectColor, objectFuel);
+
+            const  advertsFilter = await api.post('/adverts/filtered', objectFinale)
+            setProductsList(advertsFilter.data);
+
+
+          }else if(nameBrand2?.brand != nameBrand1?.brand){
+           
+              let objectModel = {}
+              let objectColor = {}
+              let objectFuel = {}
+        
+              if(title === 'Modelo'){
+                objectModel = {
+                  model:value
+                }
+            }
+            if(title === 'Cor'){
+              objectColor = {
+                color:value
+              }
+          }
+            if(title === 'Combustível'){
+              objectFuel = {
+                fuel:value
+              }
+            }
+
+            const objectFinale = Object.assign({},objectModel,objectColor, objectFuel);
+           
+
+            const  advertsFilter = await api.post('/adverts/filtered', objectFinale)
+            setProductsList(advertsFilter.data);
+            return 0
+            
+          }
+
+        }
+
       
       const arrayFilter = productsList?.data?.filter((advert)=>{
+
         if(advert.brand === value){
           return advert
         }
@@ -69,7 +145,9 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         if(advert.year === Number(value)){
           return advert
         }
-      })  
+      }) 
+      
+
 
       if(arrayFilter?.length === 0){
         
@@ -142,21 +220,13 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
                 }
               }
               const objectFinal = Object.assign({}, objectBrand, objectModel, objectColor, objectFuel);
-              // console.log(objectFinal);
+            
 
               const getAdvert = await api.post('/adverts/filtered',objectFinal);
 
                 setProductsList(getAdvert.data);
         }
         
-      //   const newListItems = findProduct;
-
-      //   setListItems(newListItems);
-      //   }
-      // }else{
-
-      //   setListItems(arrayFilter);
-      // }
   
   } 
 
@@ -193,6 +263,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         productsFilter,
         getAdvertsByFilter,
         paginationByNumber,
+        clearnFilters
       }}
     >
       {children}
