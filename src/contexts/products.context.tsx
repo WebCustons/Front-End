@@ -43,12 +43,13 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   }, []);
 
   const getProducts = async () => {
-    const response = await api.post("adverts/");
+    const response = await api.get("/adverts/");
+
     setProductsList(response.data);
   };
 
   const productsFilter = async() =>{ 
-      const productOption = await api.get('/adverts/adverts-filters');
+      const productOption = await api.post('/adverts/adverts-filters');
       setFilters(productOption.data);
     }
   
@@ -220,7 +221,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
                 }
               }
               const objectFinal = Object.assign({}, objectBrand, objectModel, objectColor, objectFuel);
-            
+
 
               const getAdvert = await api.post('/adverts/filtered',objectFinal);
 
