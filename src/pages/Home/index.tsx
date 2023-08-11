@@ -28,24 +28,24 @@ import { AsideFilters } from "../../components/aside";
 import { StyledContainer } from "../../styles/Container";
 
 function Home() {
-  const { productsList, previusPage, nextPage, paginationByNumber } =
-    useProduct();
+  const { productsList, previusPage, nextPage,paginationByNumber } = useProduct();
+
   const pages: number[] = [];
   if (productsList) {
     for (let i = 0; i < productsList?.totalPages; i++) {
       pages.push(i + 1);
     }
   }
-  return (
-    <>
-      <Header>
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            aria-label="Options"
-            icon={<AiOutlineMenu />}
-            variant="outline"
-          ></MenuButton>
+
+  return (<>
+    <Header>
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<AiOutlineMenu />}
+          variant="outline"
+        ></MenuButton>
 
           <MenuList
             bg={"var(--whiteFixed)"}
@@ -85,11 +85,11 @@ function Home() {
           <img src={Banner} alt="Banner" />
           <h1>Web Custons</h1>
 
-          <p>A melhor plataforma de anúncios de carros do pais</p>
-        </StyledBannerPageHome>
-        <br />
-        <br />
-        <StyledContainer>
+        <p>A melhor plataforma de anúncios de carros do pais</p>
+
+      </StyledBannerPageHome><br /><br />
+
+      <StyledContainer>
           <AsideFilters />
           <StyledSection>
             <ContainerList>
@@ -172,7 +172,8 @@ function Home() {
         </StyledContainer>
       </StyledHome>
       <Footer />
-    </>
+
+  </>
   );
 }
 

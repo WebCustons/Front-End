@@ -16,7 +16,8 @@ interface ICardProps {
 import discountImage from "../../assets/$.png";
 
 export function CardAdvert({ advert }: ICardProps) {
-  const userNameIcon: string[] = advert.Users.name.split(" ");
+  // const userNameIcon: string[] = advert.Users.name.split(" ");
+  //const userNameIcon: string[] = advert.Users.name.split(" ");
   return (
     <ListItem color={`var(--grey1)`} width={"312px"} height={"350px"}>
       <Card
@@ -98,10 +99,10 @@ export function CardAdvert({ advert }: ICardProps) {
                 justifyContent={"center"}
                 fontWeight={"bold"}
               >
-                <Text fontSize="xs" color={`var(--grey10)`}>
+                {/* <Text fontSize="xs" color={`var(--grey10)`}>
                   {userNameIcon[0][0].toUpperCase() +
                     userNameIcon[1][0].toUpperCase()}
-                </Text>
+                </Text> */}
               </Box>
               <Text fontSize="xs" color={`var(--grey2)`}>
                 {advert.Users.name}

@@ -7,15 +7,16 @@ interface iProductContextProps {
 }
 
 type TFilters = {
-  brand?: string[];
-  model?: string[];
-  color?: string[];
-  year?: string[];
-  fuel?: string[];
-  minPrice?: number;
-  maxPrice?: number;
-  minMileage?: number;
-  maxMileage?: number;
+  brandAdvert?: string[];
+  modelAdvert?: string[];
+  colorAdvert?: string[];
+  maxYear?: number;
+  minYear?:number;
+  fuelAdvert?: string[];
+  minPrice?: number,
+  maxPrice?: number,
+  minMileage?: number,
+  maxMileage?: number,
 };
 
 interface IProductProvider {
@@ -25,6 +26,8 @@ interface IProductProvider {
   setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
   previusPage: () => void;
   nextPage: () => void;
+  productsFilter: ()=> void;
+  getAdvertsByFilter: (value:string, title:String)=> void;
   paginationByNumber: (page: number) => Promise<void>;
 }
 
@@ -42,6 +45,123 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     const response = await api.get("adverts/");
     setProductsList(response.data);
   };
+
+  const productsFilter = async() =>{ 
+      const productOption = await api.get('/adverts/adverts-filters');
+      setFilters(productOption.data);
+    }
+
+    const getAdvertsByFilter = async (value:string, title:String)=>{
+      
+      const arrayFilter = productsList?.data?.filter((advert)=>{
+        if(advert.brand === value){
+          return advert
+        }
+        if(advert.color === value){
+          return advert
+        }
+        if(advert.fuel === value){
+          return advert
+        }
+        if(advert.model === value){
+          return advert
+        }
+        if(advert.year === Number(value)){
+          return advert
+        }
+      })  
+
+      if(arrayFilter?.length === 0){
+        
+        if(title === 'Marca'){
+          const findProduct = await api.post('/adverts/filtered',{brand:value});
+          setProductsList(findProduct.data);
+
+          }
+
+
+        }else if(title != 'Marca'){
+          
+              const nameBrand = productsList?.data[0].brand
+
+
+              let objectModel = {}
+              let objectColor = {}
+              let objectFuel = {}
+        
+              if(title === 'Modelo'){
+                objectModel = {
+                  brand: nameBrand,
+                  model:value
+                }
+            }
+            if(title === 'Cor'){
+              objectColor = {
+                brand: nameBrand,
+                color:value
+              }
+          }
+            if(title === 'Combustível'){
+              objectFuel = {
+                brand: nameBrand,
+                fuel:value
+              }
+            }
+
+            const objectFinal = Object.assign({}, objectModel, objectColor, objectFuel);
+
+              const findProduct = await api.post('/adverts/filtered',objectFinal);
+
+                setProductsList(findProduct.data)
+
+        }else{
+                
+                let objectBrand = {}
+                let objectModel = {}
+                let objectColor = {}
+                let objectFuel = {}
+          
+                if(title === 'Marca'){
+                  objectBrand = {
+                    brand:value
+                  }
+                }
+                if(title === 'Modelo'){
+                  objectModel = {
+                    model:value
+                  }
+              }
+              if(title === 'Cor'){
+                objectColor = {
+                  color:value
+                }
+            }
+              if(title === 'Combustível'){
+                objectFuel = {
+                  fuel:value
+                }
+              }
+              const objectFinal = Object.assign({}, objectBrand, objectModel, objectColor, objectFuel);
+              // console.log(objectFinal);
+
+              const getAdvert = await api.post('/adverts/filtered',objectFinal);
+
+                setProductsList(getAdvert.data);
+        }
+        
+      //   const newListItems = findProduct;
+
+      //   setListItems(newListItems);
+      //   }
+      // }else{
+
+      //   setListItems(arrayFilter);
+      // }
+  
+  } 
+
+   
+
 
   const previusPage = async () => {
     if (productsList?.prevPage) {
@@ -70,6 +190,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         setFilters,
         previusPage,
         nextPage,
+        productsFilter,
+        getAdvertsByFilter,
         paginationByNumber,
       }}
     >

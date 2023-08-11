@@ -1,5 +1,5 @@
 import { useProduct } from "../../hooks/useProduct";
-
+import {StyledListOption} from './style';
 
 
 interface FilterProps {
@@ -9,8 +9,7 @@ interface FilterProps {
 
 export const FilterComponets = ({ title, filter }: FilterProps) => {
 
-  const { setFilters, filters } = useProduct();
-
+  const { setFilters, filters, getAdvertsByFilter } = useProduct();
 
   const handleFilterClick = (title:string,value: string): void => {
     const newFilters = {
@@ -18,6 +17,9 @@ export const FilterComponets = ({ title, filter }: FilterProps) => {
       [title]: value, 
     }
     setFilters(newFilters);
+
+    
+    getAdvertsByFilter(value,title);
 };
 
 return (
