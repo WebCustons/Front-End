@@ -99,13 +99,12 @@ export function CardAdvert({ advert }: ICardProps) {
                 justifyContent={"center"}
                 fontWeight={"bold"}
               >
-                {/* <Text fontSize="xs" color={`var(--grey10)`}>
-                  {userNameIcon[0][0].toUpperCase() +
-                    userNameIcon[1][0].toUpperCase()}
-                </Text> */}
+                <Text fontSize="xs" color={`var(--grey10)`}>
+                  {advert.user.name[0].toUpperCase()}
+                </Text>
               </Box>
               <Text fontSize="xs" color={`var(--grey2)`}>
-                {advert.Users.name}
+                {advert.user.name}
               </Text>
             </Box>
           </Box>
