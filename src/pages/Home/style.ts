@@ -98,7 +98,7 @@ export const StyledBannerPageHome = styled.div`
   max-width: 100%;
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: -1;
   text-align: center;
 
   img {
