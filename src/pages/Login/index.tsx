@@ -34,18 +34,18 @@ const Login=()=> {
       <InputValidator
       id="email"
       label="E-mail:"
-      placeholder="Type your e-mail."
+      placeholder="Digite e-mail."
       error={errors.email?.message}
-      {...register("email", {required:"Type your e-mail."})}
+      {...register("email", {required:"Digite e-mail."})}
       />
 
 
       <InputValidator
       id="password"
-      label="Password:"
-      placeholder="Type your Password."
+      label="Senha:"
+      placeholder="Digite seu Password."
       error={errors.password?.message}
-      {...register("password", {required:"Type your Password."})}
+      {...register("password", {required:"Digite sua Senha."})}
       />
     <div>
       <span className="remember-password">Esqueci minha senha</span>
@@ -60,13 +60,14 @@ const Login=()=> {
     </form>
    
     <div className="register-box">
-      <p className="not-acount">Don't have an account yet?</p>
+      <p className="not-acount">Ainda não possui uma conta?</p>
       <button className="register-btn" onClick={()=>navigate("/register")}>Register</button>
     </div>
 
     </div>
    
   </StyledLogin>
+  
   )
 }
 export  default Login

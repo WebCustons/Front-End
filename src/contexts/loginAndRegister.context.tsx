@@ -40,6 +40,7 @@ export const AuthProvider = ({children}:AuthorizationProviderProps)=>{
 
     const registerUser = async (formData:ClientData) => {
         try {
+
             const response = await api.post("/users", formData)
        
             setTimeout(() => {

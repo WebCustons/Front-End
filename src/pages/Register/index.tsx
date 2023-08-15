@@ -2,18 +2,22 @@ import { useAuth } from "../../hooks/useProduct";
 import { useForm } from "react-hook-form";
 import StyledRegister from "./style";
 import { ClientData } from "./validators";
-
 import { InputValidator, SelectValidator, TextareaValidator } from "../../components/inputs";
 
+
 const Register=()=> {
-  const {register,handleSubmit, formState:{errors}}=useForm<ClientData>();
+  const {register,handleSubmit, formState:{errors}}=useForm<ClientData>({
+    mode:"onBlur" 
+  });
   const {registerUser }= useAuth();
 
   const submit = async (data:ClientData)=>{
     console.log(data)
+
     try {
       console.log("AQUI")
-      await registerUser(data) 
+      await registerUser(data)
+       
     } catch (error) {
       console.log(error)
     }
@@ -24,16 +28,16 @@ const Register=()=> {
     <div className="register-box">
 
    
-    <h1>Register</h1>
+    <h1>Cadastro</h1>
     <form onSubmit={handleSubmit(submit)}>
 
       <InputValidator
       id="name"
       label="Name:"
       type="text"
-      placeholder="Ex: your name."
+      placeholder="Ex: seu nome."
       error={errors.name?.message}
-      {...register("name", {required:"Enter your name."})}
+      {...register("name", {required:"Seu name."})}
       />
 
       <InputValidator
@@ -42,7 +46,7 @@ const Register=()=> {
       type="email"
       placeholder="Ex: youremail@mail.com."
       error={errors.email?.message}
-      {...register("email", {required:"Enter your email."})}
+      {...register("email", {required:"Digite seu email."})}
       />
 
       
@@ -52,7 +56,7 @@ const Register=()=> {
       type="text"
       placeholder="000.000.000-00"
       error={errors.cpf?.message}
-      {...register("cpf", {required:"Enter your CPF."})}
+      {...register("cpf", {required:"Digite seu CPF."})}
       />
 
       <InputValidator
@@ -61,7 +65,7 @@ const Register=()=> {
       type="number"
       placeholder="(DDD) 90000-0000"
       error={errors.phone?.message}
-      {...register("phone", {required:"Enter your phone."})}
+      {...register("phone", {required:"Digite seu número de telefone."})}
       />
 
       <InputValidator
@@ -70,7 +74,7 @@ const Register=()=> {
       type="text"
       placeholder="00/00/00"
       error={errors.birth_date?.message}
-      {...register("birth_date", {required:"Enter your birth date."})}
+      {...register("birth_date", {required:"Digite sua data de nascimento."})}
       />
 
  
@@ -79,7 +83,7 @@ const Register=()=> {
       id="description"
       error={errors.description?.message}
       placeholder="Description"
-      {...register("description",{required: 'Enter a description.'})}
+      {...register("description",{required: 'Descrição.'})}
       />
 
 
@@ -87,9 +91,9 @@ const Register=()=> {
       id="cep"
       label="CEP:"
       type="text"
-      placeholder="Enter your cep."
+      placeholder="Digite seu cep."
       error={errors.address?.cep?.message}
-      {...register("address.cep", {required:"Enter your cep."})}
+      {...register("address.cep", {required:"Digite seu cep."})}
       />
 
       <div className="state-box">
@@ -97,18 +101,18 @@ const Register=()=> {
       id="state"
       label="State:"
       type="text"
-      placeholder="Enter your state."
+      placeholder="Infome seu Estado."
       error={errors.address?.state?.message}
-      {...register("address.state", {required:"Enter your state."})}
+      {...register("address.state", {required:"Informe seu estado."})}
       />
 
       <InputValidator
       id="city"
       label="City:"
       type="text"
-      placeholder="Enter your city."
+      placeholder="Informe sua cidade."
       error={errors.address?.city?.message}
-      {...register("address.city", {required:"Enter your city."})}
+      {...register("address.city", {required:"Informe sua cidade.."})}
       />
       </div>
       
@@ -118,7 +122,7 @@ const Register=()=> {
       id="type_user"
       options={["customer", "admin", "seller"]}
       error={errors.type_user?.message}
-      {...register("type_user", {required:"Enter your city."})}
+      {...register("type_user", {required:"Qual tipo de usuario."})}
       />
  
 
@@ -126,9 +130,9 @@ const Register=()=> {
       id="road"
       label="Road:"
       type="text"
-      placeholder="Enter your road."
+      placeholder="Nome da rua onde mora."
       error={errors.address?.road?.message}
-      {...register("address.road", {required:"Enter your road."})}
+      {...register("address.road", {required:"Nome da rua onde mora."})}
       />
 
       <div className="number-box">
@@ -137,18 +141,18 @@ const Register=()=> {
       id="number"
       label="number:"
       type="number"
-      placeholder="Enter your number."
+      placeholder="Numero da residência."
       error={errors.address?.number?.message}
-      {...register("address.number", {required:"Enter your number."})}
+      {...register("address.number", {required:"Numero da residência."})}
       />
 
       <InputValidator
       id="complement"
       label="complement:"
       type="text"
-      placeholder="Enter your complement."
+      placeholder="Complemento."
       error={errors.address?.complement?.message}
-      {...register("address.complement", {required:"Enter your complement."})}
+      {...register("address.complement", {required:"Complemento."})}
       />
       </div>
 
@@ -156,18 +160,18 @@ const Register=()=> {
       id="password"
       label="Password:"
       type="password"
-      placeholder="Enter your password."
+      placeholder="Senha para acesso."
       error={errors.password?.message}
-      {...register("password", {required:"Enter your password."})}
+      {...register("password", {required:"Senha para acesso."})}
       />
 
       <InputValidator
       id="confirm_password"
       label="Confirm password:"
-      type="confirm_password"
-      placeholder="Confirm password."
+      type="password"
+      placeholder="Confirme sua senha."
       error={errors.confirm_password?.message}
-      {...register("confirm_password", {required:"confirm password."})}
+      {...register("confirm_password", {required:"Confirme sua senha."})}
       />
 
 
