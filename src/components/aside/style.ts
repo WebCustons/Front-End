@@ -51,3 +51,14 @@ export const StyledAside = styled.aside`
       flex-direction: column;
     }
 `;
+
+export const StyledVariableStartEnd = styled.div`
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+
+    span{
+      font-weight: bold;
+    }
+
+`
