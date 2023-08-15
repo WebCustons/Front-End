@@ -90,7 +90,7 @@ const Register=()=> {
       <InputValidator
       id="cep"
       label="CEP:"
-      type="text"
+      type="number"
       placeholder="Digite seu cep."
       error={errors.address?.cep?.message}
       {...register("address.cep", {required:"Digite seu cep."})}

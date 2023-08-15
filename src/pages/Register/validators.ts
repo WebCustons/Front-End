@@ -23,7 +23,7 @@ export const schema = z
 
     type_user: z.enum(["customer", "admin", "seller"]),
     address: z.object({
-      cep: z.string().min(8, "CEP deve conter 8 caracteres"),
+      cep: z.number().min(8, "CEP deve conter 8 caracteres"),
       state: z.string(),
       city: z.string(),
       road: z.string(),
