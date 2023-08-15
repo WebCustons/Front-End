@@ -12,10 +12,10 @@ const Register=()=> {
   const {registerUser }= useAuth();
 
   const submit = async (data:ClientData)=>{
-    console.log(data)
+ 
 
     try {
-      console.log("AQUI")
+    
       await registerUser(data)
        
     } catch (error) {
