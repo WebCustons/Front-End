@@ -43,7 +43,7 @@ const Login=()=> {
       <InputValidator
       id="password"
       label="Senha:"
-      placeholder="Digite seu Password."
+      placeholder="Digite sua senha."
       error={errors.password?.message}
       {...register("password", {required:"Digite sua Senha."})}
       />
@@ -53,7 +53,7 @@ const Login=()=> {
     <div className="confirm-box">
 
     <button className="btn-login" type="submit">
-      Enter
+      Entrar
     </button>
     </div>
 
@@ -61,7 +61,7 @@ const Login=()=> {
    
     <div className="register-box">
       <p className="not-acount">Ainda não possui uma conta?</p>
-      <button className="register-btn" onClick={()=>navigate("/register")}>Register</button>
+      <button className="register-btn" onClick={()=>navigate("/register")}>Cadastrar</button>
     </div>
 
     </div>
