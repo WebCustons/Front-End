@@ -3,11 +3,15 @@ import styled from "styled-components";
 const StyledRegister = styled.main`
   font-family: "Lexend", sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   font-family: Inter;
   background-color: var(--brand4);
+
+  .register-container {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+  }
 
   .register-box {
     background-color: white;
@@ -35,6 +39,10 @@ const StyledRegister = styled.main`
     margin-top: 14px;
     color: var(--whiteFixed);
     font-weight: bold;
+    transition: font-size 0.5s ease-in-out;
+  }
+  .register-btn:hover {
+    font-size: 1.2rem;
   }
 
   form {
@@ -56,6 +64,7 @@ const StyledRegister = styled.main`
   }
   .number-box {
     display: flex;
+    justify-content: space-between;
     input {
       width: 90%;
     }
