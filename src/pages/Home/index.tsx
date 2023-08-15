@@ -18,6 +18,7 @@ import {
   Button,
   ButtonGroup,
   Box,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Header } from "../../components/header";
@@ -30,6 +31,8 @@ import { useMediaQuery } from "@chakra-ui/react";
 
 function Home() {
   const { productsList, previusPage, nextPage,paginationByNumber } = useProduct();
+  
+  const {onOpen} = useDisclosure();
 
   const pages: number[] = [];
   if (productsList) {

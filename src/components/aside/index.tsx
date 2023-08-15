@@ -1,43 +1,122 @@
 import { FilterComponets } from "../filterComponets/index";
 import { useProduct } from "../../hooks/useProduct";
-import { useEffect } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 import { StyledAside } from "./style";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 export const AsideFilters = () => {
-    const { filters, setFilters, productsFilter,clearnFilters} = useProduct();
-
- useEffect(() => {
-    productsFilter();
-  }, []);
+  const { filters, setFilters, productsFilter, clearnFilters } = useProduct();
   const minMileage = filters?.minMileage ? filters.minMileage : 0;
   const maxMileage = filters?.maxMileage ? filters.maxMileage : 0;
+  const { isOpen,onOpen, onClose } = useDisclosure();
+  useEffect(() => {
+    productsFilter();
+  }, []);
+  {
+    return window.innerWidth < 600 ? (
+      <>
+      <Button onClick={onOpen} color={`var(--brand1)`}>Filtros</Button>
 
+        <Modal isOpen={isOpen} onClose={onClose} >
+          <ModalOverlay />
+          <ModalContent bg={"white"} overflowY={"scroll"} padding={10}>
+            <ModalHeader textAlign={"center"} position={"absolute"} top={3} left={10} fontWeight={700} marginBottom={"50px"}>Filtros</ModalHeader>
+            <ModalCloseButton position={"absolute"} right={10} top={5} color={"rgba(0,0,0,0.3)"} />
+            <ModalBody>
+            <StyledAside>
+              {filters?.brandAdvert && (
+                <FilterComponets title="Marca" filter={filters.brandAdvert} />
+              )}
+              {filters?.modelAdvert && (
+                <FilterComponets title="Modelo" filter={filters.modelAdvert} />
+              )}
+              {filters?.colorAdvert && (
+                <FilterComponets title="Cor" filter={filters.colorAdvert} />
+              )}
+              {/* {filters?.maxYear && <FilterComponets title="Ano" filter={filters.year} />} */}
+              {filters?.fuelAdvert && (
+                <FilterComponets
+                  title="Combustível"
+                  filter={filters.fuelAdvert}
+                />
+              )}
+              {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
+              <div className="range_container">
+                <label htmlFor="Km">Km rodados:</label>
+                <input
+                  onChange={() => ({})}
+                  type="range"
+                  id="Km"
+                  name="points"
+                  min="0"
+                  max={maxMileage}
+                ></input>
 
-  return (
-    <StyledAside>
-      {filters?.brandAdvert && (
-        <FilterComponets title="Marca" filter={filters.brandAdvert} />
-      )}
-      {filters?.modelAdvert && (
-        <FilterComponets title="Modelo" filter={filters.modelAdvert} />
-      )}
-      {filters?.colorAdvert && (
-        <FilterComponets title="Cor" filter={filters.colorAdvert} />
-      )}
-      {/* {filters?.maxYear && <FilterComponets title="Ano" filter={filters.year} />} */}
-      {filters?.fuelAdvert && (
-        <FilterComponets title="Combustível" filter={filters.fuelAdvert} />
-      )}
-      {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
-      <div className="range_container">
-      <label htmlFor="Km">Km rodados:</label>
-      <input onChange={() => ({})} type="range" id="Km" name="points" min="0" max={maxMileage}></input>
-     
-      <label htmlFor="Price">Preço:</label>
-      <input onChange={() => ({})} type="range" id="Price" name="points" min="0" max="500000"></input>
-      </div>
-      <button onClick={() => setFilters(null)}>Limpar Filtros</button>
-    </StyledAside>
-  );
+                <label htmlFor="Price">Preço:</label>
+                <input
+                  onChange={() => ({})}
+                  type="range"
+                  id="Price"
+                  name="points"
+                  min="0"
+                  max="500000"
+                ></input>
+              </div>
+              <button onClick={() => {clearnFilters(); onClose()}}>Limpar Filtros</button>
+            </StyledAside>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </>
+    ) : (
+      <StyledAside>
+        {filters?.brandAdvert && (
+          <FilterComponets title="Marca" filter={filters.brandAdvert} />
+        )}
+        {filters?.modelAdvert && (
+          <FilterComponets title="Modelo" filter={filters.modelAdvert} />
+        )}
+        {filters?.colorAdvert && (
+          <FilterComponets title="Cor" filter={filters.colorAdvert} />
+        )}
+        {/* {filters?.maxYear && <FilterComponets title="Ano" filter={filters.year} />} */}
+        {filters?.fuelAdvert && (
+          <FilterComponets title="Combustível" filter={filters.fuelAdvert} />
+        )}
+        {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
+        <div className="range_container">
+          <label htmlFor="Km">Km rodados:</label>
+          <input
+            onChange={() => ({})}
+            type="range"
+            id="Km"
+            name="points"
+            min="0"
+            max={maxMileage}
+          ></input>
 
+          <label htmlFor="Price">Preço:</label>
+          <input
+            onChange={() => ({})}
+            type="range"
+            id="Price"
+            name="points"
+            min="0"
+            max="500000"
+          ></input>
+        </div>
+        <button onClick={() => clearnFilters()}>Limpar Filtros</button>
+      </StyledAside>
+    );
+  }
 };
