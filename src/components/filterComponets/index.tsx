@@ -8,9 +8,7 @@ interface FilterProps {
 }
 
 export const FilterComponets = ({ title, filter }: FilterProps) => {
-
-  const { setFilters, filters } = useProduct();
-
+  const { setFilters, filters, getAdvertsByFilter } = useProduct();
 
   const handleFilterClick = (title:string,value: string): void => {
     const newFilters = {
@@ -18,13 +16,16 @@ export const FilterComponets = ({ title, filter }: FilterProps) => {
       [title]: value, 
     }
     setFilters(newFilters);
+
+    
+    getAdvertsByFilter(value,title);
 };
 
 return (
   <ul>
     <h1>{title}</h1>
     {filter.map((value: string) => (
-      <li key={value} onClick={() => handleFilterClick(title,value)}>
+      <li key={value} onClick={() => {handleFilterClick(title,value); console.log(value)}}>
         {value}
       </li>
     ))}
