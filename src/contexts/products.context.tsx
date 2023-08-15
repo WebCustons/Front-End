@@ -49,7 +49,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   };
 
   const productsFilter = async () => {
-    const productOption = await api.post("/adverts/adverts-filters");
+    const productOption = await api.get("/adverts/adverts-filters");
     setFilters(productOption.data);
   };
 
@@ -58,28 +58,56 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   };
 
   const getAdvertsByFilter = async (value: string, title: String) => {
+
+    
     if (title != "Marca") {
       const nameBrand1 = productsList?.data[0];
       const nameBrand2 = productsList?.data[1];
 
       if (nameBrand2?.brand === nameBrand1?.brand) {
+    
         let objectModel = {};
         let objectColor = {};
         let objectFuel = {};
+        let objectPrice = {};
+        let objectKm = {};
 
         if (title === "Modelo") {
           objectModel = {
+            
             model: value,
           };
         }
         if (title === "Cor") {
           objectColor = {
+            
             color: value,
           };
         }
         if (title === "Combustível") {
           objectFuel = {
+            
             fuel: value,
+          };
+        }
+
+        if (title === "Preco") {
+          objectPrice = {
+            
+            price: value,
+          };
+        }
+
+        if (title === "Preco") {
+          objectPrice = {
+            
+            price: value,
+          };
+        }
+        if (title === "Kilometragem") {
+          objectKm = {
+            
+            mileage: value,
           };
         }
 
@@ -87,7 +115,9 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           {},
           objectModel,
           objectColor,
-          objectFuel
+          objectFuel,
+          objectPrice,
+          objectKm
         );
 
         const advertsFilter = await api.post("/adverts/filtered", objectFinale);
@@ -96,6 +126,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         let objectModel = {};
         let objectColor = {};
         let objectFuel = {};
+        let objectPrice = {};
+        let objectKm = {};
 
         if (title === "Modelo") {
           objectModel = {
@@ -113,11 +145,25 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           };
         }
 
+        if (title === "Preco") {
+          objectPrice = {
+            price: value,
+          };
+        }
+        if (title === "Kilometragem") {
+          objectKm = {
+            
+            mileage: value,
+          };
+        }
+
         const objectFinale = Object.assign(
           {},
           objectModel,
           objectColor,
-          objectFuel
+          objectFuel,
+          objectPrice,
+          objectKm
         );
 
         const advertsFilter = await api.post("/adverts/filtered", objectFinale);
@@ -142,6 +188,12 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       if (advert.year === Number(value)) {
         return advert;
       }
+      if(advert.price === Number(value)){
+        return advert
+      }
+      if (advert.mileage === Number(value)) {
+         return advert
+      }
     });
 
     if (arrayFilter?.length === 0) {
@@ -157,6 +209,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       let objectModel = {};
       let objectColor = {};
       let objectFuel = {};
+      let objectPrice = {};
+      let objectKm = {};
 
       if (title === "Modelo") {
         objectModel = {
@@ -176,12 +230,24 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           fuel: value,
         };
       }
+      if (title === "Preco") {
+        objectPrice = {
+          price: value,
+        };
+      }
+      if (title === "Kilometragem") {
+        objectKm = {
+          mileage: value,
+        };
+      }
 
       const objectFinal = Object.assign(
         {},
         objectModel,
         objectColor,
-        objectFuel
+        objectFuel,
+        objectPrice,
+        objectKm
       );
 
       const findProduct = await api.post("/adverts/filtered", objectFinal);
@@ -192,6 +258,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       let objectModel = {};
       let objectColor = {};
       let objectFuel = {};
+      let objectPrice =  {};
+      let objectKm =  {};
 
       if (title === "Marca") {
         objectBrand = {
@@ -213,12 +281,24 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           fuel: value,
         };
       }
+      if (title === "Preco") {
+        objectPrice = {
+          price: value,
+        };
+      }
+      if (title === "Kilometragem") {
+        objectKm = {
+          mileage: value,
+        };
+      }
       const objectFinal = Object.assign(
         {},
         objectBrand,
         objectModel,
         objectColor,
-        objectFuel
+        objectFuel,
+        objectPrice,
+        objectKm
       );
 
       const getAdvert = await api.post("/adverts/filtered", objectFinal);
