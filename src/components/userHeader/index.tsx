@@ -19,11 +19,13 @@ export const UserHeader = () => {
         fontWeight={"bold"}
       >
         <Text fontSize="xs" color={`var(--grey10)`}>
-          {advert.user.name[0].toUpperCase()}
+          {/* {advert.user.name[0].toUpperCase()} */}
+          CH
         </Text>
       </Box>
-      <Text fontSize="xs" color={`var(--grey2)`}>
-        {advert.user.name}
+      <Text fontSize="xs" color={`var(--grey0)`}>
+        {/* {advert.user.name} */}
+        chris
       </Text>
     </Box>
   )
