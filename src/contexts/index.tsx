@@ -1,16 +1,20 @@
-import { createContext } from "react";
+import { ReactNode, createContext } from "react";
+import { ProductProvider } from "./products.context";
+import { AuthProvider } from "./loginAndRegister.context";
 
+interface iContextProps {
+  children: ReactNode;
+}
 
 export const Context = createContext({});
 
-export const Provider = ({ children }) => {
+export const Provider = ({ children }: iContextProps) => {
+  return (
+    <Context.Provider value={{}}>
+      <AuthProvider>
 
-    return (
-        <Context.Provider
-            value={{
-            }}
-        >
-            {children}
-        </Context.Provider>
-    );
+      <ProductProvider>{children}</ProductProvider>
+      </AuthProvider>
+    </Context.Provider>
+  );
 };
