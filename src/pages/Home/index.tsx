@@ -1,35 +1,31 @@
 import {
   StyledHome,
   StyledBannerPageHome,
-  StyledButtonsMenu,
-  StyledButtonLogin,
-  StyledButtonRegister,
-  StyledButtonMenuItemRegister,
   ContainerList,
   StyledSection,
 } from "./style";
 import Banner from "../../assets/banner_bmw.png";
 import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
   List,
   Button,
   ButtonGroup,
   Box,
+  // useDisclosure,
 } from "@chakra-ui/react";
-import { AiOutlineMenu } from "react-icons/ai";
+
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
 import { useProduct } from "../../hooks/useProduct";
 import { CardAdvert } from "../../components/cardAdvert";
 import { AsideFilters } from "../../components/aside";
 import { StyledContainer } from "../../styles/Container";
-import { useMediaQuery } from "@chakra-ui/react";
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister";
 
 function Home() {
-  const { productsList, previusPage, nextPage,paginationByNumber } = useProduct();
+  const { productsList, previusPage, nextPage, paginationByNumber } =
+    useProduct();
+
+  // const { onOpen } = useDisclosure();
 
   const pages: number[] = [];
   if (productsList) {
@@ -37,52 +33,24 @@ function Home() {
       pages.push(i + 1);
     }
   }
-  const [isWideScreen] = useMediaQuery("(min-width: 600px)");
 
+  return (
+    <>
+      <Header>
+        <LoginRegisterButtons />
+      </Header>
 
-  return (<>
-   <Header>
-    {isWideScreen ? (
-      <StyledButtonsMenu>
-        <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-        <StyledButtonRegister>Cadastrar</StyledButtonRegister>
-      </StyledButtonsMenu>
-    ) : (
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<AiOutlineMenu />}
-          variant="outline"
-        ></MenuButton>
-        <MenuList
-          bg={"var(--whiteFixed)"}
-          zIndex={2}
-          height={"80px"}
-          display={"flex"}
-          flexDirection={"column"}
-          padding={"5px"}
-        >
-          <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-          <br />
-          <StyledButtonMenuItemRegister>
-            Cadastrar
-          </StyledButtonMenuItemRegister>
-        </MenuList>
-      </Menu>
-    )}
-  </Header>
-  
       <StyledHome>
         <StyledBannerPageHome>
           <img src={Banner} alt="Banner" />
           <h1>Web Custons</h1>
 
-        <p>A melhor plataforma de anúncios de carros do pais</p>
+          <p>A melhor plataforma de anúncios de carros do pais</p>
+        </StyledBannerPageHome>
+        <br />
+        <br />
 
-      </StyledBannerPageHome><br /><br />
-
-      <StyledContainer>
+        <StyledContainer>
           <AsideFilters />
           <StyledSection>
             <ContainerList>
@@ -165,8 +133,7 @@ function Home() {
         </StyledContainer>
       </StyledHome>
       <Footer />
-
-  </>
+    </>
   );
 }
 

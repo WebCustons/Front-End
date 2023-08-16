@@ -25,7 +25,7 @@ return (
   <ul>
     <h1>{title}</h1>
     {filter.map((value: string) => (
-      <li key={value} onClick={() => handleFilterClick(title,value)}>
+      <li key={value} onClick={() => {handleFilterClick(title,value)}}>
         {value}
       </li>
     ))}

@@ -10,19 +10,6 @@ export const StyledButtonsMenu = styled.div`
   gap: 25px;
 `;
 
-export const StyledButtonLogin = styled.button`
-  color: var(--grey2);
-  font-weight: bold;
-`;
-
-export const StyledButtonRegister = styled.button`
-  color: var(--grey0);
-  font-weight: bold;
-  border: 1px solid var(--grey4);
-  padding: 5px;
-  width: 100px;
-`;
-
 export const StyledButtonMenuItemRegister = styled.button`
   color: var(--grey0);
   font-weight: bold;
@@ -98,7 +85,7 @@ export const StyledBannerPageHome = styled.div`
   max-width: 100%;
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: -1;
   text-align: center;
 
   img {

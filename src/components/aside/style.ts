@@ -46,4 +46,19 @@ export const StyledAside = styled.aside`
       font-weight: 600;
       margin-top: 40px;
     }
+    @media (min-width: 600px){
+      display: flex;
+      flex-direction: column;
+    }
 `;
+
+export const StyledVariableStartEnd = styled.div`
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+
+    span{
+      font-weight: bold;
+    }
+
+`
