@@ -49,11 +49,14 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   };
 
   const productsFilter = async () => {
+
     const productOption = await api.get("/adverts/adverts-filters");
+
     setFilters(productOption.data);
   };
 
   const clearnFilters = async () => {
+
     await getProducts();
   };
 
@@ -157,6 +160,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           };
         }
 
+
         const objectFinale = Object.assign(
           {},
           objectModel,
@@ -188,12 +192,14 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       if (advert.year === Number(value)) {
         return advert;
       }
+
       if(advert.price === Number(value)){
         return advert
       }
       if (advert.mileage === Number(value)) {
          return advert
       }
+
     });
 
     if (arrayFilter?.length === 0) {
@@ -211,6 +217,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       let objectFuel = {};
       let objectPrice = {};
       let objectKm = {};
+
 
       if (title === "Modelo") {
         objectModel = {
@@ -230,6 +237,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           fuel: value,
         };
       }
+
       if (title === "Preco") {
         objectPrice = {
           price: value,
@@ -241,6 +249,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         };
       }
 
+
       const objectFinal = Object.assign(
         {},
         objectModel,
@@ -248,6 +257,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         objectFuel,
         objectPrice,
         objectKm
+
       );
 
       const findProduct = await api.post("/adverts/filtered", objectFinal);
@@ -281,6 +291,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           fuel: value,
         };
       }
+
       if (title === "Preco") {
         objectPrice = {
           price: value,
@@ -291,6 +302,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           mileage: value,
         };
       }
+
       const objectFinal = Object.assign(
         {},
         objectBrand,
