@@ -1,6 +1,7 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledMenu = styled.div`
+  height: 80px;
   max-width: 100%;
   display: flex;
   justify-content: space-between;
@@ -19,4 +20,4 @@ export const StyledMenu = styled.div`
       height: 80ox;
     }
   }
-`;
+`

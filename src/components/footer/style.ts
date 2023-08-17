@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const StyledFooter = styled.footer`
   background: var(--grey0);
@@ -44,6 +44,6 @@ const StyledFooter = styled.footer`
       cursor: pointer;
     }
   }
-`;
+`
 
-export default StyledFooter;
+export default StyledFooter
