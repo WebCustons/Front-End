@@ -10,32 +10,33 @@ import {
 
 interface FilterProps {
   title: string;
-  max: number ;
-  min: number ;
+  max: number;
+  min: number;
+  filterKey: string;
 }
 
-export const RangeFilter = ({ title, min, max }: FilterProps) => {
-
+export const RangeFilter = ({ title, min: propMin, max: propMax, filterKey }: FilterProps) => {
   const { filters, getAdvertsByFilter } = useProduct();
 
-  const [value, setValue] = useState<number[]>([min, max]);
-  
+  const [value, setValue] = useState<number[]>([propMin, propMax]);
+
+  const min = propMin || 0;
+  const max = propMax || 0;
+
   const defaultValue = [value[0], (value[1] + value[1]) / 2];
 
-
   const handleRangeChange = ([minSet, maxSet]: number[]) => {
-    console.log([minSet, maxSet]);
     const newFilters = {
       ...filters,
-      minVAlue: minSet,
-      maxVAlue: maxSet,
+      [`min${filterKey}`]: minSet,
+      [`max${filterKey}`]: maxSet,
     };
     getAdvertsByFilter(newFilters);
   };
 
   return (
     <StyledRangeFilter>
-      <label htmlFor="minValue">{title}:</label>
+      <label htmlFor="minValue">{title}</label>
       <div>
         <p>{value[0]}</p>
         <p>{value[1]}</p>

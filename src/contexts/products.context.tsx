@@ -79,6 +79,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     ])
     setProductsList(advertsFilter.data)
     setFilters(productOption.data)
+    console.log(advertsFilter.data);
     
   }
 
