@@ -37,6 +37,9 @@ const StyledLogin = styled.main`
   button {
     font-family: "Lexend", sans-serif;
   }
+  button:disabled{
+    background:var(--brand3)
+  }
   .btn-login {
     background-color: var(--brand1);
     display: flex;
