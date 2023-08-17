@@ -65,6 +65,8 @@ export const ContainerList = styled.div`
   cursor: pointer;
   @media (min-width: 600px) {
     overflow-x: unset;
+    display: flex;
+    justify-content: center;
     ul {
       width: 100%;
       max-width: 700px;
