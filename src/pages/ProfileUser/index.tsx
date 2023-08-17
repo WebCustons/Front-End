@@ -1,19 +1,46 @@
-import { Box, Tag, Text } from "@chakra-ui/react"
-import Header from "../../components/header"
-import { UserHeader } from "../../components/userHeader"
-import { StyledPageProfile } from "./style"
-import { Footer } from "../../components/footer"
-import { StyledContainer } from "../../styles/Container"
-import { useEffect } from "react"
-import { useUser } from "../../hooks/useUser"
-import { ListCards } from "../../components/listCards"
+import {
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Tag,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import Header from "../../components/header";
+import { UserHeader } from "../../components/userHeader";
+import { StyledPageProfile } from "./style";
+import { Footer } from "../../components/footer";
+import { StyledContainer } from "../../styles/Container";
+import { useEffect, useState } from "react";
+import { useUser } from "../../hooks/useUser";
+import { ListCards } from "../../components/listCards";
 
 const ProfileUser = () => {
-  const { announceList, getAnnounce } = useUser()
-
+  const { announceList, getAnnounce } = useUser();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [createAdvertModal, setCreatAdvertModal] = useState(false);
   useEffect(() => {
-    getAnnounce()
-  }, [])
+    getAnnounce();
+  }, []);
+
+  const toggleModal = (
+    modal: boolean,
+    setModal: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    if (modal) {
+      onClose();
+      setModal(!createAdvertModal);
+      return;
+    }
+    setModal(!createAdvertModal);
+    onOpen();
+  };
 
   return (
     <StyledPageProfile>
@@ -76,6 +103,13 @@ const ProfileUser = () => {
             <Text className="descriptionUser" marginTop={"15px"}>
               {announceList?.description}
             </Text>
+            <Button
+              onClick={() =>
+                toggleModal(createAdvertModal, setCreatAdvertModal)
+              }
+            >
+              Criar Anuncio
+            </Button>
           </Box>
         </Box>
 
@@ -94,7 +128,34 @@ const ProfileUser = () => {
         </StyledContainer>
       </Box>
       <Footer />
+      {createAdvertModal ? (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => toggleModal(createAdvertModal, setCreatAdvertModal)}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <>
+              <ModalHeader>Criar Anuncio</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody></ModalBody>
+
+              <ModalFooter>
+                <Button
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={() =>
+                    toggleModal(createAdvertModal, setCreatAdvertModal)
+                  }
+                >
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          </ModalContent>
+        </Modal>
+      ) : null}
     </StyledPageProfile>
-  )
-}
-export default ProfileUser
+  );
+};
+export default ProfileUser;
