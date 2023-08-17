@@ -1,6 +1,6 @@
 
 import { useProduct } from "../../hooks/useProduct";
-import { StyledAside} from "./style";
+import { StyledAside } from "./style";
 import { FilterComponent } from './../filterComponets/index';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, useDisclosure } from "@chakra-ui/react";
 import { RangeFilter } from './../rangeFilter/index';
@@ -69,9 +69,9 @@ export const AsideFilters = () => {
                     )}
                     {/* <FilterComponent title="Marca" filter={filters?.brandAdvert} /> */}
                     <div className="range_container">
-                      <RangeFilter min={filters?.minMileage} max={filters?.maxMileage}  title={"Km rodados"} filterKey={"maxMileage"} />
-                      <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} filterKey={"maxPrice"} />
-                      <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} filterKey={"maxYear"} />
+                      <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />
+                      <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} />
+                      <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} />
                     </div>
                     <button onClick={() => clearnFilters()}>
                       Limpar Filtros
@@ -110,9 +110,9 @@ export const AsideFilters = () => {
                     )}
                     {/* <FilterComponent title="Marca" filter={filters?.brandAdvert} /> */}
                     <div className="range_container">
-                      <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km rodados"} filterKey={"maxMileage"} />
-                      <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} filterKey={"maxPrice"} />
-                      <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} filterKey={"maxYear"} />
+                      <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />
+                      <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} />
+                      <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} />
                     </div>
                     <button onClick={() => clearnFilters()}>
                       Limpar Filtros
@@ -157,9 +157,9 @@ export const AsideFilters = () => {
           )}
           {/* <FilterComponent title="Marca" filter={filters?.brandAdvert} /> */}
           <div className="range_container">
-            <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km rodados"} filterKey={"maxMileage"} />
-            <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} filterKey={"maxPrice"} />
-            <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} filterKey={"maxYear"} />
+            <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />
+            <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} />
+            <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} />
           </div>
           <button onClick={() => clearnFilters()}>
             Limpar Filtros

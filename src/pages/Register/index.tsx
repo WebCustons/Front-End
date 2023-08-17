@@ -56,7 +56,7 @@ const Register = () => {
             <InputValidator
               id="cpf"
               label="CPF:"
-              type="text"
+              type=""
               placeholder="000.000.000-00"
               error={errors.cpf?.message}
               {...register("cpf", { required: "Digite seu CPF." })}
@@ -76,7 +76,7 @@ const Register = () => {
             <InputValidator
               id="birth_date"
               label="Data de nascimento:"
-              type="text"
+              type="date"
               placeholder="0000-00-00"
               error={errors.birth_date?.message}
               {...register("birth_date", {

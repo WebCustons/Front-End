@@ -1,20 +1,11 @@
 import { styled } from "styled-components";
 
-export const StyledRangeFilter = styled.div`
+export const StyledRangeFilter = styled.form`
   display: flex;
   flex-direction: column;
-  .conatinerValue {
+  div {
     display: flex;
     flex-direction: row;
-  }
-  .conatinerValue > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  input[type="number"] {
-    width: 80%;
-    border: 2px solid var(--brand1);
-    border-radius:5px;
+    justify-content: space-between;
   }
 `;
