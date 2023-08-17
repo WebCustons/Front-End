@@ -88,7 +88,7 @@ export function CardAdvert({ advert }: ICardProps) {
                 : advert.description}
             </Text>
 
-            <Box
+            {advert.user && <Box
               display={"flex"}
               gap={"1rem"}
               justifyItems={"center"}
@@ -111,7 +111,7 @@ export function CardAdvert({ advert }: ICardProps) {
               <Text fontSize="xs" color={`var(--grey2)`}>
                 {advert.user.name}
               </Text>
-            </Box>
+            </Box>}
           </Box>
         </CardBody>
 

@@ -69,9 +69,9 @@ export const AsideFilters = () => {
                     )}
                     {/* <FilterComponent title="Marca" filter={filters?.brandAdvert} /> */}
                     <div className="range_container">
-                      <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />
-                      <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} />
-                      <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} />
+                      {filters?.minMileage && filters?.maxMileage && <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />}
+                      {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} />}
+                      {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} />}
                     </div>
                     <button onClick={() => clearnFilters()}>
                       Limpar Filtros
@@ -110,9 +110,9 @@ export const AsideFilters = () => {
                     )}
                     {/* <FilterComponent title="Marca" filter={filters?.brandAdvert} /> */}
                     <div className="range_container">
-                      <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />
-                      <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} />
-                      <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} />
+                      {filters?.minMileage && filters?.maxMileage && <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />}
+                      {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} />}
+                      {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} />}
                     </div>
                     <button onClick={() => clearnFilters()}>
                       Limpar Filtros
@@ -157,9 +157,9 @@ export const AsideFilters = () => {
           )}
           {/* <FilterComponent title="Marca" filter={filters?.brandAdvert} /> */}
           <div className="range_container">
-            <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />
-            <RangeFilter min={filters?.minPrice} max={filters?.maxPrice} title={"Preço"} />
-            <RangeFilter min={filters?.minYear} max={filters?.maxYear} title={"Ano"} />
+            {filters?.minMileage && filters?.maxMileage && <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} />}
+            {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} />}
+            {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} />}
           </div>
           <button onClick={() => clearnFilters()}>
             Limpar Filtros

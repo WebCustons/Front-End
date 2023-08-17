@@ -44,6 +44,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     ])
     setProductsList(products.data)
     setFilters(filters.data)
+
+    
   }
 
   const clearnFilters = async () => {
@@ -77,6 +79,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     ])
     setProductsList(advertsFilter.data)
     setFilters(productOption.data)
+    
   }
 
   const previusPage = async () => {
