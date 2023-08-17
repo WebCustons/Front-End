@@ -9,12 +9,12 @@ import {
   Heading,
   Text,
   Container,
-} from "@chakra-ui/react";
-import { TAdvert } from "../../schemas/advert.schema";
+} from "@chakra-ui/react"
+import { TAdvert } from "../../schemas/advert.schema"
 interface ICardProps {
-  advert: TAdvert;
+  advert: TAdvert
 }
-import discountImage from "../../assets/$.png";
+import discountImage from "../../assets/$.png"
 
 export function CardAdvert({ advert }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
@@ -97,30 +97,32 @@ export function CardAdvert({ advert }: ICardProps) {
                   : advert.description}
               </Text>
 
-              <Box
-                display={"flex"}
-                gap={"1rem"}
-                justifyItems={"center"}
-                alignItems={"center"}
-              >
+              {advert.user?.name && (
                 <Box
-                  backgroundColor={`var(--random2)`}
-                  borderRadius={"20px"}
                   display={"flex"}
-                  width={"25px"}
-                  height={"25px"}
+                  gap={"1rem"}
+                  justifyItems={"center"}
                   alignItems={"center"}
-                  justifyContent={"center"}
-                  fontWeight={"bold"}
                 >
-                  <Text fontSize="xs" color={`var(--grey10)`}>
-                    {advert.user.name[0].toUpperCase()}
+                  <Box
+                    backgroundColor={`var(--random2)`}
+                    borderRadius={"20px"}
+                    display={"flex"}
+                    width={"25px"}
+                    height={"25px"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    fontWeight={"bold"}
+                  >
+                    <Text fontSize="xs" color={`var(--grey10)`}>
+                      {advert.user.name[0].toUpperCase()}
+                    </Text>
+                  </Box>
+                  <Text fontSize="xs" color={`var(--grey2)`}>
+                    {advert.user.name}
                   </Text>
                 </Box>
-                <Text fontSize="xs" color={`var(--grey2)`}>
-                  {advert.user.name}
-                </Text>
-              </Box>
+              )}
             </Box>
           </Container>
         </CardBody>
@@ -169,5 +171,5 @@ export function CardAdvert({ advert }: ICardProps) {
         </CardFooter>
       </Card>
     </ListItem>
-  );
+  )
 }

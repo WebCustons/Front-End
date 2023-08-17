@@ -1,17 +1,15 @@
-import { Box, List, Tag, Text } from "@chakra-ui/react"
+import { Box, Tag, Text } from "@chakra-ui/react"
 import Header from "../../components/header"
 import { UserHeader } from "../../components/userHeader"
 import { StyledPageProfile } from "./style"
-import { CardAdvert } from "../../components/cardAdvert"
-import { useProduct } from "../../hooks/useProduct"
 import { Footer } from "../../components/footer"
 import { StyledContainer } from "../../styles/Container"
-import { useAnnounce } from "../../hooks/useAnnounce"
 import { useEffect } from "react"
+import { useUser } from "../../hooks/useUser"
+import { ListCards } from "../../components/listCards"
 
 const ProfileUser = () => {
-  const { productsList } = useProduct()
-  const { announceList, getAnnounce } = useAnnounce()
+  const { announceList, getAnnounce } = useUser()
 
   useEffect(() => {
     getAnnounce()
@@ -91,11 +89,7 @@ const ProfileUser = () => {
             >
               Anúncios
             </Text>
-            <List display={"flex"} overflowX={"auto"}>
-              {productsList?.data.map((advert) => (
-                <CardAdvert advert={advert} key={advert.id} />
-              ))}
-            </List>
+            <ListCards advertsList={announceList?.adverts} />
           </Box>
         </StyledContainer>
       </Box>
