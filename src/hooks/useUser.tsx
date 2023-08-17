@@ -1,8 +1,8 @@
 import { useContext } from "react"
-import { AuthorizationContext } from "../contexts/loginAndRegister.context"
+import { UserContext } from "../contexts/user.context"
 
 export const useUser = () => {
-  const user = useContext(AuthorizationContext)
+  const user = useContext(UserContext)
 
   return user
 }

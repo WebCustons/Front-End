@@ -1,6 +1,14 @@
 import { Box, Text } from "@chakra-ui/react"
+import { useUser } from "../../hooks/useUser"
+import { useEffect } from "react"
 
 export const UserHeader = () => {
+  const { user, getUser } = useUser()
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
   return (
     <Box
       display={"flex"}
@@ -19,13 +27,11 @@ export const UserHeader = () => {
         fontWeight={"bold"}
       >
         <Text fontSize="xs" color={`var(--grey10)`}>
-          {/* {advert.user.name[0].toUpperCase()} */}
-          CH
+          {user?.name[0].toUpperCase()}
         </Text>
       </Box>
       <Text fontSize="xs" color={`var(--grey0)`}>
-        {/* {advert.user.name} */}
-        chris
+        {user?.name}
       </Text>
     </Box>
   )

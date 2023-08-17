@@ -9,6 +9,7 @@ import { StyledContainer } from "../../styles/Container"
 
 const ProfileUser = () => {
   const { productsList } = useProduct()
+
   return (
     <StyledPageProfile>
       <Header>
@@ -25,7 +26,6 @@ const ProfileUser = () => {
         >
           <Box
             className="userContainer"
-            border={"solid 2px yellow"}
             display={"flex"}
             flexDirection={"column"}
             backgroundColor={"var(--grey10)"}
