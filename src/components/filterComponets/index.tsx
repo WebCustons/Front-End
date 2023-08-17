@@ -1,35 +1,34 @@
 import { useProduct } from "../../hooks/useProduct";
-
-
-
+import { StyledFilterComponent } from "./style";
 interface FilterProps {
   title: string;
-  filter: string[];
+  filter: string[] | string;
+  filterKey: string;
 }
 
-export const FilterComponets = ({ title, filter }: FilterProps) => {
-  const { setFilters, filters, getAdvertsByFilter } = useProduct();
+export const FilterComponent = ({ title, filter, filterKey }: FilterProps) => {
+  const { getAdvertsByFilter, filters } = useProduct();
 
-  const handleFilterClick = (title:string,value: string): void => {
+  const handleFilterClick = (selectedValue: string): void => {
     const newFilters = {
       ...filters,
-      [title]: value, 
-    }
-    setFilters(newFilters);
+      [filterKey]: selectedValue,
+    };
+    getAdvertsByFilter(newFilters);
+  };
 
-    
-    getAdvertsByFilter(value,title);
+  const filterArray = Array.isArray(filter) ? filter : Array.of(filter);
+
+  return (
+    <StyledFilterComponent>
+      <h1>{title}</h1>
+      <ul>
+        {filterArray.map((value: string) => (
+          <li key={value} onClick={() => handleFilterClick(value)}>
+            {value}
+          </li>
+        ))}
+      </ul>
+    </StyledFilterComponent>
+  );
 };
-
-return (
-  <ul>
-    <h1>{title}</h1>
-    {filter.map((value: string) => (
-      <li key={value} onClick={() => {handleFilterClick(title,value)}}>
-        {value}
-      </li>
-    ))}
-  </ul>
-);
-};
-
