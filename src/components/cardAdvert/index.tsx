@@ -60,7 +60,7 @@ export function CardAdvert({ advert }: ICardProps) {
           ) : null}
           <Image
             src={advert.cover_image}
-            alt="advert image"
+            alt={`${advert.model}  ${advert.brand}`}
             height={"144px"}
             width={"100%"}
             objectFit="contain"

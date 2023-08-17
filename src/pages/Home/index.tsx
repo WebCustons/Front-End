@@ -20,10 +20,20 @@ import { CardAdvert } from "../../components/cardAdvert"
 import { AsideFilters } from "../../components/aside"
 import { StyledContainer } from "../../styles/Container"
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
+import { useEffect } from "react"
 
 function Home() {
-  const { productsList, previusPage, nextPage, paginationByNumber } =
-    useProduct()
+  const {
+    getProducts,
+    productsList,
+    previusPage,
+    nextPage,
+    paginationByNumber,
+  } = useProduct()
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   // const { onOpen } = useDisclosure();
 
