@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react"
+import { Box, Button, Text } from "@chakra-ui/react"
 import { useUser } from "../../hooks/useUser"
 import { useEffect } from "react"
 
@@ -10,29 +10,33 @@ export const UserHeader = () => {
   }, [])
 
   return (
-    <Box
-      display={"flex"}
-      gap={"1rem"}
-      justifyItems={"center"}
-      alignItems={"center"}
+    <Button
+      colorScheme="messenger"
+      variant="ghost"
+      height={"100%"}
+      paddingRight={"30px"}
+      borderRadius={"0"}
+      borderLeft={"solid 2px var(--grey6)"}
     >
       <Box
+        className="icon"
         backgroundColor={`var(--random2)`}
         borderRadius={"20px"}
         display={"flex"}
-        width={"25px"}
-        height={"25px"}
+        width={"30px"}
+        height={"30px"}
         alignItems={"center"}
         justifyContent={"center"}
         fontWeight={"bold"}
+        marginRight={"5px"}
       >
-        <Text fontSize="xs" color={`var(--grey10)`}>
+        <Text fontSize="mg" color={`var(--grey10)`}>
           {user?.name[0].toUpperCase()}
         </Text>
       </Box>
-      <Text fontSize="xs" color={`var(--grey0)`}>
+      <Text fontSize="sm" color={`var(--grey0)`}>
         {user?.name}
       </Text>
-    </Box>
+    </Button>
   )
 }

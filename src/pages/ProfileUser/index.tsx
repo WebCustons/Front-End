@@ -6,9 +6,16 @@ import { CardAdvert } from "../../components/cardAdvert"
 import { useProduct } from "../../hooks/useProduct"
 import { Footer } from "../../components/footer"
 import { StyledContainer } from "../../styles/Container"
+import { useAnnounce } from "../../hooks/useAnnounce"
+import { useEffect } from "react"
 
 const ProfileUser = () => {
   const { productsList } = useProduct()
+  const { announceList, getAnnounce } = useAnnounce()
+
+  useEffect(() => {
+    getAnnounce()
+  }, [])
 
   return (
     <StyledPageProfile>
@@ -56,14 +63,12 @@ const ProfileUser = () => {
                 fontWeight={"bold"}
               >
                 <Text fontSize="3xl" color={`var(--grey10)`}>
-                  {/* {advert.user.name[0].toUpperCase()} */}
-                  CV
+                  {announceList?.name[0].toUpperCase()}
                 </Text>
               </Box>
               <Box className="nameTag" display={"flex"} gap={"15px"}>
                 <Text as="b" fontSize="xl" color={`var(--grey2)`}>
-                  {/* {advert.user.name} */}
-                  Christian Vada
+                  {announceList?.name}
                 </Text>
                 <Tag variant="solid" colorScheme="blue">
                   Anunciante
@@ -71,10 +76,7 @@ const ProfileUser = () => {
               </Box>
             </Box>
             <Text className="descriptionUser" marginTop={"15px"}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s. Lorem Ipsum is simply dummy text of the
-              printing and Lorem
+              {announceList?.description}
             </Text>
           </Box>
         </Box>
