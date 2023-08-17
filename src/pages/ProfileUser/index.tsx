@@ -6,12 +6,12 @@ import { CardAdvert } from "../../components/cardAdvert"
 import { useProduct } from "../../hooks/useProduct"
 import { Footer } from "../../components/footer"
 import { StyledContainer } from "../../styles/Container"
-import { useAnnounce } from "../../hooks/useAnnounce"
 import { useEffect } from "react"
+import { useUser } from "../../hooks/useUser"
 
 const ProfileUser = () => {
   const { productsList } = useProduct()
-  const { announceList, getAnnounce } = useAnnounce()
+  const { announceList, getAnnounce } = useUser()
 
   useEffect(() => {
     getAnnounce()
@@ -91,11 +91,9 @@ const ProfileUser = () => {
             >
               Anúncios
             </Text>
-            <List display={"flex"} overflowX={"auto"}>
-              {productsList?.data.map((advert) => (
-                <CardAdvert advert={advert} key={advert.id} />
-              ))}
-            </List>
+            {/* <List display={"flex"} overflowX={"auto"}>
+              
+            </List> */}
           </Box>
         </StyledContainer>
       </Box>
