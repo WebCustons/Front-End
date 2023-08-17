@@ -7,9 +7,7 @@ const StyledFooter = styled.footer`
   padding: 10px;
   align-items: center;
   flex-direction: column;
-  position: absolute;
   width: 100%;
-
   @media (min-width: 600px) {
     flex-direction: row;
 
@@ -17,7 +15,7 @@ const StyledFooter = styled.footer`
       padding-right: 90px;
     }
 
-    igm {
+    img {
       width: 150px;
       height: 60px;
     }

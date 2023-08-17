@@ -2,17 +2,19 @@ import styled from "styled-components";
 
 const StyledLogin = styled.main`
   font-family: "Lexend", sans-serif;
-  top: 0;
-  width: 100vw;
   height: 100vh;
-  position: fixed;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+
   flex-direction: column;
   font-family: Inter;
   background-color: var(--brand4);
-
+  .login-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+  }
   .login-box {
     background-color: white;
     padding: 10px;
@@ -48,7 +50,12 @@ const StyledLogin = styled.main`
     gap: 0.625rem;
     flex-shrink: 0;
     border-radius: 0.25rem;
+    transition: box-shadow 0.3s ease-in-out;
   }
+  .btn-login:hover {
+    box-shadow: 0 5px 15px black;
+  }
+
   .register-box {
     display: flex;
     flex-direction: column;
@@ -57,6 +64,7 @@ const StyledLogin = styled.main`
     gap: 10px;
     margin-top: 16px;
   }
+
   .register-btn {
     border-radius: 0.25rem;
     border: 1.5px solid var(--grey-scale-grey-4, #adb5bd);
@@ -70,6 +78,10 @@ const StyledLogin = styled.main`
     flex-shrink: 0;
     color: var(--grey0);
     font-weight: bold;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  .register-btn:hover {
+    box-shadow: 0 5px 15px black;
   }
   .remember-password {
     display: flex;

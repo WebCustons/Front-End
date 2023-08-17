@@ -1,39 +1,31 @@
 import {
   StyledHome,
   StyledBannerPageHome,
-  StyledButtonsMenu,
-  StyledButtonLogin,
-  StyledButtonRegister,
-  StyledButtonMenuItemRegister,
   ContainerList,
   StyledSection,
 } from "./style"
 import Banner from "../../assets/banner_bmw.png"
 import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
   List,
   Button,
   ButtonGroup,
   Box,
-  useDisclosure,
+  // useDisclosure,
 } from "@chakra-ui/react"
-import { AiOutlineMenu } from "react-icons/ai"
+
 import { Header } from "../../components/header"
 import { Footer } from "../../components/footer"
 import { useProduct } from "../../hooks/useProduct"
 import { CardAdvert } from "../../components/cardAdvert"
 import { AsideFilters } from "../../components/aside"
 import { StyledContainer } from "../../styles/Container"
-import { useMediaQuery } from "@chakra-ui/react"
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 
 function Home() {
   const { productsList, previusPage, nextPage, paginationByNumber } =
     useProduct()
 
-  const { onOpen } = useDisclosure()
+  // const { onOpen } = useDisclosure();
 
   const pages: number[] = []
   if (productsList) {
@@ -41,40 +33,11 @@ function Home() {
       pages.push(i + 1)
     }
   }
-  const [isWideScreen] = useMediaQuery("(min-width: 600px)")
 
   return (
     <>
       <Header>
-        {isWideScreen ? (
-          <StyledButtonsMenu>
-            <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-            <StyledButtonRegister>Cadastrar</StyledButtonRegister>
-          </StyledButtonsMenu>
-        ) : (
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<AiOutlineMenu />}
-              variant="outline"
-            ></MenuButton>
-            <MenuList
-              bg={"var(--whiteFixed)"}
-              zIndex={2}
-              height={"80px"}
-              display={"flex"}
-              flexDirection={"column"}
-              padding={"5px"}
-            >
-              <StyledButtonLogin>Fazer Login</StyledButtonLogin>
-              <br />
-              <StyledButtonMenuItemRegister>
-                Cadastrar
-              </StyledButtonMenuItemRegister>
-            </MenuList>
-          </Menu>
-        )}
+        <LoginRegisterButtons />
       </Header>
 
       <StyledHome>

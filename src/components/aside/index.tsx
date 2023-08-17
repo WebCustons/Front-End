@@ -1,7 +1,7 @@
 import { FilterComponets } from "../filterComponets/index";
 import { useProduct } from "../../hooks/useProduct";
-import { useEffect, useRef, ReactNode } from "react";
-import { StyledAside } from "./style";
+import { useEffect, useRef, ReactNode, useState } from "react";
+import { StyledAside, StyledVariableStartEnd } from "./style";
 import {
   Modal,
   ModalContent,
@@ -13,13 +13,42 @@ import {
 } from "@chakra-ui/react";
 
 export const AsideFilters = () => {
-  const { filters, setFilters, productsFilter, clearnFilters } = useProduct();
+  const { filters, setFilters, productsFilter, clearnFilters, getAdvertsByFilter} = useProduct();
+
+  const [startPrice, setStartPrice] = useState<number | undefined>(0);
+  const [endPrice, setEndPrice] = useState<number | undefined>(0);
+
+  const [startMileage, setStartMinMileage] = useState<number | undefined>(0);
+  const [endMileage, setEndMileage] = useState<number | undefined>(0);
+
   const minMileage = filters?.minMileage ? filters.minMileage : 0;
   const maxMileage = filters?.maxMileage ? filters.maxMileage : 0;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
   useEffect(() => {
     productsFilter();
+    setStartPrice(filters?.minPrice)
+    setEndPrice(filters?.maxPrice)
+
+    setStartMinMileage(filters?.minMileage);
+    setEndMileage(filters?.maxMileage);
+
+    
   }, []);
+
+  useEffect(()=>{
+
+    setStartPrice(filters?.minPrice)
+    setEndPrice(filters?.maxPrice)
+
+    setStartMinMileage(filters?.minMileage);
+    setEndMileage(filters?.maxMileage);
+
+
+  },[filters?.minPrice,filters?.maxPrice, filters?.maxMileage, filters?.minMileage])
+
+
   {
     return window.innerWidth < 600 ? (
       <>
@@ -76,23 +105,32 @@ export const AsideFilters = () => {
                     {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
                     <div className="range_container">
                       <label htmlFor="Km">Km rodados:</label>
+                      
+                      <StyledVariableStartEnd>
+                        <span>{startMileage}</span> 
+                        <span>{endMileage}</span>
+                      </StyledVariableStartEnd>
                       <input
-                        onChange={() => ({})}
+                        onChange={(e)=>getAdvertsByFilter(e.target.value, 'Kilometragem')}
                         type="range"
                         id="Km"
                         name="points"
-                        min="0"
+                        min={filters?.minMileage}
                         max={maxMileage}
                       ></input>
 
                       <label htmlFor="Price">Preço:</label>
+                      <StyledVariableStartEnd>
+                      <span>{startPrice}</span> 
+                      <span>{endPrice}</span>
+                    </StyledVariableStartEnd>
                       <input
-                        onChange={() => ({})}
+                        onChange={(e)=>getAdvertsByFilter(e.target.value, 'Preco')}
                         type="range"
                         id="Price"
                         name="points"
-                        min="0"
-                        max="500000"
+                        min={filters?.minPrice}
+                        max={filters?.maxPrice}
                       ></input>
                     </div>
                     <button onClick={() => clearnFilters()}>
@@ -130,24 +168,33 @@ export const AsideFilters = () => {
                     {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
                     <div className="range_container">
                       <label htmlFor="Km">Km rodados:</label>
+          
+                      <StyledVariableStartEnd>
+                      <span>{startMileage}</span> 
+                      <span>{endMileage}</span>
+                    </StyledVariableStartEnd>
                       <input
-                        onChange={() => ({})}
+                        onChange={(e)=>getAdvertsByFilter(e.target.value, 'Kilometragem')}
                         type="range"
                         id="Km"
                         name="points"
-                        min="0"
+                        min={filters?.minMileage}
                         max={maxMileage}
                       ></input>
 
                       <label htmlFor="Price">Preço:</label>
+                        <StyledVariableStartEnd>
+                        <span>{startPrice}</span> 
+                        <span>{endPrice}</span>
+                      </StyledVariableStartEnd>
                       <input
-                        onChange={() => ({})}
+                        onChange={(e)=>getAdvertsByFilter(e.target.value, 'Preco')}
                         type="range"
                         id="Price"
                         name="points"
-                        min="0"
-                        max="500000"
-                      ></input>
+                        min={filters?.minPrice}
+                        max={filters?.maxPrice}
+                      >mkmkm</input>
                     </div>
                     <button onClick={() => clearnFilters()}>
                       Limpar Filtros
@@ -176,23 +223,32 @@ export const AsideFilters = () => {
         {/* <FilterComponets title="Marca" filter={filters?.brandAdvert} /> */}
         <div className="range_container">
           <label htmlFor="Km">Km rodados:</label>
+
+          <StyledVariableStartEnd>
+            <span>{startMileage}</span> 
+            <span>{endMileage}</span>
+          </StyledVariableStartEnd>
           <input
-            onChange={() => ({})}
+            onChange={(e)=>getAdvertsByFilter(e.target.value, 'Kilometragem')}
             type="range"
             id="Km"
             name="points"
-            min="0"
+            min={filters?.minMileage}
             max={maxMileage}
           ></input>
-
+          <br/>
           <label htmlFor="Price">Preço:</label>
+          <StyledVariableStartEnd>
+            <span>{startPrice}</span> 
+            <span>{endPrice}</span>
+          </StyledVariableStartEnd>
           <input
-            onChange={() => ({})}
+            onChange={(e)=>getAdvertsByFilter(e.target.value, 'Preco')}
             type="range"
             id="Price"
             name="points"
-            min="0"
-            max="500000"
+            min={filters?.minPrice}
+            max={filters?.maxPrice}
           ></input>
         </div>
         <button onClick={() => clearnFilters()}>Limpar Filtros</button>
