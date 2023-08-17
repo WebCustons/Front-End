@@ -1,33 +1,30 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
-import { ProductProvider } from "./products.context";
-import { TAdvert } from "../schemas/advert.schema";
-import { api } from "../services/api";
+import { ReactNode, createContext, useState } from "react"
+import { ProductProvider } from "./products.context"
+import { api } from "../services/api"
+import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema"
 
 interface iAnnounceContextProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface iAnnounceProvider {
-  announceList: TAdvert[] | undefined;
+  announceList: IAdvertsByUserId | undefined
+  getAnnounce: () => Promise<void>
 }
 
-export const AnnounceContext = createContext({} as iAnnounceProvider);
+export const AnnounceContext = createContext({} as iAnnounceProvider)
 
 export const AnnounceProvider = ({ children }: iAnnounceContextProps) => {
-  const [announceList, setAnnounceList] = useState<TAdvert[]>();
-
-  useEffect(() => {
-    getAnnounce();
-  }, []);
+  const [announceList, setAnnounceList] = useState<IAdvertsByUserId>()
 
   const getAnnounce = async () => {
-    const response = await api.get("/adverts/");
-    // Modificar para a rota correta de anúncios de usuário
-    setAnnounceList(response.data);
-  };
+    const id = localStorage.getItem("@ID")
+    const response = await api.get(`/users/${id}/adverts/`)
+    setAnnounceList(response.data)
+  }
   return (
-    <AnnounceContext.Provider value={{ announceList }}>
+    <AnnounceContext.Provider value={{ announceList, getAnnounce }}>
       <ProductProvider>{children}</ProductProvider>
     </AnnounceContext.Provider>
-  );
-};
+  )
+}

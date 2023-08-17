@@ -1,20 +1,25 @@
-import { ReactNode, createContext } from "react";
-import { ProductProvider } from "./products.context";
-import { AuthProvider } from "./loginAndRegister.context";
+import { ReactNode, createContext } from "react"
+import { ProductProvider } from "./products.context"
+import { AuthProvider } from "./loginAndRegister.context"
+import { UserProvider } from "./user.context"
+import { AnnounceProvider } from "./annouces.context"
 
 interface iContextProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
-export const Context = createContext({});
+export const Context = createContext({})
 
 export const Provider = ({ children }: iContextProps) => {
   return (
     <Context.Provider value={{}}>
-      <AuthProvider>
-
-      <ProductProvider>{children}</ProductProvider>
-      </AuthProvider>
+      <AnnounceProvider>
+        <UserProvider>
+          <AuthProvider>
+            <ProductProvider>{children}</ProductProvider>
+          </AuthProvider>
+        </UserProvider>
+      </AnnounceProvider>
     </Context.Provider>
-  );
-};
+  )
+}

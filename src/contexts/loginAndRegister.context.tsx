@@ -67,24 +67,22 @@ export const AuthProvider = ({ children }: AuthorizationProviderProps) => {
         }
     };
 
+  const registerUser = async (formData: ClientData) => {
+    try {
+      const response = await api.post("/users", formData)
 
-    const registerUser = async (formData: ClientData) => {
-        try {
+      setTimeout(() => {
+        navigate("/login")
+      }, 1500)
 
-            const response = await api.post("/users", formData)
-
-            setTimeout(() => {
-                navigate("/login");
-            }, 1500);
-
-            setUser(response.data.user);
-        } catch (error) {
-            console.log(error)
-        }
+      setUser(response.data.user)
+    } catch (error) {
+      console.log(error)
     }
-    return (
-        <AuthorizationContext.Provider value={{ login, registerUser, loadingBnt, setLoadingBnt, user }}>
-            {children}
-        </AuthorizationContext.Provider>
-    )
+  }
+  return (
+    <AuthorizationContext.Provider value={{ login, registerUser, user, loadingBnt, setLoadingBnt }}>
+      {children}
+    </AuthorizationContext.Provider>
+  )
 }
