@@ -1,10 +1,10 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home/index";
-import Login from "../pages/Login/index";
-import Register from "../pages/Register/index";
-import ProfileUser from "../pages/ProfileUser/index";
-import Products from "../pages/Products";
-import ProfileAdmin from "../pages/ProfileAdmin";
+import { Navigate, Route, Routes } from "react-router-dom"
+import Home from "../pages/Home/index"
+import Login from "../pages/Login/index"
+import Register from "../pages/Register/index"
+import Products from "../pages/Products"
+import ProfileAdmin from "../pages/ProfileAdmin"
+import ProfileUser from "../pages/ProfileUser"
 
 function RoutePages() {
   return (
@@ -17,7 +17,7 @@ function RoutePages() {
       <Route path="/product" element={<Products />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
-  );
+  )
 }
 
-export default RoutePages;
+export default RoutePages

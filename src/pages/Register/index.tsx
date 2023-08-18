@@ -56,7 +56,7 @@ const Register = () => {
             <InputValidator
               id="cpf"
               label="CPF:"
-              type="text"
+              type=""
               placeholder="000.000.000-00"
               error={errors.cpf?.message}
               {...register("cpf", { required: "Digite seu CPF." })}

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const schema = z
   .object({
@@ -17,7 +17,7 @@ export const schema = z
         /^\d{4}-\d{2}-\d{2}$/i,
         "Formato de data de nascimento inválido Ex: 0000-00-00 ."
       ),
-    description: z.string(),
+    description: z.string().max(210),
     password: z.string(),
     confirm_password: z.string().nonempty("Confirm password is required"),
 
@@ -42,6 +42,6 @@ export const schema = z
       ...data.address,
       number: Number(data.address.number),
     },
-  }));
+  }))
 
-export type ClientData = z.infer<typeof schema>;
+export type ClientData = z.infer<typeof schema>
