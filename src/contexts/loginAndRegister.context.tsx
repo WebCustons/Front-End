@@ -7,11 +7,11 @@ import { useToast } from "@chakra-ui/react"
 import { AxiosError } from "axios"
 
 interface AuthorizationContextValues {
-  login: (data: LoginData) => Promise<void>
-  registerUser: (formData: ClientData) => Promise<void>
-  user: ClientData | undefined
-  loadingBnt: boolean
-  setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>
+    login: (data: LoginData) => Promise<void>
+    registerUser: (formData: ClientData) => Promise<void>
+  user: ClientData | undefined;
+    loadingBnt: boolean;
+    setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>,
 }
 interface AuthorizationProviderProps {
   children: ReactNode
@@ -32,10 +32,10 @@ export const AuthProvider = ({ children }: AuthorizationProviderProps) => {
       const response = await api.post("/login", data)
       const { token, user } = response.data
 
-      api.defaults.headers.common.Authorization = `Bearer ${token}`
-      localStorage.setItem("@TOKEN", token)
-      localStorage.setItem("@ID", user.id)
-      setUser(user)
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+      localStorage.setItem("@TOKEN", token);
+      localStorage.setItem("@ID", user.id);
+      setUser(user);
 
       const profileRoute =
         user.type_user !== "type_user" ? "/profile" : "/admin"

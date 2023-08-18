@@ -1,6 +1,6 @@
 import { StyledRangeFilter } from "./style";
 import { useProduct } from './../../hooks/useProduct';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   RangeSlider,
   RangeSliderTrack,
@@ -10,37 +10,33 @@ import {
 
 interface FilterProps {
   title: string;
-  max: number | undefined;
-  min: number | undefined;
+  max: number;
+  min: number;
+  filterKey: string;
 }
 
-export const RangeFilter = ({ title, min, max }: FilterProps) => {
-
+export const RangeFilter = ({ title, min: propMin, max: propMax, filterKey }: FilterProps) => {
   const { filters, getAdvertsByFilter } = useProduct();
 
-  const [value, setValue] = useState<number[]>([0, 100]);
-  
-  const minVAlue = min || value[0];
-  const maxVAlue = max || value[1];
-  const defaultValue = [minVAlue, (minVAlue + maxVAlue) / 2];
+  const [value, setValue] = useState<number[]>([propMin, propMax]);
 
-  useEffect(() => {
-    setValue([minVAlue, maxVAlue]);
-    console.log([minVAlue, maxVAlue]);
-  }, [minVAlue]);
+  const min = propMin || 0;
+  const max = propMax || 0;
+
+  const defaultValue = [value[0], (value[1] + value[1]) / 2];
 
   const handleRangeChange = ([minSet, maxSet]: number[]) => {
     const newFilters = {
       ...filters,
-      minVAlue: minSet,
-      maxVAlue: maxSet,
+      [`min${filterKey}`]: minSet,
+      [`max${filterKey}`]: maxSet,
     };
     getAdvertsByFilter(newFilters);
   };
 
   return (
     <StyledRangeFilter>
-      <label htmlFor="minValue">{title}:</label>
+      <label htmlFor="minValue">{title}</label>
       <div>
         <p>{value[0]}</p>
         <p>{value[1]}</p>
@@ -48,8 +44,8 @@ export const RangeFilter = ({ title, min, max }: FilterProps) => {
       <RangeSlider
         aria-label={['min', 'max']}
         defaultValue={defaultValue}
-        min={minVAlue}
-        max={maxVAlue}
+        min={min}
+        max={max}
         onChangeEnd={handleRangeChange}
         onChange={([minSet, maxSet]) => setValue([minSet, maxSet])}
       >

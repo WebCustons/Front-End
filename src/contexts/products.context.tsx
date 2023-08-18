@@ -59,11 +59,13 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     const [products, filters] = await Promise.all([
       api.get("/adverts/"),
       api.get("/adverts/adverts-filters"),
+
     ]);
     setProductsList(products.data);
     setFilters(filters.data);
   };
   const toast = useToast();
+
   const clearnFilters = async () => {
     await getProducts();
   };
@@ -92,6 +94,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     const [advertsFilter, productOption] = await Promise.all([
       api.get(`/adverts/filtered?${queryParams.toString()}`),
       api.get(`/adverts/adverts-filters?${queryParams.toString()}`),
+
     ]);
     setProductsList(advertsFilter.data);
     setFilters(productOption.data);

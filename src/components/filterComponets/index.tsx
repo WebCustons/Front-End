@@ -23,12 +23,19 @@ export const FilterComponent = ({ title, filter, filterKey }: FilterProps) => {
     <StyledFilterComponent>
       <h1>{title}</h1>
       <ul>
-        {filterArray.map((value: string) => (
-          <li key={value} onClick={() => handleFilterClick(value)}>
-            {value}
-          </li>
-        ))}
+        {filterArray.map((value: string) => {
+          const lines = value.split('\n');  
+          const firstLine = lines[0];  
+          return (
+            <li key={value} onClick={() => handleFilterClick(value)}>
+              <button className={filterArray.length <= 1 ? "select" : undefined}>
+                {firstLine[0].toUpperCase() + firstLine.slice(1)}
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </StyledFilterComponent>
   );
+
 };
