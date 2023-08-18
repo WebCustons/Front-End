@@ -5,7 +5,7 @@ import { TAdverData } from "../../interfaces/advert.interface";
 import { InputValidator, SelectValidator } from "../inputs";
 import { useProduct } from "../../hooks/useProduct";
 import { ReactNode, useEffect } from "react";
-import { Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 import { StyledInputsContainer } from "./style";
 
 interface IFormCreateAdvertProps {
