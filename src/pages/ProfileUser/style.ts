@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const StyledPageProfile = styled.div`
   @media (min-width: 600px) {
@@ -16,4 +16,4 @@ export const StyledPageProfile = styled.div`
       justify-content: center;
     }
   }
-`
+`;

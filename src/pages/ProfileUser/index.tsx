@@ -67,7 +67,8 @@ const ProfileUser = () => {
             top={"30%"}
             left={"4%"}
             right={"4%"}
-            padding={"40px 20px"}
+            padding={"30px 20px"}
+            justifyContent={"space-between"}
           >
             <Box
               className="userCard"
@@ -101,10 +102,19 @@ const ProfileUser = () => {
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser" marginTop={"15px"}>
-              {announceList?.description}
-            </Text>
+            <Text className="descriptionUser">{announceList?.description}</Text>
             <Button
+              width={"fit-content"}
+              backgroundColor={"transparent"}
+              border={"1px solid var(--brand1)"}
+              color={"var(--brand1)"}
+              transition={"0.5s"}
+              _hover={{
+                bg: "var(--brand1)",
+                color: "var(--grey8)",
+                transition: "0.5s",
+              }}
+              borderRadius={"10px"}
               onClick={() =>
                 toggleModal(createAdvertModal, setCreatAdvertModal)
               }
@@ -135,24 +145,25 @@ const ProfileUser = () => {
           onClose={() => toggleModal(createAdvertModal, setCreatAdvertModal)}
         >
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent maxW={"520px"}>
             <ModalHeader>Criar Anuncio</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormCreateAdvert />
+              <FormCreateAdvert>
+                <Button
+                  width={"40%"}
+                  mr={3}
+                  onClick={() =>
+                    toggleModal(createAdvertModal, setCreatAdvertModal)
+                  }
+                  borderRadius={"10px"}
+                >
+                  Cancelar
+                </Button>
+              </FormCreateAdvert>
             </ModalBody>
 
-            <ModalFooter>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                onClick={() =>
-                  toggleModal(createAdvertModal, setCreatAdvertModal)
-                }
-              >
-                Close
-              </Button>
-            </ModalFooter>
+            <ModalFooter></ModalFooter>
           </ModalContent>
         </Modal>
       ) : null}

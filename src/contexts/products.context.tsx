@@ -1,8 +1,10 @@
 import { ReactNode, createContext, useState } from "react";
-import { TAdverData, TPagination } from "../interfaces/advert.interface";
+import { TCreateAdvertData, TPagination } from "../interfaces/advert.interface";
 import { api, apiKenzie } from "../services/api";
 import { TKenzieKars } from "../interfaces/kenzieKars.interface";
 import { useToast } from "@chakra-ui/react";
+import { useUser } from "../hooks/useUser";
+import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema";
 
 interface iProductContextProps {
   children: ReactNode;
@@ -37,7 +39,7 @@ interface IProductProvider {
   kenzieKarsBrands: string[];
   kenzieKarModel: TKenzieKars | undefined;
   getKenzieKar: (model: string) => Promise<void>;
-  createAdvert: (data: TAdverData) => Promise<void>;
+  createAdvert: (data: TCreateAdvertData) => Promise<void>;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
@@ -50,6 +52,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const [kenzieKarModel, setKenzieKarModel] = useState<
     TKenzieKars | undefined
   >();
+
+  const { setAnnounceList, announceList } = useUser();
 
   const getProducts = async () => {
     const [products, filters] = await Promise.all([
@@ -126,30 +130,31 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       kar.fuel = "flex";
     } else if (kar?.fuel == 2) {
       kar.fuel = "hibrido";
-    } else {
-      kar!.fuel = "eletrico";
+    } else if (kar?.fuel == 3) {
+      kar.fuel = "eletrico";
     }
 
     setKenzieKarModel(kar);
   };
-  const createAdvert = async (data: TAdverData) => {
+  const createAdvert = async (data: TCreateAdvertData) => {
     try {
-      data.price = Number(data.price);
-      data.mileage = Number(data.mileage);
-      data.year = Number(data.year);
       data.published = true;
       const response = await api.post("/adverts/", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
         },
       });
+      const obj: IAdvertsByUserId = {
+        ...announceList,
+        adverts: [...announceList!.adverts, response.data],
+      };
+      setAnnounceList(obj);
       toast({
         title: `Sucesso  😁`,
         status: "success",
         position: "top-right",
         isClosable: true,
       });
-      console.log(response.data);
     } catch (error) {
       toast({
         title: `Algo deu errado aqui estamos arrumando 😁`,

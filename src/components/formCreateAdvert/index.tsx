@@ -2,12 +2,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { advertSchemaValidator } from "../../schemas/advert.schema";
 import { TAdverData } from "../../interfaces/advert.interface";
-import { InputValidator } from "../inputs";
+import { InputValidator, SelectValidator } from "../inputs";
 import { useProduct } from "../../hooks/useProduct";
-import { useEffect } from "react";
-import { Button } from "@chakra-ui/react";
+import { ReactNode, useEffect } from "react";
+import { Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { StyledInputsContainer } from "./style";
 
-export const FormCreateAdvert = () => {
+interface IFormCreateAdvertProps {
+  children: ReactNode;
+}
+
+export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
   const {
     getKenzieKarsByBrand,
     getKenzieKarsInformation,
@@ -27,94 +32,85 @@ export const FormCreateAdvert = () => {
   });
 
   const submit: SubmitHandler<TAdverData> = (data) => {
-    console.log(data);
-    if (data.table_fipe > data.price) {
-      data.table_fipe = true;
-    } else {
-      data.table_fipe = false;
-    }
-    createAdvert(data);
+    const fullData = {
+      ...data,
+      table_fipe: kenzieKarModel!.value > data.price ? true : false,
+      year: Number(kenzieKarModel!.year),
+      fuel: String(kenzieKarModel!.fuel),
+      mileage: Number(data.mileage),
+      price: Number(data.price),
+    };
+    createAdvert(fullData);
   };
 
   useEffect(() => {
     getKenzieKarsInformation();
   }, []);
-  console.log(errors);
+
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <select
+      <SelectValidator
+        id="brandSelect"
         placeholder="Selecione Marca"
+        label="Marca"
+        options={["Selecionar", ...kenzieKarsBrands, "outro"]}
         {...register("brand", { required: "Informe a marca" })}
-        onChange={(e) => getKenzieKarsByBrand(e.target.value)}
-      >
-        {kenzieKarsBrands.map((brand) => (
-          <option key={brand} id={brand} value={brand}>
-            {brand}
-          </option>
-        ))}
-        <option key="other" id="other" value="other">
-          Outro
-        </option>
-      </select>
-      <select
+        onChange={(e) => {
+          getKenzieKarsByBrand(e.target.value);
+        }}
+      />
+      <SelectValidator
+        id="modelSelect"
+        label="Modelo"
+        options={["Selecionar", ...kenzieKars.map((kar) => kar.name), "outro"]}
         placeholder="Selecione o Modelo"
         {...register("model", { required: "Informe o modelo" })}
         onChange={(e) => getKenzieKar(e.target.value)}
-      >
-        <option key="defaunt" id="default" value="default"></option>
-        {kenzieKars.map((kar) => (
-          <option key={kar.id} id={kar.name} value={kar.name}>
-            {kar.name}
-          </option>
-        ))}
-        <option key="other" id="other" value="other">
-          Outro
-        </option>
-      </select>
-      <InputValidator
-        id="year"
-        label="Ano"
-        placeholder="Ano"
-        error={errors.year?.message}
-        {...register("year", { required: "Informe o ano" })}
-        value={kenzieKarModel?.year || ""}
-      />
-      <InputValidator
-        id="fuel"
-        label="Combustível"
-        placeholder="Combustível"
-        error={errors.fuel?.message}
-        {...register("fuel", { required: "Informe o combustível" })}
-        value={kenzieKarModel?.fuel || ""}
-      />
-      <InputValidator
-        id="mileage"
-        label="Quilometragem"
-        placeholder="Quilometragem"
-        error={errors.mileage?.message}
-        {...register("mileage", { required: "Informe a quilometragem" })}
-      />
-      <InputValidator
-        id="color"
-        label="Cor"
-        placeholder="Cor"
-        error={errors.color?.message}
-        {...register("color", { required: "Informe a cor" })}
-      />
-      <InputValidator
-        id="tablePrice"
-        label="Preço tabela FIPE"
-        placeholder="R$ 0.00"
-        value={kenzieKarModel?.value || ""}
-        {...register("table_fipe", { required: "Informe o preço" })}
-      />
-      <InputValidator
-        id="price"
-        label="Preço"
-        placeholder="Insira o Preço"
-        error={errors.price?.message}
-        {...register("price", { required: "Informe o preço" })}
-      />
+      ></SelectValidator>
+      <StyledInputsContainer>
+        <InputValidator
+          id="year"
+          label="Ano"
+          placeholder="Ano"
+          value={kenzieKarModel?.year || ""}
+          readOnly
+        />
+        <InputValidator
+          id="fuel"
+          label="Combustível"
+          placeholder="Combustível"
+          value={kenzieKarModel?.fuel || ""}
+          readOnly
+        />
+        <InputValidator
+          id="mileage"
+          label="Quilometragem"
+          placeholder="Quilometragem"
+          error={errors.mileage?.message}
+          {...register("mileage", { required: "Informe a quilometragem" })}
+        />
+        <InputValidator
+          id="color"
+          label="Cor"
+          placeholder="Cor"
+          error={errors.color?.message}
+          {...register("color", { required: "Informe a cor" })}
+        />
+        <InputValidator
+          id="tablePrice"
+          label="Preço tabela FIPE"
+          placeholder="R$ 0.00"
+          value={kenzieKarModel?.value || ""}
+          readOnly
+        />
+        <InputValidator
+          id="price"
+          label="Preço"
+          placeholder="Insira o Preço"
+          error={errors.price?.message}
+          {...register("price", { required: "Informe o preço" })}
+        />
+      </StyledInputsContainer>
       <InputValidator
         type="text"
         id="description"
@@ -144,7 +140,25 @@ export const FormCreateAdvert = () => {
         error={errors.image_gallery?.message}
         {...register("image_gallery.1", { required: "Informe a imagem" })}
       />
-      <Button type="submit">Enviar</Button>
+      <ButtonGroup width={"100%"} justifyContent={"space-between"}>
+        {children}
+        <Button
+          backgroundColor={"var(--brand1)"}
+          color={"var(--grey8)"}
+          width={"40%"}
+          border={"1px solid var(--brand1)"}
+          transition={"0.5s"}
+          _hover={{
+            bg: "transparent",
+            color: "var(--brand1)",
+            transition: "0.5s",
+          }}
+          borderRadius={"10px"}
+          type="submit"
+        >
+          Enviar
+        </Button>
+      </ButtonGroup>
     </form>
   );
 };

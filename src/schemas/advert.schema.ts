@@ -27,11 +27,12 @@ export const advertSchemaValidator = advertSchema
   .omit({
     id: true,
     user: true,
+    table_fipe: true,
+    fuel: true,
+    year: true,
   })
   .extend({
     image_gallery: z.array(z.string()).optional(),
-
-    table_fipe: z.number().or(z.string()).or(z.boolean()),
   });
 
 export const createAdvertSchemaValidator = advertSchema
