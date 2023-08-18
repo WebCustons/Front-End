@@ -9,12 +9,12 @@ import {
   Heading,
   Text,
   Container,
-} from "@chakra-ui/react"
-import { TAdvert } from "../../schemas/advert.schema"
+} from "@chakra-ui/react";
+import { TAdvert } from "../../schemas/advert.schema";
 interface ICardProps {
-  advert: TAdvert
+  advert: TAdvert;
 }
-import discountImage from "../../assets/$.png"
+import discountImage from "../../assets/$.png";
 
 export function CardAdvert({ advert }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
@@ -71,7 +71,7 @@ export function CardAdvert({ advert }: ICardProps) {
             alt={`${advert.model}  ${advert.brand}`}
             height={"144px"}
             width={"100%"}
-            objectFit="contain"
+            objectFit="cover"
             backgroundColor={`var(--grey7)`}
             borderRadius={" 10px 10px 0 0px"}
           />
@@ -139,7 +139,7 @@ export function CardAdvert({ advert }: ICardProps) {
             justifyContent={"space-between"}
             paddingBottom={"1rem"}
           >
-            <Box display={"flex"} gap={"1rem"} width={"70%"}>
+            <Box display={"flex"} gap={"1rem"} width={"50%"}>
               <Tag
                 color={`var(--brand1)`}
                 backgroundColor={`var(--brand4)`}
@@ -164,12 +164,17 @@ export function CardAdvert({ advert }: ICardProps) {
               </Tag>
             </Box>
 
-            <Text fontSize="md" fontWeight={"bold"} width={"30%"}>
+            <Text
+              fontSize="md"
+              fontWeight={"bold"}
+              width={"50%"}
+              textAlign={"right"}
+            >
               R$ {advert.price}
             </Text>
           </Container>
         </CardFooter>
       </Card>
     </ListItem>
-  )
+  );
 }
