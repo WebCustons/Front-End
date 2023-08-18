@@ -33,46 +33,45 @@ const Login = () => {
         <LoginRegisterButtons />
       </Header>
       <div className="login-container">
+        <div className="login-box">
+          <h1>Login</h1>
+          <form onSubmit={handleSubmit(submit)}>
+            <InputValidator
+              id="email"
+              label="E-mail:"
+              placeholder="Digite e-mail."
+              error={errors.email?.message}
+              {...register("email", { required: "Digite e-mail." })}
+            />
 
-    
-      <div className="login-box">
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit(submit)}>
-          <InputValidator
-            id="email"
-            label="E-mail:"
-            placeholder="Digite e-mail."
-            error={errors.email?.message}
-            {...register("email", { required: "Digite e-mail." })}
-          />
+            <InputValidator
+              id="password"
+              type="password"
+              label="Senha:"
+              placeholder="Digite sua senha."
+              error={errors.password?.message}
+              {...register("password", { required: "Digite sua Senha." })}
+            />
+            <div>
+              <span className="remember-password">Esqueci minha senha</span>
+            </div>
+            <div className="confirm-box">
+              <button className="btn-login" type="submit">
+                Entrar
+              </button>
+            </div>
+          </form>
 
-          <InputValidator
-            id="password"
-            label="Senha:"
-            placeholder="Digite sua senha."
-            error={errors.password?.message}
-            {...register("password", { required: "Digite sua Senha." })}
-          />
-          <div>
-            <span className="remember-password">Esqueci minha senha</span>
-          </div>
-          <div className="confirm-box">
-            <button className="btn-login" type="submit">
-              Entrar
+          <div className="register-box">
+            <p className="not-acount">Ainda não possui uma conta?</p>
+            <button
+              className="register-btn"
+              onClick={() => navigate("/register")}
+            >
+              Cadastrar
             </button>
           </div>
-        </form>
-
-        <div className="register-box">
-          <p className="not-acount">Ainda não possui uma conta?</p>
-          <button
-            className="register-btn"
-            onClick={() => navigate("/register")}
-          >
-            Cadastrar
-          </button>
         </div>
-      </div>
       </div>
       <Footer />
     </StyledLogin>

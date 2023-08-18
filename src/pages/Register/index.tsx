@@ -21,6 +21,7 @@ const Register = () => {
   const submit = async (data: ClientData) => {
     try {
       await registerUser(data);
+  
     } catch (error) {
       console.log(error);
     }
