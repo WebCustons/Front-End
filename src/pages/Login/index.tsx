@@ -47,6 +47,7 @@ const Login = () => {
             <InputValidator
               id="password"
               label="Senha:"
+              type="password"
               placeholder="Digite sua senha."
               error={errors.password?.message}
               {...register("password", { required: "Digite sua Senha." })}
