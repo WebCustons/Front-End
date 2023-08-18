@@ -1,8 +1,9 @@
-import { forwardRef } from "react";
+import { forwardRef } from "react"
 import {
   InputValidatorProps,
   SelectValidatorProps,
   TextareaValidatorProps,
+
 } from "./validators";
 import { Container } from "./styles";
 
@@ -20,7 +21,7 @@ export const InputValidator = forwardRef<HTMLInputElement, InputValidatorProps>(
         />
         <p> {error && error}</p>
       </Container>
-    );
+    )
   }
 );
 
@@ -40,8 +41,8 @@ export const SelectValidator = forwardRef<
       </select>
       <p> {error && error}</p>
     </Container>
-  );
-});
+  )
+})
 
 export const TextareaValidator = forwardRef<
   HTMLTextAreaElement,
