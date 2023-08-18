@@ -20,6 +20,7 @@ import { StyledContainer } from "../../styles/Container";
 import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { ListCards } from "../../components/listCards";
+import { FormCreateAdvert } from "../../components/formCreateAdvert";
 
 const ProfileUser = () => {
   const { announceList, getAnnounce } = useUser();
@@ -135,23 +136,23 @@ const ProfileUser = () => {
         >
           <ModalOverlay />
           <ModalContent>
-            <>
-              <ModalHeader>Criar Anuncio</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody></ModalBody>
+            <ModalHeader>Criar Anuncio</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormCreateAdvert />
+            </ModalBody>
 
-              <ModalFooter>
-                <Button
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={() =>
-                    toggleModal(createAdvertModal, setCreatAdvertModal)
-                  }
-                >
-                  Close
-                </Button>
-              </ModalFooter>
-            </>
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={() =>
+                  toggleModal(createAdvertModal, setCreatAdvertModal)
+                }
+              >
+                Close
+              </Button>
+            </ModalFooter>
           </ModalContent>
         </Modal>
       ) : null}

@@ -10,17 +10,37 @@ export const advertSchema = z.object({
   id: z.number(),
   brand: z.string(),
   model: z.string(),
-  year: z.number(),
+  year: z.number().or(z.string()),
   fuel: z.string(),
-  mileage: z.number(),
+  mileage: z.number().or(z.string()),
   color: z.string(),
   table_fipe: z.boolean(),
-  price: z.number(),
+  price: z.number().or(z.string()),
   description: z.string(),
   cover_image: z.string(),
   published: z.boolean().optional(),
   image_gallery: z.array(imageGallerySchema),
   user: userSchema,
 });
+
+export const advertSchemaValidator = advertSchema
+  .omit({
+    id: true,
+    user: true,
+  })
+  .extend({
+    image_gallery: z.array(z.string()).optional(),
+
+    table_fipe: z.number().or(z.string()).or(z.boolean()),
+  });
+
+export const createAdvertSchemaValidator = advertSchema
+  .omit({
+    id: true,
+    user: true,
+  })
+  .extend({
+    image_gallery: z.array(z.string()).optional(),
+  });
 
 export type TAdvert = z.infer<typeof advertSchema>;
