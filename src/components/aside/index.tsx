@@ -64,28 +64,28 @@ export const AsideFilters = () => {
         </Modal>
       </>
     ) : (
-        <StyledAside>
-          {filters?.brandAdvert && (
-            <FilterComponent title="Marca" filterKey="brandAdvert" filter={filters.brandAdvert} />
-          )}
-          {filters?.modelAdvert && (
-            <FilterComponent filterKey="modelAdvert" title="Modelo" filter={filters.modelAdvert} />
-          )}
-          {filters?.colorAdvert && (
-            <FilterComponent title="Cor" filterKey="colorAdvert" filter={filters.colorAdvert} />
-          )}
-          {filters?.fuelAdvert && (
-            <FilterComponent title="Combustivel" filterKey="fuelAdvert" filter={filters.fuelAdvert} />
-          )}
-          <div className="range_container">
-            {filters?.minMileage && filters?.maxMileage && <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} filterKey="Mileage" />}
-            {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} filterKey="Price" />}
-            {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} filterKey="Year" />}
-          </div>
-          <button onClick={() => clearnFilters()}>
-            Limpar Filtros
-          </button>
-        </StyledAside>
+      <StyledAside>
+        {filters?.brandAdvert && (
+          <FilterComponent title="Marca" filterKey="brandAdvert" filter={filters.brandAdvert} />
+        )}
+        {filters?.modelAdvert && (
+          <FilterComponent filterKey="modelAdvert" title="Modelo" filter={filters.modelAdvert} />
+        )}
+        {filters?.colorAdvert && (
+          <FilterComponent title="Cor" filterKey="colorAdvert" filter={filters.colorAdvert} />
+        )}
+        {filters?.fuelAdvert && (
+          <FilterComponent title="Combustivel" filterKey="fuelAdvert" filter={filters.fuelAdvert} />
+        )}
+        <div className="range_container">
+          {filters?.minMileage && filters?.maxMileage && <RangeFilter min={filters?.minMileage} max={filters?.maxMileage} title={"Km"} filterKey="Mileage" />}
+          {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} filterKey="Price" />}
+          {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} filterKey="Year" />}
+        </div>
+        <button onClick={() => clearnFilters()}>
+          Limpar Filtros
+        </button>
+      </StyledAside>
     );
   }
 };
