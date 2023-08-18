@@ -36,22 +36,10 @@ const ProfileUser = () => {
   ) => {
     if (modal) {
       onClose();
-      setModal(!createAdvertModal);
+      setModal(false);
       return;
     }
-    setModal(!createAdvertModal);
-    onOpen();
-  };
-  const toggleModalEdit = (
-    modal: boolean,
-    setModal: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    if (modal) {
-      onClose();
-      setModal(!editProfileModal);
-      return;
-    }
-    setModal(!editProfileModal);
+    setModal(true);
     onOpen();
   };
 
@@ -61,7 +49,7 @@ const ProfileUser = () => {
         <UserHeader
           editProfileModal={editProfileModal}
           setEditProfileModal={setEditProfileModal}
-          toggleModalEdit={toggleModalEdit}
+          toggleModal={toggleModal}
         />
       </Header>
 

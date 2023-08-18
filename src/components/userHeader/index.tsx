@@ -6,7 +6,7 @@ import React from "react";
 interface IUserHeaderProps {
   editProfileModal: boolean;
   setEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleModalEdit: (
+  toggleModal: (
     modal: boolean,
     setModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => void;
@@ -15,7 +15,7 @@ interface IUserHeaderProps {
 export const UserHeader = ({
   editProfileModal,
   setEditProfileModal,
-  toggleModalEdit,
+  toggleModal,
 }: IUserHeaderProps) => {
   const { user, getUser } = useUser();
 
@@ -31,7 +31,7 @@ export const UserHeader = ({
       paddingRight={"30px"}
       borderRadius={"0"}
       borderLeft={"solid 2px var(--grey6)"}
-      onClick={() => toggleModalEdit(editProfileModal, setEditProfileModal)}
+      onClick={() => toggleModal(editProfileModal, setEditProfileModal)}
     >
       <Box
         className="icon"
