@@ -33,7 +33,37 @@ const Login = () => {
         <LoginRegisterButtons />
       </Header>
       <div className="login-container">
+        <div className="login-box">
+          <h1>Login</h1>
+          <form onSubmit={handleSubmit(submit)}>
+            <InputValidator
+              id="email"
+              label="E-mail:"
+              placeholder="Digite e-mail."
+              error={errors.email?.message}
+              {...register("email", { required: "Digite e-mail." })}
+            />
 
+<<<<<<< HEAD
+            <InputValidator
+              id="password"
+              type="password"
+              label="Senha:"
+              placeholder="Digite sua senha."
+              error={errors.password?.message}
+              {...register("password", { required: "Digite sua Senha." })}
+            />
+            <div>
+              <span className="remember-password">Esqueci minha senha</span>
+            </div>
+            <div className="confirm-box">
+              <button className="btn-login" type="submit">
+                Entrar
+              </button>
+            </div>
+          </form>
+
+=======
 
         <div className="login-box">
           <h1>Login</h1>
@@ -62,6 +92,7 @@ const Login = () => {
               </button>
             </div>
           </form>
+>>>>>>> 96b94768b2a10d6bc0a7aa57afc1e3b61c1ef173
           <div className="register-box">
             <p className="not-acount">Ainda não possui uma conta?</p>
             <button

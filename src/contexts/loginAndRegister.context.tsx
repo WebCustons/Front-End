@@ -74,12 +74,25 @@ export const AuthProvider = ({ children }: AuthorizationProviderProps) => {
     try {
       const response = await api.post("/users", formData)
 
+      toast({
+        title: `Sucesso  😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      })
+      
       setTimeout(() => {
         navigate("/login")
       }, 1500)
 
       setUser(response.data.user)
     } catch (error) {
+      toast({
+        title: `Verifique as informações de cadastro  😁`,
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      })
       console.log(error)
     }
   }
