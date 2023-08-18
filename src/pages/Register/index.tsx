@@ -48,7 +48,7 @@ const Register = () => {
               id="email"
               label="Email:"
               type="email"
-              placeholder="Ex: youremail@mail.com."
+              placeholder="Ex: seuEmail@mail.com."
               error={errors.email?.message}
               {...register("email", { required: "Digite seu email." })}
             />
