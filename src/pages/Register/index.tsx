@@ -21,7 +21,6 @@ const Register = () => {
   const submit = async (data: ClientData) => {
     try {
       await registerUser(data);
-  
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +48,7 @@ const Register = () => {
               id="email"
               label="Email:"
               type="email"
-              placeholder="Ex: youremail@mail.com."
+              placeholder="Ex: seuEmail@mail.com."
               error={errors.email?.message}
               {...register("email", { required: "Digite seu email." })}
             />
@@ -77,7 +76,7 @@ const Register = () => {
             <InputValidator
               id="birth_date"
               label="Data de nascimento:"
-              type="text"
+              type="date"
               placeholder="0000-00-00"
               error={errors.birth_date?.message}
               {...register("birth_date", {
