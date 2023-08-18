@@ -25,6 +25,7 @@ const ProfileUser = () => {
   const { announceList, getAnnounce } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [createAdvertModal, setCreatAdvertModal] = useState(false);
+  const [editProfileModal, setEditProfileModal] = useState(false);
   useEffect(() => {
     getAnnounce();
   }, []);
@@ -41,11 +42,27 @@ const ProfileUser = () => {
     setModal(!createAdvertModal);
     onOpen();
   };
+  const toggleModalEdit = (
+    modal: boolean,
+    setModal: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    if (modal) {
+      onClose();
+      setModal(!editProfileModal);
+      return;
+    }
+    setModal(!editProfileModal);
+    onOpen();
+  };
 
   return (
     <StyledPageProfile>
       <Header>
-        <UserHeader />
+        <UserHeader
+          editProfileModal={editProfileModal}
+          setEditProfileModal={setEditProfileModal}
+          toggleModalEdit={toggleModalEdit}
+        />
       </Header>
 
       <Box as="main" background={"var(--grey8)"}>
@@ -146,6 +163,33 @@ const ProfileUser = () => {
                   mr={3}
                   onClick={() =>
                     toggleModal(createAdvertModal, setCreatAdvertModal)
+                  }
+                >
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          </ModalContent>
+        </Modal>
+      ) : null}
+      {editProfileModal ? (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => toggleModal(editProfileModal, setEditProfileModal)}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <>
+              <ModalHeader>Editar Usuário</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody></ModalBody>
+
+              <ModalFooter>
+                <Button
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={() =>
+                    toggleModal(editProfileModal, setEditProfileModal)
                   }
                 >
                   Close
