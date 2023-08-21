@@ -22,6 +22,7 @@ export const Container = styled.div`
   }
 
   p {
+    height: 1rem;
     font-size: 0.8rem;
     color: var(--random2);
     font-weight: bold;

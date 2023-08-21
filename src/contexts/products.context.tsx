@@ -1,22 +1,26 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
-import { TPagination } from "../interfaces/advert.interface";
-import { api } from "../services/api";
+import { ReactNode, createContext, useState } from "react";
+import { TCreateAdvertData, TPagination } from "../interfaces/advert.interface";
+import { api, apiKenzie } from "../services/api";
+import { TKenzieKars } from "../interfaces/kenzieKars.interface";
+import { useToast } from "@chakra-ui/react";
+import { useUser } from "../hooks/useUser";
+import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema";
 
 interface iProductContextProps {
   children: ReactNode;
 }
 
 type TFilters = {
-  brandAdvert?: string[];
-  modelAdvert?: string[];
-  colorAdvert?: string[];
-  maxYear?: number;
-  minYear?: number;
-  fuelAdvert?: string[];
-  minPrice?: number;
-  maxPrice?: number;
-  minMileage?: number;
+  brandAdvert?: string | string[];
+  modelAdvert?: string | string[];
+  colorAdvert?: string | string[];
+  fuelAdvert?: string | string[];
   maxMileage?: number;
+  minPrice?: number;
+  maxYear?: number;
+  minMileage?: number;
+  maxPrice?: number;
+  minYear?: number;
 };
 
 interface IProductProvider {
@@ -26,10 +30,16 @@ interface IProductProvider {
   setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
   previusPage: () => void;
   nextPage: () => void;
-  productsFilter: () => void;
-  getAdvertsByFilter: (value: string, title: String) => void;
+  getAdvertsByFilter: (data: TFilters) => Promise<void>;
   paginationByNumber: (page: number) => Promise<void>;
   clearnFilters: () => void;
+  getKenzieKarsInformation: () => Promise<void>;
+  getKenzieKarsByBrand: (brand: string) => Promise<void>;
+  kenzieKars: TKenzieKars[];
+  kenzieKarsBrands: string[];
+  kenzieKarModel: TKenzieKars | undefined;
+  getKenzieKar: (model: string) => Promise<void>;
+  createAdvert: (data: TCreateAdvertData) => Promise<void>;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
@@ -37,274 +47,57 @@ export const ProductContext = createContext({} as IProductProvider);
 export const ProductProvider = ({ children }: iProductContextProps) => {
   const [productsList, setProductsList] = useState<TPagination>();
   const [filters, setFilters] = useState<TFilters | null>(null);
+  const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
+  const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
+  const [kenzieKarModel, setKenzieKarModel] = useState<
+    TKenzieKars | undefined
+  >();
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  const { setAnnounceList, announceList } = useUser();
 
   const getProducts = async () => {
-    const response = await api.get("/adverts/");
+    const [products, filters] = await Promise.all([
+      api.get("/adverts/"),
+      api.get("/adverts/adverts-filters"),
 
-    setProductsList(response.data);
+    ]);
+    setProductsList(products.data);
+    setFilters(filters.data);
   };
-
-  const productsFilter = async () => {
-    const productOption = await api.get("/adverts/adverts-filters");
-    setFilters(productOption.data);
-  };
+  const toast = useToast();
 
   const clearnFilters = async () => {
     await getProducts();
   };
 
-  const getAdvertsByFilter = async (value: string, title: String) => {
+  const getAdvertsByFilter = async (data: TFilters) => {
+    const queryParams = new URLSearchParams();
 
-    
-    if (title != "Marca") {
-      const nameBrand1 = productsList?.data[0];
-      const nameBrand2 = productsList?.data[1];
+    const filterKeys = {
+      brand: data?.brandAdvert,
+      model: data?.modelAdvert,
+      color: data?.colorAdvert,
+      fuel: data?.fuelAdvert,
+      minMileage: data?.minMileage,
+      maxMileage: data?.maxMileage,
+      minPrice: data?.minPrice,
+      maxPrice: data?.maxPrice,
+    };
 
-      if (nameBrand2?.brand === nameBrand1?.brand) {
-    
-        let objectModel = {};
-        let objectColor = {};
-        let objectFuel = {};
-        let objectPrice = {};
-        let objectKm = {};
-
-        if (title === "Modelo") {
-          objectModel = {
-            
-            model: value,
-          };
-        }
-        if (title === "Cor") {
-          objectColor = {
-            
-            color: value,
-          };
-        }
-        if (title === "Combustível") {
-          objectFuel = {
-            
-            fuel: value,
-          };
-        }
-
-        if (title === "Preco") {
-          objectPrice = {
-            
-            price: value,
-          };
-        }
-
-        if (title === "Preco") {
-          objectPrice = {
-            
-            price: value,
-          };
-        }
-        if (title === "Kilometragem") {
-          objectKm = {
-            
-            mileage: value,
-          };
-        }
-
-        const objectFinale = Object.assign(
-          {},
-          objectModel,
-          objectColor,
-          objectFuel,
-          objectPrice,
-          objectKm
-        );
-
-        const advertsFilter = await api.post("/adverts/filtered", objectFinale);
-        setProductsList(advertsFilter.data);
-      } else if (nameBrand2?.brand != nameBrand1?.brand) {
-        let objectModel = {};
-        let objectColor = {};
-        let objectFuel = {};
-        let objectPrice = {};
-        let objectKm = {};
-
-        if (title === "Modelo") {
-          objectModel = {
-            model: value,
-          };
-        }
-        if (title === "Cor") {
-          objectColor = {
-            color: value,
-          };
-        }
-        if (title === "Combustível") {
-          objectFuel = {
-            fuel: value,
-          };
-        }
-
-        if (title === "Preco") {
-          objectPrice = {
-            price: value,
-          };
-        }
-        if (title === "Kilometragem") {
-          objectKm = {
-            
-            mileage: value,
-          };
-        }
-
-        const objectFinale = Object.assign(
-          {},
-          objectModel,
-          objectColor,
-          objectFuel,
-          objectPrice,
-          objectKm
-        );
-
-        const advertsFilter = await api.post("/adverts/filtered", objectFinale);
-        setProductsList(advertsFilter.data);
-        return 0;
+    for (const [key, value] of Object.entries(filterKeys)) {
+      if (!Array.isArray(value) && value !== undefined) {
+        queryParams.append(key, String(value));
+      } else if (Array.isArray(value) && value.length === 1) {
+        queryParams.append(key, String(value[0]));
       }
     }
+    const [advertsFilter, productOption] = await Promise.all([
+      api.get(`/adverts/filtered?${queryParams.toString()}`),
+      api.get(`/adverts/adverts-filters?${queryParams.toString()}`),
 
-    const arrayFilter = productsList?.data?.filter((advert) => {
-      if (advert.brand === value) {
-        return advert;
-      }
-      if (advert.color === value) {
-        return advert;
-      }
-      if (advert.fuel === value) {
-        return advert;
-      }
-      if (advert.model === value) {
-        return advert;
-      }
-      if (advert.year === Number(value)) {
-        return advert;
-      }
-      if(advert.price === Number(value)){
-        return advert
-      }
-      if (advert.mileage === Number(value)) {
-         return advert
-      }
-    });
-
-    if (arrayFilter?.length === 0) {
-      if (title === "Marca") {
-        const findProduct = await api.post("/adverts/filtered", {
-          brand: value,
-        });
-        setProductsList(findProduct.data);
-      }
-    } else if (title != "Marca") {
-      const nameBrand = productsList?.data[0].brand;
-
-      let objectModel = {};
-      let objectColor = {};
-      let objectFuel = {};
-      let objectPrice = {};
-      let objectKm = {};
-
-      if (title === "Modelo") {
-        objectModel = {
-          brand: nameBrand,
-          model: value,
-        };
-      }
-      if (title === "Cor") {
-        objectColor = {
-          brand: nameBrand,
-          color: value,
-        };
-      }
-      if (title === "Combustível") {
-        objectFuel = {
-          brand: nameBrand,
-          fuel: value,
-        };
-      }
-      if (title === "Preco") {
-        objectPrice = {
-          price: value,
-        };
-      }
-      if (title === "Kilometragem") {
-        objectKm = {
-          mileage: value,
-        };
-      }
-
-      const objectFinal = Object.assign(
-        {},
-        objectModel,
-        objectColor,
-        objectFuel,
-        objectPrice,
-        objectKm
-      );
-
-      const findProduct = await api.post("/adverts/filtered", objectFinal);
-
-      setProductsList(findProduct.data);
-    } else {
-      let objectBrand = {};
-      let objectModel = {};
-      let objectColor = {};
-      let objectFuel = {};
-      let objectPrice =  {};
-      let objectKm =  {};
-
-      if (title === "Marca") {
-        objectBrand = {
-          brand: value,
-        };
-      }
-      if (title === "Modelo") {
-        objectModel = {
-          model: value,
-        };
-      }
-      if (title === "Cor") {
-        objectColor = {
-          color: value,
-        };
-      }
-      if (title === "Combustível") {
-        objectFuel = {
-          fuel: value,
-        };
-      }
-      if (title === "Preco") {
-        objectPrice = {
-          price: value,
-        };
-      }
-      if (title === "Kilometragem") {
-        objectKm = {
-          mileage: value,
-        };
-      }
-      const objectFinal = Object.assign(
-        {},
-        objectBrand,
-        objectModel,
-        objectColor,
-        objectFuel,
-        objectPrice,
-        objectKm
-      );
-
-      const getAdvert = await api.post("/adverts/filtered", objectFinal);
-
-      setProductsList(getAdvert.data);
-    }
+    ]);
+    setProductsList(advertsFilter.data);
+    setFilters(productOption.data);
   };
 
   const previusPage = async () => {
@@ -325,6 +118,56 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     const response = await api.get(`adverts/?page=${page}&perPage=12`);
     setProductsList(response.data);
   };
+
+  const getKenzieKarsInformation = async () => {
+    const response = await apiKenzie.get("/cars");
+    setKenzieKarsBrands(Object.keys(response.data));
+  };
+  const getKenzieKarsByBrand = async (brand: string) => {
+    const response = await apiKenzie.get(`/cars?brand=${brand}`);
+    setKenzieKars(response.data);
+  };
+  const getKenzieKar = async (name: string) => {
+    const kar = kenzieKars.find((kar) => kar.name == name);
+    if (kar?.fuel == 1) {
+      kar.fuel = "flex";
+    } else if (kar?.fuel == 2) {
+      kar.fuel = "hibrido";
+    } else if (kar?.fuel == 3) {
+      kar.fuel = "eletrico";
+    }
+
+    setKenzieKarModel(kar);
+  };
+  const createAdvert = async (data: TCreateAdvertData) => {
+    try {
+      data.published = true;
+      const response = await api.post("/adverts/", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
+        },
+      });
+      const obj: IAdvertsByUserId = {
+        ...announceList,
+        adverts: [...announceList!.adverts, response.data],
+      };
+      setAnnounceList(obj);
+      toast({
+        title: `Sucesso  😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: `Algo deu errado aqui estamos arrumando 😁`,
+        status: "warning",
+        position: "top-right",
+        isClosable: true,
+      });
+      console.log(error);
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -334,10 +177,16 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         setFilters,
         previusPage,
         nextPage,
-        productsFilter,
         getAdvertsByFilter,
         paginationByNumber,
         clearnFilters,
+        getKenzieKarsByBrand,
+        kenzieKars,
+        kenzieKarsBrands,
+        getKenzieKarsInformation,
+        kenzieKarModel,
+        getKenzieKar,
+        createAdvert,
       }}
     >
       {children}

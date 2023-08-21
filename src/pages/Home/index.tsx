@@ -1,12 +1,6 @@
-import {
-  StyledHome,
-  StyledBannerPageHome,
-  ContainerList,
-  StyledSection,
-} from "./style";
+import { StyledHome, StyledBannerPageHome, StyledSection } from "./style";
 import Banner from "../../assets/banner_bmw.png";
 import {
-  List,
   Button,
   ButtonGroup,
   Box,
@@ -16,14 +10,24 @@ import {
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
 import { useProduct } from "../../hooks/useProduct";
-import { CardAdvert } from "../../components/cardAdvert";
 import { AsideFilters } from "../../components/aside";
 import { StyledContainer } from "../../styles/Container";
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister";
+import { useEffect } from "react";
+import { ListCards } from "../../components/listCards";
 
 function Home() {
-  const { productsList, previusPage, nextPage, paginationByNumber } =
-    useProduct();
+  const {
+    getProducts,
+    productsList,
+    previusPage,
+    nextPage,
+    paginationByNumber,
+  } = useProduct();
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   // const { onOpen } = useDisclosure();
 
@@ -53,13 +57,7 @@ function Home() {
         <StyledContainer>
           <AsideFilters />
           <StyledSection>
-            <ContainerList>
-              <List>
-                {productsList?.data.map((advert) => (
-                  <CardAdvert advert={advert} key={advert.id} />
-                ))}
-              </List>
-            </ContainerList>
+            <ListCards advertsList={productsList?.data} />
             <Box
               width={"100%"}
               display={"flex"}
