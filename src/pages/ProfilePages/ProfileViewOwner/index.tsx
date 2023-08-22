@@ -11,48 +11,45 @@ import {
   Tag,
   Text,
   useDisclosure,
-} from "@chakra-ui/react";
-import Header from "../../components/header";
-import { UserHeader } from "../../components/userHeader";
-import { StyledPageProfile } from "./style";
-import { Footer } from "../../components/footer";
-import { StyledContainer } from "../../styles/Container";
-import { useEffect, useState } from "react";
-import { useUser } from "../../hooks/useUser";
-import { ListCards } from "../../components/listCards";
-import { FormCreateAdvert } from "../../components/formCreateAdvert";
-import { FormEditUser } from "../../components/formEditUser";
+} from "@chakra-ui/react"
+import Header from "../../../components/header"
+import { UserHeader } from "../../../components/userHeader"
+import { StyledPageProfile } from "./style"
+import { Footer } from "../../../components/footer"
+import { StyledContainer } from "../../../styles/Container"
+import { useEffect, useState } from "react"
+import { useUser } from "../../../hooks/useUser"
+import { ListCards } from "../../../components/listCards"
+import { FormCreateAdvert } from "../../../components/formCreateAdvert"
+import { useParams } from "react-router-dom"
 
-const ProfileUser = () => {
-  const { announceList, getAnnounce } = useUser();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [createAdvertModal, setCreatAdvertModal] = useState(false);
-  const [editProfileModal, setEditProfileModal] = useState(false);
+export const ProfileViewOwner = () => {
+  const { announceList, getAnnounce } = useUser()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [createAdvertModal, setCreatAdvertModal] = useState(false)
+  const { id } = useParams()
+
   useEffect(() => {
-    getAnnounce();
-  }, []);
+    getAnnounce(id!)
+  }, [])
 
   const toggleModal = (
     modal: boolean,
     setModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     if (modal) {
-      onClose();
-      setModal(false);
-      return;
+      onClose()
+      setModal(!createAdvertModal)
+      return
     }
-    setModal(true);
-    onOpen();
-  };
+    setModal(!createAdvertModal)
+    onOpen()
+  }
 
   return (
     <StyledPageProfile>
       <Header>
-        <UserHeader
-          editProfileModal={editProfileModal}
-          setEditProfileModal={setEditProfileModal}
-          toggleModal={toggleModal}
-        />
+        <UserHeader />
       </Header>
 
       <Box as="main" background={"var(--grey8)"}>
@@ -61,7 +58,7 @@ const ProfileUser = () => {
           background={"var(--brand1)"}
           position={"relative"}
           height={"330px"}
-          marginBottom={"220px"}
+          marginBottom={"170px"}
         >
           <Box
             className="userContainer"
@@ -140,7 +137,7 @@ const ProfileUser = () => {
             >
               Anúncios
             </Text>
-            <ListCards advertsList={announceList?.adverts} />
+            <ListCards typeView={"owner"} advertsList={announceList?.adverts} />
           </Box>
         </StyledContainer>
       </Box>
@@ -173,35 +170,6 @@ const ProfileUser = () => {
           </ModalContent>
         </Modal>
       ) : null}
-      {editProfileModal ? (
-        <Modal
-          isOpen={isOpen}
-          onClose={() => toggleModal(editProfileModal, setEditProfileModal)}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <>
-              <ModalHeader>Editar Usuário</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <FormEditUser>
-                  <Button
-                    width={"40%"}
-                    mr={3}
-                    onClick={() =>
-                      toggleModal(editProfileModal, setEditProfileModal)
-                    }
-                    borderRadius={"10px"}
-                  >
-                    Cancelar
-                  </Button>
-                </FormEditUser>
-              </ModalBody>
-            </>
-          </ModalContent>
-        </Modal>
-      ) : null}
     </StyledPageProfile>
-  );
-};
-export default ProfileUser;
+  )
+}
