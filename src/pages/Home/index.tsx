@@ -1,20 +1,20 @@
-import { StyledHome, StyledBannerPageHome, StyledSection } from "./style";
-import Banner from "../../assets/banner_bmw.png";
+import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
+import Banner from "../../assets/banner_bmw.png"
 import {
   Button,
   ButtonGroup,
   Box,
   // useDisclosure,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
-import { useProduct } from "../../hooks/useProduct";
-import { AsideFilters } from "../../components/aside";
-import { StyledContainer } from "../../styles/Container";
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister";
-import { useEffect } from "react";
-import { ListCards } from "../../components/listCards";
+import { Header } from "../../components/header"
+import { Footer } from "../../components/footer"
+import { useProduct } from "../../hooks/useProduct"
+import { AsideFilters } from "../../components/aside"
+import { StyledContainer } from "../../styles/Container"
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
+import { useEffect } from "react"
+import { ListCards } from "../../components/listCards"
 
 function Home() {
   const {
@@ -23,18 +23,18 @@ function Home() {
     previusPage,
     nextPage,
     paginationByNumber,
-  } = useProduct();
+  } = useProduct()
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    getProducts()
+  }, [])
 
   // const { onOpen } = useDisclosure();
 
-  const pages: number[] = [];
+  const pages: number[] = []
   if (productsList) {
     for (let i = 0; i < productsList?.totalPages; i++) {
-      pages.push(i + 1);
+      pages.push(i + 1)
     }
   }
 
@@ -57,7 +57,7 @@ function Home() {
         <StyledContainer>
           <AsideFilters />
           <StyledSection>
-            <ListCards advertsList={productsList?.data} />
+            <ListCards typeView={"visitor"} advertsList={productsList?.data} />
             <Box
               width={"100%"}
               display={"flex"}
@@ -132,7 +132,7 @@ function Home() {
       </StyledHome>
       <Footer />
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home
