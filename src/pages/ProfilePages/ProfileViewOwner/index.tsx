@@ -11,37 +11,40 @@ import {
   Tag,
   Text,
   useDisclosure,
-} from "@chakra-ui/react";
-import Header from "../../components/header";
-import { UserHeader } from "../../components/userHeader";
-import { StyledPageProfile } from "./style";
-import { Footer } from "../../components/footer";
-import { StyledContainer } from "../../styles/Container";
-import { useEffect, useState } from "react";
-import { useUser } from "../../hooks/useUser";
-import { ListCards } from "../../components/listCards";
-import { FormCreateAdvert } from "../../components/formCreateAdvert";
+} from "@chakra-ui/react"
+import Header from "../../../components/header"
+import { UserHeader } from "../../../components/userHeader"
+import { StyledPageProfile } from "./style"
+import { Footer } from "../../../components/footer"
+import { StyledContainer } from "../../../styles/Container"
+import { useEffect, useState } from "react"
+import { useUser } from "../../../hooks/useUser"
+import { ListCards } from "../../../components/listCards"
+import { FormCreateAdvert } from "../../../components/formCreateAdvert"
+import { useParams } from "react-router-dom"
 
-const ProfileUser = () => {
-  const { announceList, getAnnounce } = useUser();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [createAdvertModal, setCreatAdvertModal] = useState(false);
+export const ProfileViewOwner = () => {
+  const { announceList, getAnnounce } = useUser()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [createAdvertModal, setCreatAdvertModal] = useState(false)
+  const { id } = useParams()
+
   useEffect(() => {
-    getAnnounce();
-  }, []);
+    getAnnounce(id!)
+  }, [])
 
   const toggleModal = (
     modal: boolean,
     setModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     if (modal) {
-      onClose();
-      setModal(!createAdvertModal);
-      return;
+      onClose()
+      setModal(!createAdvertModal)
+      return
     }
-    setModal(!createAdvertModal);
-    onOpen();
-  };
+    setModal(!createAdvertModal)
+    onOpen()
+  }
 
   return (
     <StyledPageProfile>
@@ -55,7 +58,7 @@ const ProfileUser = () => {
           background={"var(--brand1)"}
           position={"relative"}
           height={"330px"}
-          marginBottom={"220px"}
+          marginBottom={"170px"}
         >
           <Box
             className="userContainer"
@@ -134,7 +137,7 @@ const ProfileUser = () => {
             >
               Anúncios
             </Text>
-            <ListCards advertsList={announceList?.adverts} />
+            <ListCards typeView={"owner"} advertsList={announceList?.adverts} />
           </Box>
         </StyledContainer>
       </Box>
@@ -168,6 +171,5 @@ const ProfileUser = () => {
         </Modal>
       ) : null}
     </StyledPageProfile>
-  );
-};
-export default ProfileUser;
+  )
+}
