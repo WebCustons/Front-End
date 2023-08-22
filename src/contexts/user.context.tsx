@@ -11,9 +11,9 @@ interface IUserProviderProps {
 interface IUserContext {
   user: IUser | null;
   getUser: () => Promise<void>;
-  announceList: IAdvertsByUserId | undefined;
-  getAnnounce: () => Promise<void>;
-  setAnnounceList: React.Dispatch<
+  announceListUser: IAdvertsByUserId | undefined;
+  getAnnounceUser: () => Promise<void>;
+  setAnnounceListUser: React.Dispatch<
     React.SetStateAction<IAdvertsByUserId | undefined>
   >;
   updateUser: (data: TUpdateUser) => Promise<void>;
@@ -23,7 +23,7 @@ export const UserContext = createContext({} as IUserContext);
 
 export const UserProvider = ({ children }: IUserProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [announceList, setAnnounceList] = useState<IAdvertsByUserId>();
+  const [announceListUser, setAnnounceListUser] = useState<IAdvertsByUserId>();
   const toast = useToast();
 
   const getUser = async () => {
@@ -39,13 +39,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const getAnnounce = async () => {
-    const id = localStorage.getItem("@ID");
-    const response = await api.get(`/users/${id}/adverts/`);
-    console.log(response.data);
-    setAnnounceList(response.data);
   };
 
   const updateUser = async (data: TUpdateUser) => {
@@ -75,14 +68,22 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     }
   };
 
+  const getAnnounceUser = async () => {
+    const id = localStorage.getItem("@ID");
+    const response = await api.get(`/users/${id}/adverts/`);
+    setAnnounceListUser(response.data);
+  };
+
+
+
   return (
     <UserContext.Provider
       value={{
         user,
         getUser,
-        announceList,
-        getAnnounce,
-        setAnnounceList,
+        announceListUser,
+        getAnnounceUser,
+        setAnnounceListUser,
         updateUser,
       }}
     >

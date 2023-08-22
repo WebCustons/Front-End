@@ -45,6 +45,7 @@ interface IProductProvider {
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
+
   const [productsList, setProductsList] = useState<TPagination>();
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
@@ -53,7 +54,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     TKenzieKars | undefined
   >();
 
-  const { setAnnounceList, announceList } = useUser();
+  const { setAnnounceListUser, announceListUser, getAnnounceUser } = useUser();
 
   const getProducts = async () => {
     const [products, filters] = await Promise.all([
@@ -142,16 +143,12 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const createAdvert = async (data: TCreateAdvertData) => {
     try {
       data.published = true;
-      const response = await api.post("/adverts/", data, {
+      await api.post("/adverts/", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
         },
       });
-      const obj: IAdvertsByUserId = {
-        ...announceList,
-        adverts: [...announceList!.adverts, response.data],
-      };
-      setAnnounceList(obj);
+      getAnnounceUser()
       toast({
         title: `Sucesso  😁`,
         status: "success",
