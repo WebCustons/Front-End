@@ -44,6 +44,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const getAnnounce = async () => {
     const id = localStorage.getItem("@ID");
     const response = await api.get(`/users/${id}/adverts/`);
+    console.log(response.data);
     setAnnounceList(response.data);
   };
 
