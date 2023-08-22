@@ -48,11 +48,14 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   };
 
   const updateUser = async (data: TUpdateUser) => {
-    const token = localStorage.getItem("@TOKEN");
-    api.defaults.headers.common.Authorization = `Bearer ${token}`;
     console.log(data);
     try {
-      const response = await api.patch(`/users`, data);
+      const token = localStorage.getItem("@TOKEN");
+      const response = await api.patch(`/users`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUser(response.data);
       toast({
         title: `Sucesso  😁`,
