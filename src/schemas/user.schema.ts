@@ -4,8 +4,8 @@ export const userSchema = z.object({
   id: z.number(),
   name: z.string(),
   email: z.string().email(),
-  cpf: z.string().length(11, { message: "An CPF must be exactly 11 numbers" }),
-  phone: z.number(),
+  cpf: z.string(),
+  phone: z.string(),
   birth_date: z.date(),
   description: z.string(),
   password: z.string(),
@@ -18,7 +18,7 @@ export const addressSchema = z.object({
   state: z.string(),
   city: z.string(),
   road: z.string(),
-  number: z.number(),
+  number: z.string(),
   complement: z.string(),
 });
 
