@@ -1,13 +1,27 @@
-import { Box, Button, Text } from "@chakra-ui/react"
-import { useUser } from "../../hooks/useUser"
-import { useEffect } from "react"
+import { Box, Button, Text } from "@chakra-ui/react";
+import { useUser } from "../../hooks/useUser";
+import { useEffect } from "react";
+import React from "react";
 
-export const UserHeader = () => {
-  const { user, getUser } = useUser()
+interface IUserHeaderProps {
+  editProfileModal: boolean;
+  setEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleModal: (
+    modal: boolean,
+    setModal: React.Dispatch<React.SetStateAction<boolean>>
+  ) => void;
+}
+
+export const UserHeader = ({
+  editProfileModal,
+  setEditProfileModal,
+  toggleModal,
+}: IUserHeaderProps) => {
+  const { user, getUser } = useUser();
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
   return (
     <Button
@@ -17,6 +31,7 @@ export const UserHeader = () => {
       paddingRight={"30px"}
       borderRadius={"0"}
       borderLeft={"solid 2px var(--grey6)"}
+      onClick={() => toggleModal(editProfileModal, setEditProfileModal)}
     >
       <Box
         className="icon"
@@ -38,5 +53,5 @@ export const UserHeader = () => {
         {user?.name}
       </Text>
     </Button>
-  )
-}
+  );
+};

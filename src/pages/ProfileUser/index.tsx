@@ -21,11 +21,13 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { ListCards } from "../../components/listCards";
 import { FormCreateAdvert } from "../../components/formCreateAdvert";
+import { FormEditUser } from "../../components/formEditUser";
 
 const ProfileUser = () => {
   const { announceList, getAnnounce } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [createAdvertModal, setCreatAdvertModal] = useState(false);
+  const [editProfileModal, setEditProfileModal] = useState(false);
   useEffect(() => {
     getAnnounce();
   }, []);
@@ -36,17 +38,21 @@ const ProfileUser = () => {
   ) => {
     if (modal) {
       onClose();
-      setModal(!createAdvertModal);
+      setModal(false);
       return;
     }
-    setModal(!createAdvertModal);
+    setModal(true);
     onOpen();
   };
 
   return (
     <StyledPageProfile>
       <Header>
-        <UserHeader />
+        <UserHeader
+          editProfileModal={editProfileModal}
+          setEditProfileModal={setEditProfileModal}
+          toggleModal={toggleModal}
+        />
       </Header>
 
       <Box as="main" background={"var(--grey8)"}>
@@ -164,6 +170,34 @@ const ProfileUser = () => {
             </ModalBody>
 
             <ModalFooter></ModalFooter>
+          </ModalContent>
+        </Modal>
+      ) : null}
+      {editProfileModal ? (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => toggleModal(editProfileModal, setEditProfileModal)}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <>
+              <ModalHeader>Editar Usuário</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <FormEditUser>
+                  <Button
+                    width={"40%"}
+                    mr={3}
+                    onClick={() =>
+                      toggleModal(editProfileModal, setEditProfileModal)
+                    }
+                    borderRadius={"10px"}
+                  >
+                    Cancelar
+                  </Button>
+                </FormEditUser>
+              </ModalBody>
+            </>
           </ModalContent>
         </Modal>
       ) : null}
