@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { ListCards } from "../../components/listCards";
 import { FormCreateAdvert } from "../../components/formCreateAdvert";
+import { FormEditUser } from "../../components/formEditUser";
 
 const ProfileUser = () => {
   const { announceList, getAnnounce } = useUser();
@@ -182,19 +183,20 @@ const ProfileUser = () => {
             <>
               <ModalHeader>Editar Usuário</ModalHeader>
               <ModalCloseButton />
-              <ModalBody></ModalBody>
-
-              <ModalFooter>
-                <Button
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={() =>
-                    toggleModal(editProfileModal, setEditProfileModal)
-                  }
-                >
-                  Close
-                </Button>
-              </ModalFooter>
+              <ModalBody>
+                <FormEditUser>
+                  <Button
+                    width={"40%"}
+                    mr={3}
+                    onClick={() =>
+                      toggleModal(editProfileModal, setEditProfileModal)
+                    }
+                    borderRadius={"10px"}
+                  >
+                    Cancelar
+                  </Button>
+                </FormEditUser>
+              </ModalBody>
             </>
           </ModalContent>
         </Modal>

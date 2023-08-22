@@ -11,3 +11,27 @@ export const userSchema = z.object({
   password: z.string(),
   type_user: z.enum(["seller", "admin", "client"]),
 });
+
+export const addressSchema = z.object({
+  id: z.number(),
+  cep: z.string(),
+  state: z.string(),
+  city: z.string(),
+  road: z.string(),
+  number: z.number(),
+  complement: z.string(),
+});
+
+export const addressUpdateSchema = addressSchema.omit({
+  id: true,
+});
+
+export const userUpdateSchema = userSchema
+  .omit({
+    password: true,
+    id: true,
+  })
+  .extend({
+    address: addressUpdateSchema,
+  })
+  .partial();
