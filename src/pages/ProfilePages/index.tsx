@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom"
 import { ProfileViewOwner } from "./ProfileViewOwner"
 import { ProfileViewVisitor } from "./ProfileViewVisitor"
-import { useUser } from "../../hooks/useUser"
 import { useEffect } from "react"
 import { ProfileViewAdmin } from "./ProfileViewAdmin"
+import { useUser } from './../../hooks/useProduct';
 
 export const ProfilePages = () => {
   const { id } = useParams()
-  const { getAnnounce, getUser, user } = useUser()
+  const { getAnnounceUser, getUser, user } = useUser()
 
   useEffect(() => {
-    getAnnounce(id!)
+    getAnnounceUser(id!)
     getUser()
   }, [])
 

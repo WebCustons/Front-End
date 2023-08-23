@@ -3,8 +3,9 @@ import { TCreateAdvertData, TPagination } from "../interfaces/advert.interface";
 import { api, apiKenzie } from "../services/api";
 import { TKenzieKars } from "../interfaces/kenzieKars.interface";
 import { useToast } from "@chakra-ui/react";
-import { useUser } from "../hooks/useUser";
-import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema";
+import { useUser } from './../hooks/useProduct';
+import { AxiosError } from 'axios';
+import { TAdvert } from "../schemas/advert.schema";
 
 interface iProductContextProps {
   children: ReactNode;
@@ -22,53 +23,110 @@ type TFilters = {
   maxPrice?: number;
   minYear?: number;
 };
-
+type TErrorResponse = {
+  message: {
+    [key: string]: unknown;
+  }
+}
 interface IProductProvider {
-  getProducts: () => void;
-  productsList: TPagination | undefined;
-  filters: TFilters | null;
-  setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
+  // Adverts
+  getAdverts: () => void;
+  getAdvertsByFilter: (data: TFilters) => Promise<void>;
+
+  // Pagination
+  page: TPagination | undefined;
   previusPage: () => void;
   nextPage: () => void;
-  getAdvertsByFilter: (data: TFilters) => Promise<void>;
   paginationByNumber: (page: number) => Promise<void>;
-  clearnFilters: () => void;
+
+  // Filters
+  filters: TFilters | null;
+  setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
+
+  // Kenzie Kars
   getKenzieKarsInformation: () => Promise<void>;
   getKenzieKarsByBrand: (brand: string) => Promise<void>;
   kenzieKars: TKenzieKars[];
   kenzieKarsBrands: string[];
   kenzieKarModel: TKenzieKars | undefined;
   getKenzieKar: (model: string) => Promise<void>;
-  createAdvert: (data: TCreateAdvertData) => Promise<void>;
+
+  // Advert 
+  createAdvert: (data: TCreateAdvertData) => Promise<string>;
+  advert: TAdvert | undefined,
+  setAdvert: React.Dispatch<React.SetStateAction<TAdvert | undefined>>
+  getAdvert: (idAdvert: number) => Promise<void>;
 }
+
 
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
-  const [productsList, setProductsList] = useState<TPagination>();
+
+  const [page, setPage] = useState<TPagination>();
+  const [advert, setAdvert] = useState<TAdvert>();
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
-  const [kenzieKarModel, setKenzieKarModel] = useState<
-    TKenzieKars | undefined
-  >();
+  const [kenzieKarModel, setKenzieKarModel] = useState<TKenzieKars | undefined>();
 
-  const { setAnnounceList, announceList } = useUser();
+  const toast = useToast();
+  const { getAnnounceUser } = useUser();
 
-  const getProducts = async () => {
+  const getAdverts = async () => {
     const [products, filters] = await Promise.all([
       api.get("/adverts/"),
       api.get("/adverts/adverts-filters"),
 
     ]);
-    setProductsList(products.data);
+    setPage(products.data);
     setFilters(filters.data);
   };
-  const toast = useToast();
 
-  const clearnFilters = async () => {
-    await getProducts();
+  const getAdvert = async (idAdvert: number) => {
+    const product = await api.get(`/adverts/${idAdvert}`);
+    setAdvert(product.data)
   };
+  const createAdvert = async (data: TCreateAdvertData) => {
+    try {
+      data.published = true;
+      await api.post("/adverts/", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
+        },
+      });
+      const id = localStorage.getItem("@ID")
+      getAnnounceUser(id!)
+      toast({
+        title: `Sucesso  😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      })
+    } catch (error) {
+      if ((error as AxiosError).response?.status != 500) {
+        const err = (error as AxiosError<TErrorResponse>);
+        for (const key in err.response?.data.message) {
+          toast({
+            title: `${key} : ${err.response?.data.message[key]}`,
+            status: "error",
+            position: "top-right",
+            isClosable: true,
+          })
+        }
+      } else {
+        toast({
+          title: `Algo deu errado aqui estamos arrumando 😁`,
+          status: "warning",
+          position: "top-right",
+          isClosable: true,
+        })
+        console.log(error);
+      }
+    }
+    return ""
+  };
+
 
   const getAdvertsByFilter = async (data: TFilters) => {
     const queryParams = new URLSearchParams();
@@ -96,27 +154,29 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       api.get(`/adverts/adverts-filters?${queryParams.toString()}`),
 
     ]);
-    setProductsList(advertsFilter.data);
+    setPage(advertsFilter.data);
     setFilters(productOption.data);
   };
 
   const previusPage = async () => {
-    if (productsList?.prevPage) {
-      const url: string[] = productsList.prevPage.split("/");
+    if (page?.prevPage) {
+      const url: string[] = page.prevPage.split("/");
       const response = await api.get(`${url[3]}/${url[4]}`);
-      setProductsList(response.data);
+      setPage(response.data);
     }
   };
+
   const nextPage = async () => {
-    if (productsList?.nextPage) {
-      const url: string[] = productsList.nextPage.split("/");
+    if (page?.nextPage) {
+      const url: string[] = page.nextPage.split("/");
       const response = await api.get(`${url[3]}/${url[4]}`);
-      setProductsList(response.data);
+      setPage(response.data);
     }
   };
+
   const paginationByNumber = async (page: number) => {
     const response = await api.get(`adverts/?page=${page}&perPage=12`);
-    setProductsList(response.data);
+    setPage(response.data);
   };
 
   const getKenzieKarsInformation = async () => {
@@ -139,57 +199,40 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     setKenzieKarModel(kar);
   };
-  const createAdvert = async (data: TCreateAdvertData) => {
-    try {
-      data.published = true;
-      const response = await api.post("/adverts/", data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
-        },
-      });
-      const obj: IAdvertsByUserId = {
-        ...announceList,
-        adverts: [...announceList!.adverts, response.data],
-      };
-      setAnnounceList(obj);
-      toast({
-        title: `Sucesso  😁`,
-        status: "success",
-        position: "top-right",
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        title: `Algo deu errado aqui estamos arrumando 😁`,
-        status: "warning",
-        position: "top-right",
-        isClosable: true,
-      });
-      console.log(error);
-    }
-  };
+
+
   return (
     <ProductContext.Provider
       value={{
-        productsList,
-        getProducts,
+        // Adverts
+        page,
+        getAdverts,
         filters,
         setFilters,
+        getAdvertsByFilter,
+
+        // Pagination
         previusPage,
         nextPage,
-        getAdvertsByFilter,
         paginationByNumber,
-        clearnFilters,
+
+        // Kenzie Kars
         getKenzieKarsByBrand,
         kenzieKars,
         kenzieKarsBrands,
         getKenzieKarsInformation,
         kenzieKarModel,
         getKenzieKar,
+
+        // Advert
         createAdvert,
+        advert,
+        setAdvert,
+        getAdvert,
       }}
     >
       {children}
     </ProductContext.Provider>
   );
+
 };

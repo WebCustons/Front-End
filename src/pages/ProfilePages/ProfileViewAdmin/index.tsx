@@ -4,12 +4,12 @@ import { UserHeader } from "../../../components/userHeader"
 import { StyledPageProfile } from "./style"
 import { StyledContainer } from "../../../styles/Container"
 import { ListCards } from "../../../components/listCards"
-import { useUser } from "../../../hooks/useUser"
 import { Footer } from "../../../components/footer"
+import { useUser } from './../../../hooks/useProduct';
 
 export const ProfileViewAdmin = () => {
-  const { announceList } = useUser()
-
+  const { announceListUser } = useUser()
+  
   return (
     <StyledPageProfile>
       <Header>
@@ -57,19 +57,19 @@ export const ProfileViewAdmin = () => {
                 fontWeight={"bold"}
               >
                 <Text fontSize="3xl" color={`var(--grey10)`}>
-                  {announceList?.name[0].toUpperCase()}
+                  {announceListUser?.name[0].toUpperCase()}
                 </Text>
               </Box>
               <Box className="nameTag" display={"flex"} gap={"15px"}>
                 <Text as="b" fontSize="xl" color={`var(--grey2)`}>
-                  {announceList?.name}
+                  {announceListUser?.name}
                 </Text>
                 <Tag variant="solid" colorScheme="blue">
                   Anunciante
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser">{announceList?.description}</Text>
+            <Text className="descriptionUser">{announceListUser?.description}</Text>
           </Box>
         </Box>
 
@@ -83,7 +83,7 @@ export const ProfileViewAdmin = () => {
             >
               Anúncios
             </Text>
-            <ListCards typeView={"admin"} advertsList={announceList?.adverts} />
+            <ListCards typeView={"admin"} advertsList={announceListUser?.adverts} />
           </Box>
         </StyledContainer>
       </Box>

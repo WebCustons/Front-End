@@ -1,39 +1,29 @@
 import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
 import Banner from "../../assets/banner_bmw.png"
-import {
-  Button,
-  ButtonGroup,
-  Box,
-  // useDisclosure,
-} from "@chakra-ui/react"
-
+import { Button, ButtonGroup, Box, } from "@chakra-ui/react"
 import { Header } from "../../components/header"
 import { Footer } from "../../components/footer"
 import { useProduct } from "../../hooks/useProduct"
 import { AsideFilters } from "../../components/aside"
 import { StyledContainer } from "../../styles/Container"
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 import { useEffect } from "react"
 import { ListCards } from "../../components/listCards"
+import { UserHeader } from './../../components/userHeader/index';
+import { useUser } from './../../hooks/useProduct';
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 
 function Home() {
-  const {
-    getProducts,
-    productsList,
-    previusPage,
-    nextPage,
-    paginationByNumber,
-  } = useProduct()
+  const { getAdverts, page, previusPage, nextPage, paginationByNumber, } = useProduct()
+  const { user, getUser } = useUser()
 
   useEffect(() => {
-    getProducts()
+    getAdverts()
+    getUser()
   }, [])
 
-  // const { onOpen } = useDisclosure();
-
   const pages: number[] = []
-  if (productsList) {
-    for (let i = 0; i < productsList?.totalPages; i++) {
+  if (page) {
+    for (let i = 0; i < page?.totalPages; i++) {
       pages.push(i + 1)
     }
   }
@@ -41,7 +31,7 @@ function Home() {
   return (
     <>
       <Header>
-        <LoginRegisterButtons />
+        {user ? <UserHeader /> : <LoginRegisterButtons />}
       </Header>
 
       <StyledHome>
@@ -57,7 +47,7 @@ function Home() {
         <StyledContainer>
           <AsideFilters />
           <StyledSection>
-            <ListCards typeView={"visitor"} advertsList={productsList?.data} />
+            <ListCards typeView={"visitor"} advertsList={page?.data} />
             <Box
               width={"100%"}
               display={"flex"}
@@ -87,7 +77,7 @@ function Home() {
                 ))}
               </ButtonGroup>
               <ButtonGroup>
-                {productsList?.prevPage && (
+                {page?.prevPage && (
                   <Button
                     fontWeight={"bold"}
                     backgroundColor={"transparent"}
@@ -106,7 +96,7 @@ function Home() {
                     Anterior
                   </Button>
                 )}
-                {productsList?.nextPage && (
+                {page?.nextPage && (
                   <Button
                     fontWeight={"bold"}
                     backgroundColor={"transparent"}
