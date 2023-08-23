@@ -9,6 +9,8 @@ import { Container } from "./styles";
 
 export const InputValidator = forwardRef<HTMLInputElement, InputValidatorProps>(
   ({ label, id, type, error, placeholder, ...rest }, ref) => {
+    console.log(error);
+    
     return (
       <Container>
         <label htmlFor={id}>{label}</label>
@@ -25,24 +27,22 @@ export const InputValidator = forwardRef<HTMLInputElement, InputValidatorProps>(
   }
 );
 
-export const SelectValidator = forwardRef<
-  HTMLSelectElement,
-  SelectValidatorProps
->(({ label, id, options, error, ...rest }, ref) => {
-  return (
-    <Container>
-      <label htmlFor={id}>{label}</label>
-      <select id={id} ref={ref} {...rest}>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      <p> {error && error}</p>
-    </Container>
-  )
-})
+export const SelectValidator = forwardRef<HTMLSelectElement, SelectValidatorProps>(
+  ({ label, id, options, error, ...rest }, ref) => {
+    return (
+      <Container>
+        <label htmlFor={id}>{label}</label>
+        <select id={id} ref={ref} {...rest}>
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <p> {error && error}</p>
+      </Container>
+    )
+  })
 
 export const TextareaValidator = forwardRef<
   HTMLTextAreaElement,

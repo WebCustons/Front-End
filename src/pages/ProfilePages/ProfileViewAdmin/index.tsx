@@ -1,32 +1,19 @@
-import { Box, Tag, Text, useDisclosure } from "@chakra-ui/react"
+import { Box, Tag, Text } from "@chakra-ui/react"
 import Header from "../../../components/header"
 import { UserHeader } from "../../../components/userHeader"
 import { StyledPageProfile } from "./style"
 import { StyledContainer } from "../../../styles/Container"
 import { ListCards } from "../../../components/listCards"
 import { Footer } from "../../../components/footer"
-import { useState } from 'react';
 import { useUser } from './../../../hooks/useProduct';
 
 export const ProfileViewAdmin = () => {
   const { announceListUser } = useUser()
-  const { onOpen, onClose } = useDisclosure()
-  const [createAdvertAdmin, setCreatAdvertAdmin] = useState(false)
-
-  const toggleModal = (modal: boolean, setModal: React.Dispatch<React.SetStateAction<boolean>>) => {
-    if (modal) {
-      onClose()
-      setModal(!createAdvertAdmin)
-      return
-    }
-    setModal(!createAdvertAdmin)
-    onOpen()
-  }
-
+  
   return (
     <StyledPageProfile>
       <Header>
-        <UserHeader editProfileModal={createAdvertAdmin} setEditProfileModal={setCreatAdvertAdmin} toggleModal={toggleModal} />
+        <UserHeader />
       </Header>
 
       <Box as="main" background={"var(--grey8)"}>

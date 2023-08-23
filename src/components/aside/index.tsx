@@ -6,7 +6,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, 
 import { RangeFilter } from './../rangeFilter/index';
 
 export const AsideFilters = () => {
-  const { filters, clearnFilters } = useProduct();
+  const { filters, getAdverts } = useProduct();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -54,7 +54,7 @@ export const AsideFilters = () => {
                     {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} filterKey="Price" />}
                     {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} filterKey="Year" />}
                   </div>
-                  <button onClick={() => clearnFilters()}>
+                  <button onClick={() => getAdverts()}>
                     Limpar Filtros
                   </button>
                 </StyledAside>
@@ -82,7 +82,7 @@ export const AsideFilters = () => {
           {filters?.minPrice && filters?.maxPrice && <RangeFilter min={filters.minPrice} max={filters.maxPrice} title={"Preço"} filterKey="Price" />}
           {filters?.minYear && filters?.maxYear && <RangeFilter min={filters.minYear} max={filters.maxYear} title={"Ano"} filterKey="Year" />}
         </div>
-        <button onClick={() => clearnFilters()}>
+          <button onClick={() => getAdverts()}>
           Limpar Filtros
         </button>
       </StyledAside>
