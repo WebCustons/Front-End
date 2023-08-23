@@ -118,7 +118,7 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
           borderRadius={"10px"}
           type="submit"
         >
-          Enviar
+          Atualizar Usuário
         </Button>
       </ButtonGroup>
     </form>
