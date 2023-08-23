@@ -195,7 +195,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
       });
       localStorage.removeItem("@TOKEN");
       localStorage.removeItem("@ID");
-      navigate("/login");
+      navigate("/login", { replace: true });
     } catch (error) {
       console.log(error);
     }
