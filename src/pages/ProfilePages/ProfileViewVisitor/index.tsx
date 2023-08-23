@@ -1,26 +1,26 @@
 import { Box, Tag, Text } from "@chakra-ui/react"
 import Header from "../../../components/header"
-import { UserHeader } from "../../../components/userHeader"
 import { StyledPageProfile } from "./style"
 import { Footer } from "../../../components/footer"
 import { StyledContainer } from "../../../styles/Container"
 import { useEffect } from "react"
-import { useUser } from "../../../hooks/useUser"
 import { ListCards } from "../../../components/listCards"
 import { useParams } from "react-router-dom"
+import { useUser } from "../../../hooks/useProduct"
 
 export const ProfileViewVisitor = () => {
-  const { announceList, getAnnounce } = useUser()
+  const { announceListUser, getAnnounceUser } = useUser()
   const { id } = useParams()
 
   useEffect(() => {
-    getAnnounce(id!)
+    getAnnounceUser(id!)
   }, [])
+
+
 
   return (
     <StyledPageProfile>
       <Header>
-        <UserHeader />
       </Header>
 
       <Box as="main" background={"var(--grey8)"}>
@@ -64,19 +64,19 @@ export const ProfileViewVisitor = () => {
                 fontWeight={"bold"}
               >
                 <Text fontSize="3xl" color={`var(--grey10)`}>
-                  {announceList?.name[0].toUpperCase()}
+                  {announceListUser?.name[0].toUpperCase()}
                 </Text>
               </Box>
               <Box className="nameTag" display={"flex"} gap={"15px"}>
                 <Text as="b" fontSize="xl" color={`var(--grey2)`}>
-                  {announceList?.name}
+                  {announceListUser?.name}
                 </Text>
                 <Tag variant="solid" colorScheme="blue">
                   Anunciante
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser">{announceList?.description}</Text>
+            <Text className="descriptionUser">{announceListUser?.description}</Text>
           </Box>
         </Box>
 
@@ -92,7 +92,7 @@ export const ProfileViewVisitor = () => {
             </Text>
             <ListCards
               typeView={"visitor"}
-              advertsList={announceList?.adverts}
+              advertsList={announceListUser?.adverts}
             />
           </Box>
         </StyledContainer>

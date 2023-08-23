@@ -15,19 +15,15 @@ import { StyledContainer } from "../../styles/Container"
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 import { useEffect } from "react"
 import { ListCards } from "../../components/listCards"
+import { UserHeader } from './../../components/userHeader/index';
+import { useUser } from './../../hooks/useProduct';
 
 function Home() {
-  const {
-    getProducts,
-    productsList,
-    previusPage,
-    nextPage,
-    paginationByNumber,
-    filters
-  } = useProduct()
-
+  const { getProducts, productsList, previusPage, nextPage, paginationByNumber, } = useProduct()
+  const { user ,getUser } = useUser()
   useEffect(() => {
     getProducts()
+    getUser()
   }, [])
 
   // const { onOpen } = useDisclosure();
@@ -42,7 +38,7 @@ function Home() {
   return (
     <>
       <Header>
-        <LoginRegisterButtons />
+        {user ?<UserHeader /> : <LoginRegisterButtons />}
       </Header>
 
       <StyledHome>
