@@ -3,8 +3,8 @@ import Home from "../pages/Home/index"
 import Login from "../pages/Login/index"
 import Register from "../pages/Register/index"
 import Products from "../pages/Products"
-import ProfileAdmin from "../pages/ProfileAdmin"
-import ProfileUser from "../pages/ProfileUser"
+import RecoverPassword from "../pages/RecoverPassword"
+import { ProfilePages } from "../pages/ProfilePages"
 
 function RoutePages() {
   return (
@@ -12,9 +12,9 @@ function RoutePages() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/admin" element={<ProfileAdmin />} />
-      <Route path="/profile" element={<ProfileUser />} />
+      <Route path="/profile/:id" element={<ProfilePages />} />
       <Route path="/product" element={<Products />} />
+      <Route path="/recoverPassword" element={<RecoverPassword />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )

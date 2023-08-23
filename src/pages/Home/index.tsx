@@ -1,47 +1,44 @@
-import { StyledHome, StyledBannerPageHome, StyledSection } from "./style";
-import Banner from "../../assets/banner_bmw.png";
+import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
+import Banner from "../../assets/banner_bmw.png"
 import {
   Button,
   ButtonGroup,
   Box,
   // useDisclosure,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
-import { useProduct } from "../../hooks/useProduct";
-import { AsideFilters } from "../../components/aside";
-import { StyledContainer } from "../../styles/Container";
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister";
-import { useEffect } from "react";
-import { ListCards } from "../../components/listCards";
+import { Header } from "../../components/header"
+import { Footer } from "../../components/footer"
+import { useProduct } from "../../hooks/useProduct"
+import { AsideFilters } from "../../components/aside"
+import { StyledContainer } from "../../styles/Container"
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
+import { useEffect } from "react"
+import { ListCards } from "../../components/listCards"
+import { UserHeader } from './../../components/userHeader/index';
+import { useUser } from './../../hooks/useProduct';
 
 function Home() {
-  const {
-    getProducts,
-    productsList,
-    previusPage,
-    nextPage,
-    paginationByNumber,
-  } = useProduct();
-
+  const { getProducts, productsList, previusPage, nextPage, paginationByNumber, } = useProduct()
+  const { user ,getUser } = useUser()
   useEffect(() => {
-    getProducts();
-  }, []);
+    getProducts()
+    getUser()
+  }, [])
 
   // const { onOpen } = useDisclosure();
 
-  const pages: number[] = [];
+  const pages: number[] = []
   if (productsList) {
     for (let i = 0; i < productsList?.totalPages; i++) {
-      pages.push(i + 1);
+      pages.push(i + 1)
     }
   }
 
   return (
     <>
       <Header>
-        <LoginRegisterButtons />
+        {user ?<UserHeader /> : <LoginRegisterButtons />}
       </Header>
 
       <StyledHome>
@@ -57,7 +54,7 @@ function Home() {
         <StyledContainer>
           <AsideFilters />
           <StyledSection>
-            <ListCards advertsList={productsList?.data} />
+            <ListCards typeView={"visitor"} advertsList={productsList?.data} />
             <Box
               width={"100%"}
               display={"flex"}
@@ -132,7 +129,7 @@ function Home() {
       </StyledHome>
       <Footer />
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home

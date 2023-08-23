@@ -3,8 +3,7 @@ import { TCreateAdvertData, TPagination } from "../interfaces/advert.interface";
 import { api, apiKenzie } from "../services/api";
 import { TKenzieKars } from "../interfaces/kenzieKars.interface";
 import { useToast } from "@chakra-ui/react";
-import { useUser } from "../hooks/useUser";
-import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema";
+//import { useUser } from './../hooks/useProduct';
 
 interface iProductContextProps {
   children: ReactNode;
@@ -45,15 +44,14 @@ interface IProductProvider {
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
+
   const [productsList, setProductsList] = useState<TPagination>();
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
-  const [kenzieKarModel, setKenzieKarModel] = useState<
-    TKenzieKars | undefined
-  >();
+  const [kenzieKarModel, setKenzieKarModel] = useState<TKenzieKars | undefined>();
 
-  const { setAnnounceList, announceList } = useUser();
+  //const { getAnnounceUser } = useUser();
 
   const getProducts = async () => {
     const [products, filters] = await Promise.all([
@@ -142,16 +140,12 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const createAdvert = async (data: TCreateAdvertData) => {
     try {
       data.published = true;
-      const response = await api.post("/adverts/", data, {
+      await api.post("/adverts/", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
         },
       });
-      const obj: IAdvertsByUserId = {
-        ...announceList,
-        adverts: [...announceList!.adverts, response.data],
-      };
-      setAnnounceList(obj);
+      //getAnnounceUser()
       toast({
         title: `Sucesso  😁`,
         status: "success",
