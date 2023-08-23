@@ -15,6 +15,7 @@ export const FilterComponent = ({ title, filter, filterKey }: FilterProps) => {
       [filterKey]: selectedValue,
     };
     getAdvertsByFilter(newFilters);
+    
   };
 
   const filterArray = Array.isArray(filter) ? filter : Array.of(filter);

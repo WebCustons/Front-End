@@ -26,12 +26,12 @@ type TFilters = {
 interface IProductProvider {
   getProducts: () => void;
   productsList: TPagination | undefined;
-  filters: TFilters | null;
-  setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
+  filters: TFilters;
+  setFilters: React.Dispatch<React.SetStateAction<TFilters>>;
   previusPage: () => void;
   nextPage: () => void;
   getAdvertsByFilter: (data: TFilters) => Promise<void>;
-  paginationByNumber: (page: number) => Promise<void>;
+  paginationByNumber: (page: number, data: TFilters) => Promise<void>;
   clearnFilters: () => void;
   getKenzieKarsInformation: () => Promise<void>;
   getKenzieKarsByBrand: (brand: string) => Promise<void>;
@@ -46,7 +46,7 @@ export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
   const [productsList, setProductsList] = useState<TPagination>();
-  const [filters, setFilters] = useState<TFilters | null>(null);
+  const [filters, setFilters] = useState<TFilters>({});
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
   const [kenzieKarModel, setKenzieKarModel] = useState<
@@ -70,8 +70,9 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     await getProducts();
   };
 
-  const getAdvertsByFilter = async (data: TFilters) => {
-    const queryParams = new URLSearchParams();
+  const queryParams = (data: TFilters)=>{
+
+    const queryParam = new URLSearchParams();
 
     const filterKeys = {
       brand: data?.brandAdvert,
@@ -86,16 +87,26 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     for (const [key, value] of Object.entries(filterKeys)) {
       if (!Array.isArray(value) && value !== undefined) {
-        queryParams.append(key, String(value));
+        queryParam.append(key, String(value));
       } else if (Array.isArray(value) && value.length === 1) {
-        queryParams.append(key, String(value[0]));
+        queryParam.append(key, String(value[0]));
       }
     }
+
+    return queryParam.toString()
+
+  }
+
+  const getAdvertsByFilter = async (data: TFilters) => {
+
+    const query = queryParams(data);
+
     const [advertsFilter, productOption] = await Promise.all([
-      api.get(`/adverts/filtered?${queryParams.toString()}`),
-      api.get(`/adverts/adverts-filters?${queryParams.toString()}`),
+      api.get(`/adverts/filtered?${query}`),
+      api.get(`/adverts/adverts-filters?${query}`),
 
     ]);
+    console.log(advertsFilter.data)
     setProductsList(advertsFilter.data);
     setFilters(productOption.data);
   };
@@ -108,14 +119,22 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     }
   };
   const nextPage = async () => {
+  
     if (productsList?.nextPage) {
       const url: string[] = productsList.nextPage.split("/");
       const response = await api.get(`${url[3]}/${url[4]}`);
+      console.log(url)
       setProductsList(response.data);
     }
   };
-  const paginationByNumber = async (page: number) => {
-    const response = await api.get(`adverts/?page=${page}&perPage=12`);
+  const paginationByNumber = async (page: number, data: TFilters) => {
+    const query = queryParams(data);
+
+    console.log(query);
+
+    const response = await api.get(`adverts/?page=${page}?&${query}`);
+    console.log(response);
+
     setProductsList(response.data);
   };
 

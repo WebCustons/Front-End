@@ -23,6 +23,7 @@ function Home() {
     previusPage,
     nextPage,
     paginationByNumber,
+    filters
   } = useProduct()
 
   useEffect(() => {
@@ -80,7 +81,7 @@ function Home() {
                       borderBottom: "1px solid var(--grey1)",
                       transition: "0.5s",
                     }}
-                    onClick={() => paginationByNumber(page)}
+                    onClick={() => paginationByNumber(page,filters)}
                   >
                     {page}
                   </Button>
