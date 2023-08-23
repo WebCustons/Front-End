@@ -24,7 +24,6 @@ export const FormEditUser = ({ children }: IFormEditUserProps) => {
     defaultValues: {
       name: user?.name,
       email: user?.email,
-      cpf: user?.cpf,
       phone: user?.phone,
       description: user?.description,
       address: user?.address,
@@ -52,12 +51,6 @@ export const FormEditUser = ({ children }: IFormEditUserProps) => {
         label="E-mail"
         {...register("email")}
         error={errors.email?.message}
-      />
-      <InputValidator
-        id="cpf"
-        label="CPF"
-        {...register("cpf")}
-        error={errors.cpf?.message}
       />
       <InputValidator
         id="phone"
