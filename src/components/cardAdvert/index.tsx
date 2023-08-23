@@ -30,6 +30,9 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
       height={"350px"}
       flexShrink={"0"}
       borderRadius={"10px"}
+      onClick={() => {
+        navigate(`/product/${advert.id}`)
+      }}
     >
       <Card
         display={"flex"}
@@ -103,9 +106,9 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
 
               {advert.user?.name && (
                 <Box
-                  onClick={() => {
-                    navigate(`/profile/${advert.user.id}`)
-                  }}
+                  // onClick={() => {
+                  //   navigate(`/profile/${advert.user.id}`)
+                  // }}
                   display={"flex"}
                   gap={"1rem"}
                   justifyItems={"center"}
@@ -133,7 +136,6 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
             </Box>
           </Container>
         </CardBody>
-
         <CardFooter
           display={"flex"}
           justifyContent={"space-between"}

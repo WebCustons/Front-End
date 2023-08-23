@@ -30,7 +30,7 @@ export const FilterComponent = ({ title, filter, filterKey }: FilterProps) => {
           return (
             <li key={value} onClick={() => handleFilterClick(value)}>
               <button className={filterArray.length <= 1 ? "select" : undefined}>
-                {firstLine[0].toUpperCase() + firstLine.slice(1)}
+                {firstLine[0]?.toUpperCase() + firstLine.slice(1)}
               </button>
             </li>
           );

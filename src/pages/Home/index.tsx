@@ -1,32 +1,25 @@
 import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
 import Banner from "../../assets/banner_bmw.png"
-import {
-  Button,
-  ButtonGroup,
-  Box,
-  // useDisclosure,
-} from "@chakra-ui/react"
-
+import { Button, ButtonGroup, Box, } from "@chakra-ui/react"
 import { Header } from "../../components/header"
 import { Footer } from "../../components/footer"
 import { useProduct } from "../../hooks/useProduct"
 import { AsideFilters } from "../../components/aside"
 import { StyledContainer } from "../../styles/Container"
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 import { useEffect } from "react"
 import { ListCards } from "../../components/listCards"
 import { UserHeader } from './../../components/userHeader/index';
 import { useUser } from './../../hooks/useProduct';
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 
 function Home() {
-  const { getProducts, productsList, previusPage, nextPage, paginationByNumber, filters} = useProduct()
-  const { user ,getUser } = useUser()
+  const { getAdverts, previusPage, nextPage, paginationByNumber, filters,productsList} = useProduct()
+  const { user, getUser } = useUser()
+
   useEffect(() => {
-    getProducts()
+    getAdverts()
     getUser()
   }, [])
-
-  // const { onOpen } = useDisclosure();
 
   const pages: number[] = []
   if (productsList) {
@@ -38,7 +31,7 @@ function Home() {
   return (
     <>
       <Header>
-        {user ?<UserHeader /> : <LoginRegisterButtons />}
+        {user ? <UserHeader /> : <LoginRegisterButtons />}
       </Header>
 
       <StyledHome>
