@@ -31,6 +31,7 @@ interface IUserContext {
   registerUser: (formData: ClientData) => Promise<void>;
   loadingBnt: boolean;
   setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteUser: () => Promise<void>;
 }
 
 export const UserContext = createContext({} as IUserContext);
@@ -175,6 +176,18 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     }
   };
 
+  const deleteUser = async () => {
+    try {
+      const id = localStorage.getItem("@ID");
+      await api.delete(`/users/${id}`);
+      localStorage.removeItem("@TOKEN");
+      localStorage.removeItem("@ID");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -188,6 +201,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         registerUser,
         loadingBnt,
         setLoadingBnt,
+        deleteUser,
       }}
     >
       {children}

@@ -23,7 +23,7 @@ import { StyledUserHeader } from "./style";
 
 export const UserHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, getUser } = useUser();
+  const { user, getUser, deleteUser } = useUser();
 
   const navigate = useNavigate();
 
@@ -100,7 +100,7 @@ export const UserHeader = () => {
                 width="40%"
                 mr={3}
                 backgroundColor="var(--alert1)"
-                onClick={onClose}
+                onClick={deleteUser}
                 color="var(--grey8)"
                 borderRadius="10px"
                 border="1px solid var(--alert1)"
