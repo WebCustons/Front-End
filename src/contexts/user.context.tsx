@@ -12,6 +12,12 @@ interface IUserProviderProps {
   children: ReactNode
 }
 
+type TErrorResponse = {
+  message: {
+    [key: string]: unknown
+  }
+}
+
 interface IUserContext {
   user: IUser | null
   getUser: () => Promise<void>
@@ -20,7 +26,7 @@ interface IUserContext {
   setAnnounceListUser: React.Dispatch<
     React.SetStateAction<IAdvertsByUserId | undefined>
   >
-  updateUser: (data: TUpdateUser) => Promise<void>
+  updateUser: (data: TUpdateUser) => Promise<boolean>
   login: (data: LoginData) => Promise<void>
   registerUser: (formData: ClientData) => Promise<void>
   loadingBnt: boolean
@@ -69,15 +75,29 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         position: "top-right",
         isClosable: true,
       })
+      return true
     } catch (error) {
-      toast({
-        title: `Algo deu errado aqui estamos arrumando 😁`,
-        status: "warning",
-        position: "top-right",
-        isClosable: true,
-      })
-      console.log(error)
+      if ((error as AxiosError).response?.status != 500) {
+        const err = error as AxiosError<TErrorResponse>
+        for (const key in err.response?.data.message) {
+          toast({
+            title: `${key} : ${err.response?.data.message[key]}`,
+            status: "error",
+            position: "top-right",
+            isClosable: true,
+          })
+        }
+      } else {
+        toast({
+          title: `Algo deu errado aqui estamos arrumando 😁`,
+          status: "warning",
+          position: "top-right",
+          isClosable: true,
+        })
+        console.log(error)
+      }
     }
+    return false
   }
 
   const getAnnounceUser = async (id: string) => {

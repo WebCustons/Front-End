@@ -30,6 +30,7 @@ export const userUpdateSchema = userSchema
   .omit({
     password: true,
     id: true,
+    cpf: true,
   })
   .extend({
     address: addressUpdateSchema,
