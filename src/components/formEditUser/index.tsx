@@ -5,7 +5,7 @@ import { userUpdateSchema } from "../../schemas/user.schema";
 import { TUpdateUser } from "./../../interfaces/user.interface";
 import { InputValidator } from "../inputs";
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import { useUser } from "../../hooks/useUser";
+import { useUser } from './../../hooks/useProduct';
 
 interface IFormEditUserProps {
   children: ReactNode;
