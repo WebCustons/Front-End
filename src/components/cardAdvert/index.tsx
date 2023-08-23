@@ -9,16 +9,20 @@ import {
   Heading,
   Text,
   Container,
-} from "@chakra-ui/react";
-import { TAdvert } from "../../schemas/advert.schema";
+} from "@chakra-ui/react"
+import { TAdvert } from "../../schemas/advert.schema"
 interface ICardProps {
-  advert: TAdvert;
+  advert: TAdvert
+  typeView: "owner" | "admin" | "visitor"
 }
-import discountImage from "../../assets/$.png";
+import discountImage from "../../assets/$.png"
+import { useNavigate } from "react-router-dom"
+import { BottomLogicView } from "./BottomLogicView"
 
-export function CardAdvert({ advert }: ICardProps) {
+export function CardAdvert({ advert, typeView }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
   // const userNameIcon: string[] = advert.Users.name.split(" ");
+  const navigate = useNavigate()
   return (
     <ListItem
       color={`var(--grey1)`}
@@ -26,6 +30,9 @@ export function CardAdvert({ advert }: ICardProps) {
       height={"350px"}
       flexShrink={"0"}
       borderRadius={"10px"}
+      onClick={() => {
+        navigate(`/product/${advert.id}`)
+      }}
     >
       <Card
         display={"flex"}
@@ -99,6 +106,9 @@ export function CardAdvert({ advert }: ICardProps) {
 
               {advert.user?.name && (
                 <Box
+                  // onClick={() => {
+                  //   navigate(`/profile/${advert.user.id}`)
+                  // }}
                   display={"flex"}
                   gap={"1rem"}
                   justifyItems={"center"}
@@ -126,7 +136,6 @@ export function CardAdvert({ advert }: ICardProps) {
             </Box>
           </Container>
         </CardBody>
-
         <CardFooter
           display={"flex"}
           justifyContent={"space-between"}
@@ -174,7 +183,8 @@ export function CardAdvert({ advert }: ICardProps) {
             </Text>
           </Container>
         </CardFooter>
+        <BottomLogicView typeView={typeView} />
       </Card>
     </ListItem>
-  );
+  )
 }

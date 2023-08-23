@@ -9,10 +9,14 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { StyledInputsContainer } from "./style";
 
 interface IFormCreateAdvertProps {
+  onClose: () => void;
   children: ReactNode;
 }
 
-export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
+export const FormCreateAdvert = ({
+  onClose,
+  children,
+}: IFormCreateAdvertProps) => {
   const [imageInputCount, setImageInputCount] = useState(2);
   const {
     getKenzieKarsByBrand,
@@ -63,6 +67,7 @@ export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
       price: Number(data.price),
     };
     createAdvert(fullData);
+    onClose();
   };
 
   useEffect(() => {

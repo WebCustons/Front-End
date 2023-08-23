@@ -1,47 +1,24 @@
-import {
-  Box,
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Tag,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import Header from "../../components/header";
-import { UserHeader } from "../../components/userHeader";
-import { StyledPageProfile } from "./style";
-import { Footer } from "../../components/footer";
-import { StyledContainer } from "../../styles/Container";
-import { useEffect, useState } from "react";
-import { useUser } from "../../hooks/useUser";
-import { ListCards } from "../../components/listCards";
-import { FormCreateAdvert } from "../../components/formCreateAdvert";
+import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, } from "@chakra-ui/react"
+import Header from "../../../components/header"
+import { UserHeader } from "../../../components/userHeader"
+import { StyledPageProfile } from "./style"
+import { Footer } from "../../../components/footer"
+import { StyledContainer } from "../../../styles/Container"
+import { useEffect } from "react"
+import { ListCards } from "../../../components/listCards"
+import { FormCreateAdvert } from "../../../components/formCreateAdvert"
+import { useParams } from "react-router-dom"
+import { useUser } from './../../../hooks/useProduct';
 
-const ProfileUser = () => {
-  const { announceList, getAnnounce } = useUser();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [createAdvertModal, setCreatAdvertModal] = useState(false);
+export const ProfileViewOwner = () => {
+  const { announceListUser, getAnnounceUser } = useUser()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { id } = useParams()
+
   useEffect(() => {
-    getAnnounce();
-  }, []);
+    getAnnounceUser(id!)
+  }, [])
 
-  const toggleModal = (
-    modal: boolean,
-    setModal: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    if (modal) {
-      onClose();
-      setModal(!createAdvertModal);
-      return;
-    }
-    setModal(!createAdvertModal);
-    onOpen();
-  };
 
   return (
     <StyledPageProfile>
@@ -55,7 +32,7 @@ const ProfileUser = () => {
           background={"var(--brand1)"}
           position={"relative"}
           height={"330px"}
-          marginBottom={"220px"}
+          marginBottom={"170px"}
         >
           <Box
             className="userContainer"
@@ -90,19 +67,19 @@ const ProfileUser = () => {
                 fontWeight={"bold"}
               >
                 <Text fontSize="3xl" color={`var(--grey10)`}>
-                  {announceList?.name[0].toUpperCase()}
+                  {announceListUser?.name[0].toUpperCase()}
                 </Text>
               </Box>
               <Box className="nameTag" display={"flex"} gap={"15px"}>
                 <Text as="b" fontSize="xl" color={`var(--grey2)`}>
-                  {announceList?.name}
+                  {announceListUser?.name}
                 </Text>
                 <Tag variant="solid" colorScheme="blue">
                   Anunciante
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser">{announceList?.description}</Text>
+            <Text className="descriptionUser">{announceListUser?.description}</Text>
             <Button
               width={"fit-content"}
               backgroundColor={"transparent"}
@@ -115,9 +92,7 @@ const ProfileUser = () => {
                 transition: "0.5s",
               }}
               borderRadius={"10px"}
-              onClick={() =>
-                toggleModal(createAdvertModal, setCreatAdvertModal)
-              }
+              onClick={onOpen}
             >
               Criar Anuncio
             </Button>
@@ -134,40 +109,33 @@ const ProfileUser = () => {
             >
               Anúncios
             </Text>
-            <ListCards advertsList={announceList?.adverts} />
+            <ListCards typeView={"owner"} advertsList={announceListUser?.adverts} />
           </Box>
         </StyledContainer>
       </Box>
       <Footer />
-      {createAdvertModal ? (
-        <Modal
-          isOpen={isOpen}
-          onClose={() => toggleModal(createAdvertModal, setCreatAdvertModal)}
-        >
-          <ModalOverlay />
-          <ModalContent maxW={"520px"}>
-            <ModalHeader>Criar Anuncio</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormCreateAdvert>
-                <Button
-                  width={"40%"}
-                  mr={3}
-                  onClick={() =>
-                    toggleModal(createAdvertModal, setCreatAdvertModal)
-                  }
-                  borderRadius={"10px"}
-                >
-                  Cancelar
-                </Button>
-              </FormCreateAdvert>
-            </ModalBody>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent maxW={"520px"}>
+          <ModalHeader>Criar Anuncio</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormCreateAdvert onClose={onClose}>
+              <Button
+                width={"40%"}
+                mr={3}
+                onClick={onClose}
+                borderRadius={"10px"}
+              >
+                Cancelar
+              </Button>
+            </FormCreateAdvert >
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
 
-            <ModalFooter></ModalFooter>
-          </ModalContent>
-        </Modal>
-      ) : null}
+
     </StyledPageProfile>
-  );
-};
-export default ProfileUser;
+  )
+}

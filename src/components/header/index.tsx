@@ -1,17 +1,20 @@
-import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
-import { StyledMenu } from "./style";
-import { useMediaQuery } from "@chakra-ui/media-query";
-import { AiOutlineMenu } from "react-icons/ai";
-import Logo from "../../assets/logo_1.png";
+import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react"
+import { StyledMenu } from "./style"
+import { useMediaQuery } from "@chakra-ui/media-query"
+import { AiOutlineMenu } from "react-icons/ai"
+import Logo from "../../assets/logo_1.png"
+import { Link } from "react-router-dom"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function Header({ children }: any) {
-  const [isWideScreen] = useMediaQuery("(min-width: 600px)");
+  const [isWideScreen] = useMediaQuery("(min-width: 600px)")
 
   return (
     <header>
       <StyledMenu>
-        <img src={Logo} />
+        <Link to={"/"}>
+          <img src={Logo} />
+        </Link>
         {isWideScreen ? (
           children
         ) : (
@@ -41,7 +44,7 @@ export function Header({ children }: any) {
         )}
       </StyledMenu>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
