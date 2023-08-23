@@ -32,6 +32,10 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
   });
 
   const submit: SubmitHandler<TUpdateUser> = async (data) => {
+    if (user && data.email === user.email) {
+      delete data.email;
+    }
+
     await updateUser(data);
     onClose();
   };
@@ -118,7 +122,7 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
           borderRadius={"10px"}
           type="submit"
         >
-          Enviar
+          Atualizar Usuário
         </Button>
       </ButtonGroup>
     </form>
