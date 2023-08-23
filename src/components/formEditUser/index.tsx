@@ -5,13 +5,14 @@ import { userUpdateSchema } from "../../schemas/user.schema";
 import { TUpdateUser } from "./../../interfaces/user.interface";
 import { InputValidator } from "../inputs";
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import { useUser } from './../../hooks/useProduct';
+import { useUser } from "./../../hooks/useProduct";
 
 interface IFormEditUserProps {
+  onClose: () => void;
   children: ReactNode;
 }
 
-export const FormEditUser = ({ children }: IFormEditUserProps) => {
+export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
   const { updateUser, user, getUser } = useUser();
 
   const {
@@ -21,10 +22,18 @@ export const FormEditUser = ({ children }: IFormEditUserProps) => {
   } = useForm<TUpdateUser>({
     mode: "onBlur",
     resolver: zodResolver(userUpdateSchema),
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+      phone: user?.phone,
+      description: user?.description,
+      address: user?.address,
+    },
   });
 
-  const submit: SubmitHandler<TUpdateUser> = (data) => {
-    updateUser(data);
+  const submit: SubmitHandler<TUpdateUser> = async (data) => {
+    await updateUser(data);
+    onClose();
   };
 
   useEffect(() => {
@@ -36,77 +45,60 @@ export const FormEditUser = ({ children }: IFormEditUserProps) => {
       <InputValidator
         id="name"
         label="Nome"
-        placeholder={user?.name}
         {...register("name")}
         error={errors.name?.message}
       />
       <InputValidator
         id="email"
         label="E-mail"
-        placeholder={user?.email}
         {...register("email")}
         error={errors.email?.message}
       />
       <InputValidator
-        id="cpf"
-        label="CPF"
-        placeholder={user?.cpf}
-        {...register("cpf")}
-        error={errors.cpf?.message}
-      />
-      <InputValidator
         id="phone"
         label="Telefone"
-        placeholder={user?.phone}
         {...register("phone")}
         error={errors.phone?.message}
       />
       <InputValidator
         id="description"
         label="Descrição"
-        placeholder={user?.description}
         {...register("description")}
         error={errors.description?.message}
       />
       <InputValidator
         id="cep"
         label="CEP"
-        placeholder={user?.address.cep}
         {...register("address.cep")}
         error={errors.address?.cep?.message}
       />
       <InputValidator
         id="state"
         label="Estado"
-        placeholder={user?.address.state}
         {...register("address.state")}
         error={errors.address?.state?.message}
       />
       <InputValidator
         id="city"
         label="Cidade"
-        placeholder={user?.address.city}
         {...register("address.city")}
         error={errors.address?.city?.message}
       />
       <InputValidator
         id="road"
         label="Rua"
-        placeholder={user?.address.road}
         {...register("address.road")}
         error={errors.address?.road?.message}
       />
       <InputValidator
         id="number"
         label="Número"
-        placeholder={user?.address.number}
         {...register("address.number")}
         error={errors.address?.number?.message}
       />
       <InputValidator
         id="complement"
         label="Complemento"
-        placeholder={user?.address.complement}
         {...register("address.complement")}
         error={errors.address?.complement?.message}
       />
