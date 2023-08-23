@@ -120,7 +120,7 @@ export const ProfileViewOwner = () => {
           <ModalHeader>Criar Anuncio</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormCreateAdvert>
+            <FormCreateAdvert onClose={onClose}>
               <Button
                 width={"40%"}
                 mr={3}
@@ -129,7 +129,7 @@ export const ProfileViewOwner = () => {
               >
                 Cancelar
               </Button>
-            </FormCreateAdvert>
+            </FormCreateAdvert >
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>

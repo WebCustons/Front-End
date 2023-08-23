@@ -1,15 +1,11 @@
-import { useAuth } from "../../hooks/useProduct";
 import { useForm } from "react-hook-form";
 import StyledRegister from "./style";
 import { ClientData } from "./validators";
-import {
-  InputValidator,
-  SelectValidator,
-  TextareaValidator,
-} from "../../components/inputs";
+import {  InputValidator,  SelectValidator,  TextareaValidator,} from "../../components/inputs";
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister";
 import Header from "../../components/header";
 import { Footer } from "../../components/footer";
+import { useUser } from './../../hooks/useProduct';
 
 const Register = () => {
   const {
@@ -17,7 +13,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ClientData>();
-  const { registerUser } = useAuth();
+  const { registerUser } = useUser();
   const submit = async (data: ClientData) => {
     try {
       await registerUser(data);

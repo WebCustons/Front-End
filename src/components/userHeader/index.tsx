@@ -56,7 +56,7 @@ export const UserHeader = () => {
         <MenuList
           style={{
             position: "relative",
-            width: "100%", // Set the width to 100%
+            width: "100%",
           }}>
           <MenuItem onClick={onOpen}>Editar Usuario</MenuItem>
           <MenuItem onClick={() => navigate(`/profile/${user?.id}`)}>Meus Anuncios</MenuItem>

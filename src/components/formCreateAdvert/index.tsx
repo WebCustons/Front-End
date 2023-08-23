@@ -9,10 +9,11 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { StyledInputsContainer } from "./style";
 
 interface IFormCreateAdvertProps {
+  onClose: () => void;
   children: ReactNode;
 }
 
-export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
+export const FormCreateAdvert = ({ onClose, children }: IFormCreateAdvertProps) => {
   const {
     getKenzieKarsByBrand,
     getKenzieKarsInformation,
@@ -31,7 +32,7 @@ export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
     resolver: zodResolver(advertSchemaValidator),
   });
 
-  const submit: SubmitHandler<TAdverData> = (data) => {
+  const submit: SubmitHandler<TAdverData> = async (data) => {
     const fullData = {
       ...data,
       table_fipe: kenzieKarModel!.value > data.price ? true : false,
@@ -40,7 +41,8 @@ export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
       mileage: Number(data.mileage),
       price: Number(data.price),
     };
-    createAdvert(fullData);
+    await createAdvert(fullData);
+    onClose()
   };
 
   useEffect(() => {

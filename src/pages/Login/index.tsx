@@ -2,13 +2,13 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import StyledLogin,{StyledFormForgoutPassword} from "./style"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginData, schema } from "./validators"
-import { useAuth } from "../../hooks/useProduct"
 import { InputValidator } from "../../components/inputs"
 import { useNavigate } from "react-router-dom"
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 import Header from "../../components/header"
 import { Footer } from "../../components/footer"
 import { useState } from "react"
+import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
+import { useUser } from './../../hooks/useProduct';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Login = () => {
     resolver: zodResolver(schema),
   })
 
-  const { login, loadingBnt } = useAuth()
+  const { login, loadingBnt } = useUser()
 
   const submit: SubmitHandler<LoginData> = async (data) => {
     login(data)

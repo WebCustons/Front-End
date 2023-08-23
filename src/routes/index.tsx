@@ -13,7 +13,7 @@ function RoutePages() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile/:id" element={<ProfilePages />} />
-      <Route path="/product" element={<Products />} />
+      <Route path="/product/:id" element={<Products />} />
       <Route path="/recoverPassword" element={<RecoverPassword />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
