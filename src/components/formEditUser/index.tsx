@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { userUpdateSchema } from "../../schemas/user.schema";
 import { TUpdateUser } from "./../../interfaces/user.interface";
 import { InputValidator } from "../inputs";
@@ -32,6 +32,12 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
   });
 
   const submit: SubmitHandler<TUpdateUser> = async (data) => {
+    const { updateUser, user } = useUser();
+
+    if (user && data.email === user.email) {
+      delete data.email;
+    }
+
     await updateUser(data);
     onClose();
   };
