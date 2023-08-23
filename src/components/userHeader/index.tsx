@@ -14,22 +14,22 @@ import {
   ModalOverlay,
   Text,
   useDisclosure,
-} from "@chakra-ui/react";
-import { useUser } from "./../../hooks/useProduct";
-import { FormEditUser } from "./../formEditUser/index";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { StyledUserHeader } from "./style";
+} from "@chakra-ui/react"
+import { useUser } from "./../../hooks/useProduct"
+import { FormEditUser } from "./../formEditUser/index"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { StyledUserHeader } from "./style"
 
 export const UserHeader = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, getUser } = useUser();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user, getUser, logoutUser } = useUser()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    getUser();
-  }, []);
+    getUser()
+  }, [])
 
   return (
     <StyledUserHeader>
@@ -78,7 +78,7 @@ export const UserHeader = () => {
           <MenuItem onClick={() => navigate(`/profile/${user?.id}`)}>
             Meus Anuncios
           </MenuItem>
-          <MenuItem>Sair</MenuItem>
+          <MenuItem onClick={logoutUser}>Sair</MenuItem>
         </MenuList>
       </Menu>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -102,5 +102,5 @@ export const UserHeader = () => {
         </ModalContent>
       </Modal>
     </StyledUserHeader>
-  );
-};
+  )
+}
