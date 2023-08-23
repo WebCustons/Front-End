@@ -3,8 +3,7 @@ import { TCreateAdvertData, TPagination } from "../interfaces/advert.interface";
 import { api, apiKenzie } from "../services/api";
 import { TKenzieKars } from "../interfaces/kenzieKars.interface";
 import { useToast } from "@chakra-ui/react";
-import { useUser } from "../hooks/useUser";
-import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema";
+//import { useUser } from './../hooks/useProduct';
 
 interface iProductContextProps {
   children: ReactNode;
@@ -50,11 +49,9 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
-  const [kenzieKarModel, setKenzieKarModel] = useState<
-    TKenzieKars | undefined
-  >();
+  const [kenzieKarModel, setKenzieKarModel] = useState<TKenzieKars | undefined>();
 
-  const { setAnnounceListUser, announceListUser, getAnnounceUser } = useUser();
+  //const { getAnnounceUser } = useUser();
 
   const getProducts = async () => {
     const [products, filters] = await Promise.all([
@@ -148,7 +145,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
         },
       });
-      getAnnounceUser()
+      //getAnnounceUser()
       toast({
         title: `Sucesso  😁`,
         status: "success",
