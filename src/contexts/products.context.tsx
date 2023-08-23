@@ -27,8 +27,8 @@ interface IProductProvider {
   productsList: TPagination | undefined;
   filters: TFilters;
   setFilters: React.Dispatch<React.SetStateAction<TFilters>>;
-  previusPage: () => void;
-  nextPage: () => void;
+  previusPage: (data: TFilters) => Promise<void>;
+  nextPage: (data: TFilters) => Promise<void>;
   getAdvertsByFilter: (data: TFilters) => Promise<void>;
   paginationByNumber: (page: number, data: TFilters) => Promise<void>;
   clearnFilters: () => void;
@@ -99,6 +99,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     const query = queryParams(data);
 
+    //console.log(query);
+
     const [advertsFilter, productOption] = await Promise.all([
       api.get(`/adverts/filtered?${query}`),
       api.get(`/adverts/adverts-filters?${query}`),
@@ -109,29 +111,52 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     setFilters(productOption.data);
   };
 
-  const previusPage = async () => {
+  const previusPage = async (data: TFilters) => {
+
+    const query = queryParams(data);
+
     if (productsList?.prevPage) {
+
       const url: string[] = productsList.prevPage.split("/");
-      const response = await api.get(`${url[3]}/${url[4]}`);
+      const pageURL = url[4].split(' ');
+
+      const queryString = pageURL[0];
+      const match = queryString.match(/\d+/);
+
+      const page = match ? parseInt(match[0]) : null;
+
+      console.log(page)
+
+      const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
       setProductsList(response.data);
     }
   };
-  const nextPage = async () => {
+  const nextPage = async (data: TFilters) => {
+
+    const query = queryParams(data);
   
     if (productsList?.nextPage) {
       const url: string[] = productsList.nextPage.split("/");
-      const response = await api.get(`${url[3]}/${url[4]}`);
-      console.log(url)
+      const pageURL = url[4].split(' ');
+
+      const queryString = pageURL[0];
+      const match = queryString.match(/\d+/);
+
+      const page = match ? parseInt(match[0]) : null;
+
+      console.log(page);
+
+      const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
       setProductsList(response.data);
     }
   };
   const paginationByNumber = async (page: number, data: TFilters) => {
     const query = queryParams(data);
 
-    console.log(query);
+    //console.log(query);
 
-    const response = await api.get(`adverts/?page=${page}?&${query}`);
-    console.log(response);
+    const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
+    //console.log(response);
 
     setProductsList(response.data);
   };

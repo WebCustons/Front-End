@@ -19,7 +19,7 @@ import { UserHeader } from './../../components/userHeader/index';
 import { useUser } from './../../hooks/useProduct';
 
 function Home() {
-  const { getProducts, productsList, previusPage, nextPage, paginationByNumber, } = useProduct()
+  const { getProducts, productsList, previusPage, nextPage, paginationByNumber, filters} = useProduct()
   const { user ,getUser } = useUser()
   useEffect(() => {
     getProducts()
@@ -90,7 +90,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={previusPage}
+                    onClick={()=>previusPage(filters)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
@@ -109,7 +109,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={nextPage}
+                    onClick={()=>nextPage(filters)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
