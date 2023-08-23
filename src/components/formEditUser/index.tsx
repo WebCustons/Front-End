@@ -8,10 +8,11 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { useUser } from "./../../hooks/useProduct";
 
 interface IFormEditUserProps {
+  onClose: () => void;
   children: ReactNode;
 }
 
-export const FormEditUser = ({ children }: IFormEditUserProps) => {
+export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
   const { updateUser, user, getUser } = useUser();
 
   const {
@@ -30,8 +31,9 @@ export const FormEditUser = ({ children }: IFormEditUserProps) => {
     },
   });
 
-  const submit: SubmitHandler<TUpdateUser> = (data) => {
-    updateUser(data);
+  const submit: SubmitHandler<TUpdateUser> = async (data) => {
+    await updateUser(data);
+    onClose();
   };
 
   useEffect(() => {

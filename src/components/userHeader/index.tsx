@@ -87,7 +87,7 @@ export const UserHeader = () => {
           <ModalHeader>Editar Usuario</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormEditUser>
+            <FormEditUser onClose={onClose}>
               <Button
                 width={"40%"}
                 mr={3}
