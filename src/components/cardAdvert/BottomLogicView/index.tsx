@@ -10,26 +10,16 @@ export const BottomLogicView = ({ typeView }: IBottomLogicViewProps) => {
   if (typeView == "owner") {
     return (
       <Box className="buttonsOwner">
-        <Button
-          variant="outline"
-          colorScheme="(var(--grey1))"
-          marginRight={"16px"}
-        >
+        <Button variant="outline" marginRight={"16px"}>
           Editar
         </Button>
-        <Button variant="outline" colorScheme="(var(--grey1))">
-          Ver detalhes
-        </Button>
+        <Button variant="outline">Ver detalhes</Button>
       </Box>
     )
   } else if (typeView == "admin") {
     return (
       <Box className="buttonsAdmin">
-        <Button
-          variant="outline"
-          colorScheme="(var(--grey1))"
-          marginRight={"16px"}
-        >
+        <Button variant="outline" marginRight={"16px"}>
           Desativar
         </Button>
       </Box>
