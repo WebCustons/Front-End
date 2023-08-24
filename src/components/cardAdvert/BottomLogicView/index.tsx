@@ -1,6 +1,6 @@
 import { Box, Button } from "@chakra-ui/react"
 
-export type ITypeView = "admin" | null
+export type ITypeView = "admin" | "owner" | null
 
 interface IBottomLogicViewProps {
   typeView: ITypeView

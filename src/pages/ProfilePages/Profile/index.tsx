@@ -1,15 +1,35 @@
-import { Box, Tag, Text } from "@chakra-ui/react"
-import Header from "../../../components/header"
-import { StyledPageProfile } from "./style"
-import { Footer } from "../../../components/footer"
-import { StyledContainer } from "../../../styles/Container"
-import { useEffect } from "react"
-import { ListCards } from "../../../components/listCards"
-import { useParams } from "react-router-dom"
+import {
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Tag,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react"
 import { useUser } from "../../../hooks/useProduct"
+import { useParams } from "react-router-dom"
+import { useEffect } from "react"
+import { StyledPageProfile } from "./style"
+import Header from "../../../components/header"
+import { UserHeader } from "../../../components/userHeader"
+import { StyledContainer } from "../../../styles/Container"
+import { ListCards } from "../../../components/listCards"
+import { Footer } from "../../../components/footer"
+import { FormCreateAdvert } from "../../../components/formCreateAdvert"
 
-export const ProfileViewVisitor = () => {
+type TTypeView = {
+  typeView: "admin" | "owner" | null
+}
+
+export const Profile = ({ typeView }: TTypeView) => {
   const { announceListUser, getAnnounceUser } = useUser()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { id } = useParams()
 
   useEffect(() => {
@@ -18,7 +38,9 @@ export const ProfileViewVisitor = () => {
 
   return (
     <StyledPageProfile>
-      <Header></Header>
+      <Header>
+        <UserHeader />
+      </Header>
 
       <Box as="main" background={"var(--grey8)"}>
         <Box
@@ -31,7 +53,6 @@ export const ProfileViewVisitor = () => {
           <Box
             className="userContainer"
             display={"flex"}
-            gap={"15px"}
             flexDirection={"column"}
             backgroundColor={"var(--grey10)"}
             height={"400px"}
@@ -40,6 +61,7 @@ export const ProfileViewVisitor = () => {
             left={"4%"}
             right={"4%"}
             padding={"30px 20px"}
+            justifyContent={"space-between"}
           >
             <Box
               className="userCard"
@@ -76,6 +98,42 @@ export const ProfileViewVisitor = () => {
             <Text className="descriptionUser">
               {announceListUser?.description}
             </Text>
+            {typeView == "owner" && (
+              <Button
+                width={"fit-content"}
+                backgroundColor={"transparent"}
+                border={"1px solid var(--brand1)"}
+                color={"var(--brand1)"}
+                transition={"0.5s"}
+                _hover={{
+                  bg: "var(--brand1)",
+                  color: "var(--grey8)",
+                  transition: "0.5s",
+                }}
+                borderRadius={"10px"}
+                onClick={onOpen}
+              >
+                Criar Anuncio
+              </Button>
+            )}
+            {typeView == "admin" && (
+              <Button
+                width={"fit-content"}
+                backgroundColor={"transparent"}
+                border={"1px solid var(--brand1)"}
+                color={"var(--brand1)"}
+                transition={"0.5s"}
+                _hover={{
+                  bg: "var(--brand1)",
+                  color: "var(--grey8)",
+                  transition: "0.5s",
+                }}
+                borderRadius={"10px"}
+                // onClick={onOpen}
+              >
+                Desativar usuário
+              </Button>
+            )}
           </Box>
         </Box>
 
@@ -90,13 +148,33 @@ export const ProfileViewVisitor = () => {
               Anúncios
             </Text>
             <ListCards
-              typeView={null}
               advertsList={announceListUser?.adverts}
+              typeView={typeView}
             />
           </Box>
         </StyledContainer>
       </Box>
       <Footer />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent maxW={"520px"}>
+          <ModalHeader>Criar Anuncio</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormCreateAdvert onClose={onClose}>
+              <Button
+                width={"40%"}
+                mr={3}
+                onClick={onClose}
+                borderRadius={"10px"}
+              >
+                Cancelar
+              </Button>
+            </FormCreateAdvert>
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
     </StyledPageProfile>
   )
 }

@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom"
-import { ProfileViewOwner } from "./ProfileViewOwner"
-import { ProfileViewVisitor } from "./ProfileViewVisitor"
 import { useEffect } from "react"
-import { ProfileViewAdmin } from "./ProfileViewAdmin"
-import { useUser } from './../../hooks/useProduct';
+import { useUser } from "./../../hooks/useProduct"
+import { Profile } from "./Profile"
 
 export const ProfilePages = () => {
   const { id } = useParams()
@@ -15,10 +13,10 @@ export const ProfilePages = () => {
   }, [])
 
   if (user?.id?.toString() == id) {
-    return <ProfileViewOwner />
+    return <Profile typeView="owner" />
   } else if (user?.type_user == "admin") {
-    return <ProfileViewAdmin />
+    return <Profile typeView="admin" />
   } else {
-    return <ProfileViewVisitor />
+    return <Profile typeView={null} />
   }
 }
