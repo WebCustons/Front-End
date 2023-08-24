@@ -22,8 +22,10 @@ import { useNavigate } from "react-router-dom"
 import { StyledUserHeader } from "./style"
 
 export const UserHeader = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { user, getUser, logoutUser } = useUser()
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, getUser, deleteUser, logoutUser } = useUser();
+
 
   const navigate = useNavigate()
 
@@ -95,6 +97,23 @@ export const UserHeader = () => {
                 borderRadius={"10px"}
               >
                 Cancelar
+              </Button>
+              <Button
+                width="40%"
+                mr={3}
+                backgroundColor="var(--alert1)"
+                onClick={deleteUser}
+                color="var(--grey8)"
+                borderRadius="10px"
+                border="1px solid var(--alert1)"
+                transition="0.5s"
+                _hover={{
+                  bg: "transparent",
+                  color: "var(--alert1)",
+                  transition: "0.5s",
+                }}
+              >
+                Excluir Usuário
               </Button>
             </FormEditUser>
           </ModalBody>
