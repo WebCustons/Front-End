@@ -53,9 +53,7 @@ interface IProductProvider {
 
   // Advert 
   createAdvert: (data: TCreateAdvertData) => Promise<string>;
-  advert: TAdvert | undefined,
-  setAdvert: React.Dispatch<React.SetStateAction<TAdvert | undefined>>
-  getAdvert: (idAdvert: number) => Promise<void>;
+  getAdvert: (idAdvert: number) => Promise<TAdvert>;
 }
 
 
@@ -64,7 +62,6 @@ export const ProductContext = createContext({} as IProductProvider);
 export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const [page, setPage] = useState<TPagination>();
-  const [advert, setAdvert] = useState<TAdvert>();
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
@@ -85,7 +82,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const getAdvert = async (idAdvert: number) => {
     const product = await api.get(`/adverts/${idAdvert}`);
-    setAdvert(product.data)
+    return product.data
   };
   const createAdvert = async (data: TCreateAdvertData) => {
     try {
@@ -226,8 +223,6 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
         // Advert
         createAdvert,
-        advert,
-        setAdvert,
         getAdvert,
       }}
     >

@@ -1,20 +1,15 @@
 import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
 import Banner from "../../assets/banner_bmw.png"
 import { Button, ButtonGroup, Box, } from "@chakra-ui/react"
-import { Header } from "../../components/header"
-import { Footer } from "../../components/footer"
-import { useProduct } from "../../hooks/useProduct"
+import { useProduct, useUser } from "../../hooks/useProduct"
 import { AsideFilters } from "../../components/aside"
 import { StyledContainer } from "../../styles/Container"
 import { useEffect } from "react"
 import { ListCards } from "../../components/listCards"
-import { UserHeader } from './../../components/userHeader/index';
-import { useUser } from './../../hooks/useProduct';
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 
 function Home() {
   const { getAdverts, page, previusPage, nextPage, paginationByNumber, } = useProduct()
-  const { user, getUser } = useUser()
+  const {  getUser } = useUser()
 
   useEffect(() => {
     getAdverts()
@@ -29,10 +24,6 @@ function Home() {
   }
 
   return (
-    <>
-      <Header>
-        {user ? <UserHeader /> : <LoginRegisterButtons />}
-      </Header>
 
       <StyledHome>
         <StyledBannerPageHome>
@@ -120,8 +111,7 @@ function Home() {
           </StyledSection>
         </StyledContainer>
       </StyledHome>
-      <Footer />
-    </>
+
   )
 }
 

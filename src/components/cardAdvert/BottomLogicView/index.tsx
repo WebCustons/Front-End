@@ -35,6 +35,6 @@ export const BottomLogicView = ({ typeView }: IBottomLogicViewProps) => {
       </Box>
     )
   } else {
-    return
+    return(<></>)
   }
 }

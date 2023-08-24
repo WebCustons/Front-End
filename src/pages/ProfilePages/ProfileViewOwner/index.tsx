@@ -1,8 +1,5 @@
 import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, } from "@chakra-ui/react"
-import Header from "../../../components/header"
-import { UserHeader } from "../../../components/userHeader"
 import { StyledPageProfile } from "./style"
-import { Footer } from "../../../components/footer"
 import { StyledContainer } from "../../../styles/Container"
 import { useEffect } from "react"
 import { ListCards } from "../../../components/listCards"
@@ -22,9 +19,6 @@ export const ProfileViewOwner = () => {
 
   return (
     <StyledPageProfile>
-      <Header>
-        <UserHeader />
-      </Header>
 
       <Box as="main" background={"var(--grey8)"}>
         <Box
@@ -113,7 +107,6 @@ export const ProfileViewOwner = () => {
           </Box>
         </StyledContainer>
       </Box>
-      <Footer />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"520px"}>

@@ -19,7 +19,7 @@ export const UserHeader = () => {
 
   return (
     <StyledUserHeader>
-      <Menu>
+      <Menu >
         <MenuButton as={Button}
           colorScheme="messenger"
           variant="ghost"
@@ -63,7 +63,8 @@ export const UserHeader = () => {
           <MenuItem>Sair</MenuItem>
         </MenuList>
       </Menu>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+       isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"520px"}>
           <ModalHeader>Editar Usuario</ModalHeader>

@@ -1,7 +1,5 @@
 import { Box, Tag, Text } from "@chakra-ui/react"
-import Header from "../../../components/header"
 import { StyledPageProfile } from "./style"
-import { Footer } from "../../../components/footer"
 import { StyledContainer } from "../../../styles/Container"
 import { useEffect } from "react"
 import { ListCards } from "../../../components/listCards"
@@ -20,8 +18,6 @@ export const ProfileViewVisitor = () => {
 
   return (
     <StyledPageProfile>
-      <Header>
-      </Header>
 
       <Box as="main" background={"var(--grey8)"}>
         <Box
@@ -97,7 +93,6 @@ export const ProfileViewVisitor = () => {
           </Box>
         </StyledContainer>
       </Box>
-      <Footer />
     </StyledPageProfile>
   )
 }

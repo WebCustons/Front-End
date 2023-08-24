@@ -1,10 +1,7 @@
 import { Box, Tag, Text } from "@chakra-ui/react"
-import Header from "../../../components/header"
-import { UserHeader } from "../../../components/userHeader"
 import { StyledPageProfile } from "./style"
 import { StyledContainer } from "../../../styles/Container"
 import { ListCards } from "../../../components/listCards"
-import { Footer } from "../../../components/footer"
 import { useUser } from './../../../hooks/useProduct';
 
 export const ProfileViewAdmin = () => {
@@ -12,9 +9,6 @@ export const ProfileViewAdmin = () => {
   
   return (
     <StyledPageProfile>
-      <Header>
-        <UserHeader />
-      </Header>
 
       <Box as="main" background={"var(--grey8)"}>
         <Box
@@ -87,7 +81,6 @@ export const ProfileViewAdmin = () => {
           </Box>
         </StyledContainer>
       </Box>
-      <Footer />
     </StyledPageProfile>
   )
 }

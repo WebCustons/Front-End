@@ -2,9 +2,6 @@ import { useForm } from "react-hook-form";
 import StyledRegister from "./style";
 import { ClientData } from "./validators";
 import {  InputValidator,  SelectValidator,  TextareaValidator,} from "../../components/inputs";
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister";
-import Header from "../../components/header";
-import { Footer } from "../../components/footer";
 import { useUser } from './../../hooks/useProduct';
 
 const Register = () => {
@@ -24,9 +21,6 @@ const Register = () => {
 
   return (
     <StyledRegister>
-      <Header>
-        <LoginRegisterButtons />
-      </Header>
       <div className="register-container">
         <div className="register-box">
           <h1>Cadastro</h1>
@@ -192,7 +186,6 @@ const Register = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </StyledRegister>
   );
 };

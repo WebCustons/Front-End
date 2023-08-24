@@ -19,7 +19,7 @@ export const advertSchema = z.object({
   description: z.string(),
   cover_image: z.string(),
   published: z.boolean().optional(),
-  image_gallery: z.array(imageGallerySchema),
+  images: z.array(imageGallerySchema),
   user: userSchema,
 });
 
@@ -32,7 +32,7 @@ export const advertSchemaValidator = advertSchema
     year: true,
   })
   .extend({
-    image_gallery: z.array(z.string()).optional(),
+    images: z.array(z.string()).optional(),
   });
 
 export const createAdvertSchemaValidator = advertSchema
@@ -41,7 +41,7 @@ export const createAdvertSchemaValidator = advertSchema
     user: true,
   })
   .extend({
-    image_gallery: z.array(z.string()).optional(),
+    images: z.array(z.string()).optional(),
   });
 
 export type TAdvert = z.infer<typeof advertSchema>;
