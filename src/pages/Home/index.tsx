@@ -1,6 +1,6 @@
 import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
 import Banner from "../../assets/banner_bmw.png"
-import { Button, ButtonGroup, Box, } from "@chakra-ui/react"
+import { Button, ButtonGroup, Box} from "@chakra-ui/react"
 import { Header } from "../../components/header"
 import { Footer } from "../../components/footer"
 import { useProduct } from "../../hooks/useProduct"
@@ -13,8 +13,9 @@ import { useUser } from './../../hooks/useProduct';
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 
 function Home() {
-  const { getAdverts, previusPage, nextPage, paginationByNumber, filters,productsList} = useProduct()
+  const { getAdverts, previusPage, nextPage, paginationByNumber, filters,page} = useProduct()
   const { user, getUser } = useUser()
+
 
   useEffect(() => {
     getAdverts()
@@ -22,11 +23,13 @@ function Home() {
   }, [])
 
   const pages: number[] = []
-  if (productsList) {
-    for (let i = 0; i < productsList?.totalPages; i++) {
+  if (page) {
+    for (let i = 0; i < page?.totalPages; i++) {
       pages.push(i + 1)
     }
   }
+
+
 
   return (
     <>
@@ -47,7 +50,7 @@ function Home() {
         <StyledContainer>
           <AsideFilters />
           <StyledSection>
-            <ListCards typeView={"visitor"} advertsList={productsList?.data} />
+            <ListCards typeView={"visitor"} advertsList={page?.data} />
             <Box
               width={"100%"}
               display={"flex"}
@@ -77,7 +80,7 @@ function Home() {
                 ))}
               </ButtonGroup>
               <ButtonGroup>
-                {productsList?.prevPage && (
+                {page?.prevPage && (
                   <Button
                     fontWeight={"bold"}
                     backgroundColor={"transparent"}
@@ -96,7 +99,7 @@ function Home() {
                     Anterior
                   </Button>
                 )}
-                {productsList?.nextPage && (
+                {page?.nextPage && (
                   <Button
                     fontWeight={"bold"}
                     backgroundColor={"transparent"}
