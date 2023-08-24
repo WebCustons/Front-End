@@ -75,14 +75,6 @@ export const ProfileViewAdmin = () => {
 
         <StyledContainer>
           <Box as="section" padding={"0 15px"}>
-            <Text
-              as={"h1"}
-              fontSize={"2xl"}
-              fontWeight={"bold"}
-              marginBottom={"80px"}
-            >
-              Anúncios
-            </Text>
             <ListCards typeView={"admin"} advertsList={announceListUser?.adverts} />
           </Box>
         </StyledContainer>

@@ -1,6 +1,6 @@
 import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
 import Banner from "../../assets/banner_bmw.png"
-import { Button, ButtonGroup, Box, } from "@chakra-ui/react"
+import { Button, ButtonGroup, Box} from "@chakra-ui/react"
 import { Header } from "../../components/header"
 import { Footer } from "../../components/footer"
 import { useProduct } from "../../hooks/useProduct"
@@ -13,8 +13,9 @@ import { useUser } from './../../hooks/useProduct';
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 
 function Home() {
-  const { getAdverts, page, previusPage, nextPage, paginationByNumber, } = useProduct()
+  const { getAdverts, previusPage, nextPage, paginationByNumber, filters,page} = useProduct()
   const { user, getUser } = useUser()
+
 
   useEffect(() => {
     getAdverts()
@@ -27,6 +28,8 @@ function Home() {
       pages.push(i + 1)
     }
   }
+
+
 
   return (
     <>
@@ -70,7 +73,7 @@ function Home() {
                       borderBottom: "1px solid var(--grey1)",
                       transition: "0.5s",
                     }}
-                    onClick={() => paginationByNumber(page)}
+                    onClick={() => paginationByNumber(page,filters)}
                   >
                     {page}
                   </Button>
@@ -83,7 +86,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={previusPage}
+                    onClick={()=>previusPage(filters)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
@@ -102,7 +105,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={nextPage}
+                    onClick={()=>nextPage(filters)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
