@@ -21,6 +21,7 @@ export interface IAddress {
   road: string;
   number: string;
   complement: string;
+  [key: string]: string | number;
 }
 
 export type TUpdateUser = z.infer<typeof userUpdateSchema>;

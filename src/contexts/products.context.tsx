@@ -35,13 +35,14 @@ interface IProductProvider {
 
   // Pagination
   page: TPagination | undefined;
-  previusPage: () => void;
-  nextPage: () => void;
-  paginationByNumber: (page: number) => Promise<void>;
+  previusPage:  (data: TFilters) => Promise<void>;
+  nextPage: (data: TFilters) => Promise<void>;
+  paginationByNumber: (page: number, data: TFilters) => Promise<void>;
+
 
   // Filters
-  filters: TFilters | null;
-  setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
+  filters: TFilters;
+  setFilters: React.Dispatch<React.SetStateAction<TFilters>>;
 
   // Kenzie Kars
   getKenzieKarsInformation: () => Promise<void>;
@@ -61,11 +62,13 @@ interface IProductProvider {
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
+
   const [page, setPage] = useState<TPagination>();
   const [advert, setAdvert] = useState<TAdvert>();
-  const [filters, setFilters] = useState<TFilters | null>(null);
+  const [filters, setFilters] = useState<TFilters>({});
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
+
   const [kenzieKarModel, setKenzieKarModel] = useState<
     TKenzieKars | undefined
   >();
@@ -126,8 +129,10 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     return "";
   };
 
-  const getAdvertsByFilter = async (data: TFilters) => {
-    const queryParams = new URLSearchParams();
+
+  const queryParams = (data: TFilters)=>{
+
+    const queryParam = new URLSearchParams();
 
     const filterKeys = {
       brand: data?.brandAdvert,
@@ -142,39 +147,73 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     for (const [key, value] of Object.entries(filterKeys)) {
       if (!Array.isArray(value) && value !== undefined) {
-        queryParams.append(key, String(value));
+        queryParam.append(key, String(value));
       } else if (Array.isArray(value) && value.length === 1) {
-        queryParams.append(key, String(value[0]));
+        queryParam.append(key, String(value[0]));
       }
     }
+
+    return queryParam.toString()
+
+  }
+    
+  const getAdvertsByFilter = async (data: TFilters) => {
+
+    const query = queryParams(data);
+
     const [advertsFilter, productOption] = await Promise.all([
-      api.get(`/adverts/filtered?${queryParams.toString()}`),
-      api.get(`/adverts/adverts-filters?${queryParams.toString()}`),
+      api.get(`/adverts/filtered?${query}`),
+      api.get(`/adverts/adverts-filters?${query}`),
+
     ]);
     setPage(advertsFilter.data);
     setFilters(productOption.data);
   };
 
-  const previusPage = async () => {
-    if (page?.prevPage) {
+  const previusPage = async (data: TFilters) => {
+    
+
+    const query = queryParams(data);
+
+    if (page?.prevPage ) {
+    
       const url: string[] = page.prevPage.split("/");
-      const response = await api.get(`${url[3]}/${url[4]}`);
+      const pageURL = url[4].split(' ');
+
+      const queryString = pageURL[0];
+      const match = queryString.match(/\d+/);
+
+      const pages = match ? parseInt(match[0]) : null;
+
+      const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
       setPage(response.data);
     }
   };
+  const nextPage = async (data: TFilters) => {
 
-  const nextPage = async () => {
+    const query = queryParams(data);
+  
     if (page?.nextPage) {
       const url: string[] = page.nextPage.split("/");
-      const response = await api.get(`${url[3]}/${url[4]}`);
+      const pageURL = url[4].split(' ');
+
+      const queryString = pageURL[0];
+      const match = queryString.match(/\d+/);
+
+      const pages = match ? parseInt(match[0]) : null;
+
+      const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
+  
       setPage(response.data);
     }
   };
 
-  const paginationByNumber = async (page: number) => {
-    const response = await api.get(`adverts/?page=${page}&perPage=12`);
+  const paginationByNumber = async (page: number,data: TFilters) => {
+    const query = queryParams(data);
+    const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
     setPage(response.data);
   };
+
 
   const getKenzieKarsInformation = async () => {
     const response = await apiKenzie.get("/cars");
