@@ -1,4 +1,17 @@
-import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, } from "@chakra-ui/react"
+import {
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Tag,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react"
 import Header from "../../../components/header"
 import { UserHeader } from "../../../components/userHeader"
 import { StyledPageProfile } from "./style"
@@ -8,7 +21,7 @@ import { useEffect } from "react"
 import { ListCards } from "../../../components/listCards"
 import { FormCreateAdvert } from "../../../components/formCreateAdvert"
 import { useParams } from "react-router-dom"
-import { useUser } from './../../../hooks/useProduct';
+import { useUser } from "./../../../hooks/useProduct"
 
 export const ProfileViewOwner = () => {
   const { announceListUser, getAnnounceUser } = useUser()
@@ -18,7 +31,6 @@ export const ProfileViewOwner = () => {
   useEffect(() => {
     getAnnounceUser(id!)
   }, [])
-
 
   return (
     <StyledPageProfile>
@@ -79,7 +91,9 @@ export const ProfileViewOwner = () => {
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser">{announceListUser?.description}</Text>
+            <Text className="descriptionUser">
+              {announceListUser?.description}
+            </Text>
             <Button
               width={"fit-content"}
               backgroundColor={"transparent"}
@@ -109,7 +123,10 @@ export const ProfileViewOwner = () => {
             >
               Anúncios
             </Text>
-            <ListCards typeView={"owner"} advertsList={announceListUser?.adverts} />
+            <ListCards
+              advertsList={announceListUser?.adverts}
+              typeView={null}
+            />
           </Box>
         </StyledContainer>
       </Box>
@@ -129,13 +146,11 @@ export const ProfileViewOwner = () => {
               >
                 Cancelar
               </Button>
-            </FormCreateAdvert >
+            </FormCreateAdvert>
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
-
-
     </StyledPageProfile>
   )
 }

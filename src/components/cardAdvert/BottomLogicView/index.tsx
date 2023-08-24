@@ -1,22 +1,13 @@
 import { Box, Button } from "@chakra-ui/react"
 
-export type ITypeView = "owner" | "admin" | "visitor"
+export type ITypeView = "admin" | null
 
 interface IBottomLogicViewProps {
   typeView: ITypeView
 }
 
 export const BottomLogicView = ({ typeView }: IBottomLogicViewProps) => {
-  if (typeView == "owner") {
-    return (
-      <Box className="buttonsOwner">
-        <Button variant="outline" marginRight={"16px"}>
-          Editar
-        </Button>
-        <Button variant="outline">Ver detalhes</Button>
-      </Box>
-    )
-  } else if (typeView == "admin") {
+  if (typeView == "admin") {
     return (
       <Box className="buttonsAdmin">
         <Button variant="outline" marginRight={"16px"}>

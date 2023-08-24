@@ -13,11 +13,11 @@ import {
 import { TAdvert } from "../../schemas/advert.schema"
 interface ICardProps {
   advert: TAdvert
-  typeView: "owner" | "admin" | "visitor"
+  typeView: ITypeView
 }
 import discountImage from "../../assets/$.png"
 import { useNavigate } from "react-router-dom"
-import { BottomLogicView } from "./BottomLogicView"
+import { BottomLogicView, ITypeView } from "./BottomLogicView"
 
 export function CardAdvert({ advert, typeView }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
@@ -35,9 +35,9 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
       height={"350px"}
       flexShrink={"0"}
       borderRadius={"10px"}
-      // onClick={() => {
-      //   navigate(`/product/${advert.id}`)
-      // }}
+      onClick={() => {
+        navigate(`/product/${advert.id}`)
+      }}
     >
       <Card
         display={"flex"}
@@ -119,7 +119,8 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
 
               {advert.user?.name && (
                 <Box
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation()
                     navigate(`/profile/${advert.user.id}`)
                   }}
                   display={"flex"}
@@ -157,7 +158,6 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
                   display={"flex"}
                   justifyContent={"space-between"}
                   padding={"0"}
-                  // paddingBottom={"1rem"}
                 >
                   <Box display={"flex"} gap={"1rem"} width={"50%"}>
                     <Tag

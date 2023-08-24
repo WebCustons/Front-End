@@ -16,12 +16,9 @@ export const ProfileViewVisitor = () => {
     getAnnounceUser(id!)
   }, [])
 
-
-
   return (
     <StyledPageProfile>
-      <Header>
-      </Header>
+      <Header></Header>
 
       <Box as="main" background={"var(--grey8)"}>
         <Box
@@ -76,7 +73,9 @@ export const ProfileViewVisitor = () => {
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser">{announceListUser?.description}</Text>
+            <Text className="descriptionUser">
+              {announceListUser?.description}
+            </Text>
           </Box>
         </Box>
 
@@ -91,7 +90,7 @@ export const ProfileViewVisitor = () => {
               Anúncios
             </Text>
             <ListCards
-              typeView={"visitor"}
+              typeView={null}
               advertsList={announceListUser?.adverts}
             />
           </Box>
