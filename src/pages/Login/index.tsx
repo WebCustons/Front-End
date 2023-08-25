@@ -4,10 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginData, schema } from "./validators"
 import { InputValidator } from "../../components/inputs"
 import { useNavigate } from "react-router-dom"
-import Header from "../../components/header"
-import { Footer } from "../../components/footer"
-import { useEffect, useState } from "react"
-import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
+import { useState } from "react"
 import { useUser } from './../../hooks/useProduct';
 import { FormForgoutPassword } from "../../components/formForgoutPassword"
 
@@ -33,9 +30,6 @@ const Login = () => {
 
   return (
     <StyledLogin>
-      <Header>
-        <LoginRegisterButtons />
-      </Header>
       <div className="login-container">
       {forgotPassword ? (
               <div className="login-box">
@@ -86,7 +80,6 @@ const Login = () => {
         <FormForgoutPassword/>
       )}
       </div>
-      <Footer />
     </StyledLogin>
   )
 }

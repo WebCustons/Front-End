@@ -85,7 +85,8 @@ export const UserHeader = () => {
           <MenuItem onClick={logoutUser}>Sair</MenuItem>
         </MenuList>
       </Menu>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+       isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"520px"}>
           <ModalHeader>Editar Usuario</ModalHeader>

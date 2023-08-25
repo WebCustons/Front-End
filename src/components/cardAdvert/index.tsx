@@ -1,16 +1,7 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Image,
-  ListItem,
-  Box,
-  Tag,
-  Heading,
-  Text,
-  Container,
-} from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, Image, ListItem, Box, Tag, Heading, Text, Container, } from "@chakra-ui/react"
 import { TAdvert } from "../../schemas/advert.schema";
+import image404 from "../../assets/image404.png";
+
 interface ICardProps {
 
   advert: TAdvert;
@@ -22,8 +13,9 @@ import { BottomLogicView } from "./BottomLogicView";
 
 
 export function CardAdvert({ advert, typeView }: ICardProps) {
-  // const userNameIcon: string[] = advert.Users.name.split(" ");
-  // const userNameIcon: string[] = advert.Users.name.split(" ");
+
+  console.log(advert.cover_image);
+  
 
   const navigate = useNavigate()
   const brandName = advert.brand[0].toUpperCase() + advert.brand.slice(1)
@@ -83,7 +75,7 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
             </Box>
           ) : null}
           <Image
-            src={advert.cover_image}
+            src={advert.cover_image ? advert.cover_image : image404}
             alt={`${advert.model}  ${advert.brand}`}
             height={"144px"}
             width={"100%"}

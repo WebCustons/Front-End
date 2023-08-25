@@ -6,6 +6,15 @@ export const imageGallerySchema = z.object({
   image: z.string(),
 });
 
+const commentsSchema = z.object({
+  id: z.number(),
+  comment: z.string(),
+  created_at: z.string(),
+  user: z.object({
+    name: z.string(),
+  }),
+});
+
 export const advertSchema = z.object({
   id: z.number(),
   brand: z.string(),
@@ -20,6 +29,7 @@ export const advertSchema = z.object({
   cover_image: z.string(),
   published: z.boolean().optional(),
   images: z.array(imageGallerySchema),
+  comments: z.array(commentsSchema),
   user: userSchema,
 });
 
@@ -30,6 +40,7 @@ export const advertSchemaValidator = advertSchema
     table_fipe: true,
     fuel: true,
     year: true,
+    comments: true,
   })
   .extend({
     images: z.array(z.string()).optional(),
@@ -39,6 +50,7 @@ export const createAdvertSchemaValidator = advertSchema
   .omit({
     id: true,
     user: true,
+    comments: true,
   })
   .extend({
     images: z.array(z.string()).optional(),
