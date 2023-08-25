@@ -16,11 +16,10 @@ import { useUser } from "../../../hooks/useProduct"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { StyledPageProfile } from "./style"
-import Header from "../../../components/header"
-import { UserHeader } from "../../../components/userHeader"
+
 import { StyledContainer } from "../../../styles/Container"
 import { ListCards } from "../../../components/listCards"
-import { Footer } from "../../../components/footer"
+
 import { FormCreateAdvert } from "../../../components/formCreateAdvert"
 import { DeleteUser } from "../../../components/Buttons/DeleteUser"
 
@@ -39,10 +38,6 @@ export const Profile = ({ typeView }: TTypeView) => {
 
   return (
     <StyledPageProfile>
-      <Header>
-        <UserHeader />
-      </Header>
-
       <Box as="main" background={"var(--grey8)"}>
         <Box
           className="blueDiv"
@@ -130,7 +125,7 @@ export const Profile = ({ typeView }: TTypeView) => {
           </Box>
         </StyledContainer>
       </Box>
-      <Footer />
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"520px"}>
