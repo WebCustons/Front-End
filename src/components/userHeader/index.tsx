@@ -14,22 +14,24 @@ import {
   ModalOverlay,
   Text,
   useDisclosure,
-} from "@chakra-ui/react"
-import { useUser } from "./../../hooks/useProduct"
-import { FormEditUser } from "./../formEditUser/index"
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { StyledUserHeader } from "./style"
+} from "@chakra-ui/react";
+import { useUser } from "./../../hooks/useProduct";
+import { FormEditUser } from "./../formEditUser/index";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { StyledUserHeader } from "./style";
 
 export const UserHeader = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { user, getUser, deleteUser, logoutUser } = useUser()
 
-  const navigate = useNavigate()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, getUser, deleteUser, logoutUser } = useUser();
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
   return (
     <StyledUserHeader>
@@ -114,7 +116,7 @@ export const UserHeader = () => {
                   transition: "0.5s",
                 }}
               >
-                Excluir Usuário
+                Excluir Perfil
               </Button>
             </FormEditUser>
           </ModalBody>
@@ -122,5 +124,5 @@ export const UserHeader = () => {
         </ModalContent>
       </Modal>
     </StyledUserHeader>
-  )
-}
+  );
+};
