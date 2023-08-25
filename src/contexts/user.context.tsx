@@ -244,19 +244,30 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const deleteUser = async () => {
     try {
-
       if (user?.type_user == "admin") {
         const id = announceListUser!.id
         await api.delete(`/users/${id}`)
         navigate("/")
 
         return
+      }else{
+        const token = localStorage.getItem('@TOKEN');
+        const id = localStorage.getItem("@ID")
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+
+        await api.delete(`/users/${id}`,config)
+
+        localStorage.removeItem("@TOKEN")
+        localStorage.removeItem("@ID")
+        navigate("/login")
+
       }
-      const id = localStorage.getItem("@ID")
-      await api.delete(`/users/${id}`)
-      localStorage.removeItem("@TOKEN")
-      localStorage.removeItem("@ID")
-      navigate("/login")
+
 
     } catch (error) {
       console.log(error)
