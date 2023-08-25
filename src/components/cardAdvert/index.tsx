@@ -9,24 +9,28 @@ import {
   Heading,
   Text,
   Container,
-} from "@chakra-ui/react"
-import { TAdvert } from "../../schemas/advert.schema"
+} from "@chakra-ui/react";
+import { TAdvert } from "../../schemas/advert.schema";
 interface ICardProps {
-  advert: TAdvert
-  typeView: ITypeView
+
+  advert: TAdvert;
+  typeView: "owner" | "admin" | "visitor";
 }
-import discountImage from "../../assets/$.png"
-import { useNavigate } from "react-router-dom"
-import { BottomLogicView, ITypeView } from "./BottomLogicView"
+import discountImage from "../../assets/$.png";
+import { useNavigate } from "react-router-dom";
+import { BottomLogicView } from "./BottomLogicView";
+
 
 export function CardAdvert({ advert, typeView }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
   // const userNameIcon: string[] = advert.Users.name.split(" ");
+
   const navigate = useNavigate()
   const brandName = advert.brand[0].toUpperCase() + advert.brand.slice(1)
   const modelName = (
     advert.model[0].toUpperCase() + advert.model.slice(1)
   ).split(" ")[0]
+
 
   return (
     <ListItem
@@ -36,7 +40,7 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
       flexShrink={"0"}
       borderRadius={"10px"}
       onClick={() => {
-        navigate(`/product/${advert.id}`)
+        navigate(`/product/${advert.id}`);
       }}
     >
       <Card
@@ -200,5 +204,7 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
         </CardBody>
       </Card>
     </ListItem>
-  )
+
+  );
+
 }
