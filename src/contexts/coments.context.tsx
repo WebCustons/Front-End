@@ -18,8 +18,8 @@ export const CommentsProvider = ({ children }: ICommentsContextProps) => {
 
   const getComments = async () => {
     try {
-      //ajeitar
-      const response = await api.get("/comments");
+      const id = localStorage.getItem("@ID-ADVERT");
+      const response = await api.get(`/comments/${id}`);
       setComments(response.data);
     } catch (error) {
       console.log(error);
