@@ -6,6 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import { useUser } from "./../hooks/useProduct";
 import { AxiosError } from "axios";
 import { TAdvert } from "../schemas/advert.schema";
+import { TCommentRequest } from "../interfaces/comment.interface";
 
 interface iProductContextProps {
   children: ReactNode;
@@ -39,7 +40,6 @@ interface IProductProvider {
   nextPage: (data: TFilters) => Promise<void>;
   paginationByNumber: (page: number, data: TFilters) => Promise<void>;
 
-
   // Filters
   filters: TFilters | null;
   setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
@@ -54,13 +54,19 @@ interface IProductProvider {
 
   // Advert
   createAdvert: (data: TCreateAdvertData) => Promise<string>;
-  getAdvert: (idAdvert: number) => Promise<TAdvert>;
+  getAdvert: (idAdvert: number) => Promise<void>;
+  advert: TAdvert | undefined;
+
+  // Comments
+  getComments: () => void;
+  comments: TCommentRequest[];
+  setComment: (comment: TCommentRequest, id: string) => void;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
 
 export const ProductProvider = ({ children }: iProductContextProps) => {
-
+  const [advert, setAdverts] = useState<TAdvert | undefined>();
   const [page, setPage] = useState<TPagination>();
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
@@ -84,7 +90,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const getAdvert = async (idAdvert: number) => {
     const product = await api.get(`/adverts/${idAdvert}`);
-    return product.data
+    setAdverts(product.data);
   };
   const createAdvert = async (data: TCreateAdvertData) => {
     try {
@@ -126,9 +132,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     return "";
   };
 
-
   const queryParams = (data: TFilters) => {
-
     const queryParam = new URLSearchParams();
 
     const filterKeys = {
@@ -150,56 +154,53 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       }
     }
 
-    return queryParam.toString()
-
-  }
+    return queryParam.toString();
+  };
 
   const getAdvertsByFilter = async (data: TFilters) => {
-
     const query = queryParams(data);
 
     const [advertsFilter, productOption] = await Promise.all([
       api.get(`/adverts/filtered?${query}`),
       api.get(`/adverts/adverts-filters?${query}`),
-
     ]);
     setPage(advertsFilter.data);
     setFilters(productOption.data);
   };
 
   const previusPage = async (data: TFilters) => {
-
-
     const query = queryParams(data);
 
     if (page?.prevPage) {
-
       const url: string[] = page.prevPage.split("/");
-      const pageURL = url[4].split(' ');
+      const pageURL = url[4].split(" ");
 
       const queryString = pageURL[0];
       const match = queryString.match(/\d+/);
 
       const pages = match ? parseInt(match[0]) : null;
 
-      const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
+      const response = await api.get(
+        `/adverts/filtered?page=${pages}&${query}`
+      );
       setPage(response.data);
     }
   };
   const nextPage = async (data: TFilters) => {
-
     const query = queryParams(data);
 
     if (page?.nextPage) {
       const url: string[] = page.nextPage.split("/");
-      const pageURL = url[4].split(' ');
+      const pageURL = url[4].split(" ");
 
       const queryString = pageURL[0];
       const match = queryString.match(/\d+/);
 
       const pages = match ? parseInt(match[0]) : null;
 
-      const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
+      const response = await api.get(
+        `/adverts/filtered?page=${pages}&${query}`
+      );
 
       setPage(response.data);
     }
@@ -210,7 +211,6 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
     setPage(response.data);
   };
-
 
   const getKenzieKarsInformation = async () => {
     const response = await apiKenzie.get("/cars");
@@ -232,7 +232,44 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     setKenzieKarModel(kar);
   };
+  const [comments, setComments] = useState([]);
 
+  const getComments = async () => {
+    try {
+      const id = localStorage.getItem("@ID-ADVERT");
+      const response = await api.get(`/comments/advert/${id}`);
+      setComments(response.data);
+      toast({
+        title: `Sucesso  😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: `Algo deu errado aqui estamos arrumando 😁`,
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      });
+      console.log(error);
+    }
+  };
+
+  const setComment = async (comment: TCommentRequest, id: string) => {
+    try {
+      const token = localStorage.getItem("@TOKEN");
+      await api.post(`/comments/advert/${id}`, comment, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getAdvert(parseInt(id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -259,6 +296,12 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         // Advert
         createAdvert,
         getAdvert,
+        advert,
+
+        // Comments
+        getComments,
+        setComment,
+        comments,
       }}
     >
       {children}
