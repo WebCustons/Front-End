@@ -5,7 +5,36 @@ import { useEffect } from "react";
 import { CommentItem } from "../commentItem";
 
 export const CommentsList = () => {
-  const { comments, getComments } = useComments();
+  const { getComments } = useComments();
+  const mockComments = [
+    {
+      id: 1,
+      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      user: {
+        name: "Bruno Henrique",
+      },
+      advert: 3,
+      created_at: "2023-08-24T16:36:07.001Z",
+    },
+    {
+      id: 1,
+      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      user: {
+        name: "Bruno Henrique",
+      },
+      advert: 3,
+      created_at: "2023-08-24T16:36:07.001Z",
+    },
+    {
+      id: 1,
+      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      user: {
+        name: "Bruno Henrique",
+      },
+      advert: 3,
+      created_at: "2023-08-24T16:36:07.001Z",
+    },
+  ];
 
   useEffect(() => {
     getComments();
@@ -13,11 +42,9 @@ export const CommentsList = () => {
   return (
     <>
       <ContainerList>
-        <h1>Comentários</h1>
         <List>
-          {comments?.map((comment) => (
+          {mockComments.map((comment) => (
             <CommentItem
-              key={comment.id}
               comment={comment.comment}
               name={comment.user.name}
               created_at={comment.created_at}

@@ -1,9 +1,13 @@
 import { z } from "zod";
 
+const UserSchema = z.object({
+  name: z.string(),
+});
+
 export const CommentsSchema = z.object({
   id: z.string(),
   comment: z.string(),
-  user: z.number(),
+  user: UserSchema,
   advert: z.number(),
   created_at: z.string(),
 });

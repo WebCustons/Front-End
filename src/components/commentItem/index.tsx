@@ -8,13 +8,11 @@ import {
 } from "@chakra-ui/react";
 
 interface ICommentItemProps {
-  key: string;
   name: string;
   created_at: string;
   comment: string;
 }
 export const CommentItem = ({
-  key,
   name,
   created_at,
   comment,
