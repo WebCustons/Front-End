@@ -25,15 +25,14 @@ interface IUserContext {
   getAnnounceUser: (id: string) => Promise<void>
   setAnnounceListUser: React.Dispatch<
     React.SetStateAction<IAdvertsByUserId | undefined>
-
-  >;
-  updateUser: (data: TUpdateUser) => Promise<boolean>;
-  login: (data: LoginData) => Promise<void>;
-  registerUser: (formData: ClientData) => Promise<void>;
-  loadingBnt: boolean;
-  setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteUser: () => Promise<void>;
-  logoutUser: () => void;
+  >
+  updateUser: (data: TUpdateUser) => Promise<boolean>
+  login: (data: LoginData) => Promise<void>
+  registerUser: (formData: ClientData) => Promise<void>
+  loadingBnt: boolean
+  setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>
+  deleteUser: () => Promise<void>
+  logoutUser: () => void
 }
 
 export const UserContext = createContext({} as IUserContext)
@@ -187,15 +186,22 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const deleteUser = async () => {
     try {
-      const id = localStorage.getItem("@ID");
-      await api.delete(`/users/${id}`);
-      localStorage.removeItem("@TOKEN");
-      localStorage.removeItem("@ID");
-      navigate("/login");
+      if (user?.type_user == "admin") {
+        const id = announceListUser!.id
+        await api.delete(`/users/${id}`)
+        navigate("/")
+
+        return
+      }
+      const id = localStorage.getItem("@ID")
+      await api.delete(`/users/${id}`)
+      localStorage.removeItem("@TOKEN")
+      localStorage.removeItem("@ID")
+      navigate("/login")
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <UserContext.Provider
@@ -211,7 +217,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         loadingBnt,
         setLoadingBnt,
         deleteUser,
-        logoutUser
+        logoutUser,
       }}
     >
       {children}
