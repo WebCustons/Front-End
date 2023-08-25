@@ -35,14 +35,14 @@ interface IProductProvider {
 
   // Pagination
   page: TPagination | undefined;
-  previusPage:  (data: TFilters) => Promise<void>;
+  previusPage: (data: TFilters) => Promise<void>;
   nextPage: (data: TFilters) => Promise<void>;
   paginationByNumber: (page: number, data: TFilters) => Promise<void>;
 
 
   // Filters
-  filters: TFilters;
-  setFilters: React.Dispatch<React.SetStateAction<TFilters>>;
+  filters: TFilters | null;
+  setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
 
   // Kenzie Kars
   getKenzieKarsInformation: () => Promise<void>;
@@ -54,9 +54,7 @@ interface IProductProvider {
 
   // Advert
   createAdvert: (data: TCreateAdvertData) => Promise<string>;
-  advert: TAdvert | undefined;
-  setAdvert: React.Dispatch<React.SetStateAction<TAdvert | undefined>>;
-  getAdvert: (idAdvert: number) => Promise<void>;
+  getAdvert: (idAdvert: number) => Promise<TAdvert>;
 }
 
 export const ProductContext = createContext({} as IProductProvider);
@@ -64,8 +62,7 @@ export const ProductContext = createContext({} as IProductProvider);
 export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const [page, setPage] = useState<TPagination>();
-  const [advert, setAdvert] = useState<TAdvert>();
-  const [filters, setFilters] = useState<TFilters>({});
+  const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
 
@@ -87,7 +84,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const getAdvert = async (idAdvert: number) => {
     const product = await api.get(`/adverts/${idAdvert}`);
-    setAdvert(product.data);
+    return product.data
   };
   const createAdvert = async (data: TCreateAdvertData) => {
     try {
@@ -130,7 +127,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   };
 
 
-  const queryParams = (data: TFilters)=>{
+  const queryParams = (data: TFilters) => {
 
     const queryParam = new URLSearchParams();
 
@@ -156,7 +153,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     return queryParam.toString()
 
   }
-    
+
   const getAdvertsByFilter = async (data: TFilters) => {
 
     const query = queryParams(data);
@@ -171,12 +168,12 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   };
 
   const previusPage = async (data: TFilters) => {
-    
+
 
     const query = queryParams(data);
 
-    if (page?.prevPage ) {
-    
+    if (page?.prevPage) {
+
       const url: string[] = page.prevPage.split("/");
       const pageURL = url[4].split(' ');
 
@@ -192,7 +189,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const nextPage = async (data: TFilters) => {
 
     const query = queryParams(data);
-  
+
     if (page?.nextPage) {
       const url: string[] = page.nextPage.split("/");
       const pageURL = url[4].split(' ');
@@ -203,12 +200,12 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       const pages = match ? parseInt(match[0]) : null;
 
       const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
-  
+
       setPage(response.data);
     }
   };
 
-  const paginationByNumber = async (page: number,data: TFilters) => {
+  const paginationByNumber = async (page: number, data: TFilters) => {
     const query = queryParams(data);
     const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
     setPage(response.data);
@@ -261,8 +258,6 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
         // Advert
         createAdvert,
-        advert,
-        setAdvert,
         getAdvert,
       }}
     >

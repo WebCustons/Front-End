@@ -1,6 +1,3 @@
-import {Header} from '../../components/header';
-import {Footer} from '../../components/footer';
-import { LoginRegisterButtons } from '../../components/Buttons/LoginAndRegister';
 import {StyledContainerRecoverPassword,StyledMain} from './style';
 import {InputValidator} from '../../components/inputs';
 import { useForm, SubmitHandler} from 'react-hook-form';
@@ -24,11 +21,6 @@ const recoverPassword = ()=>{
     }
 
     return(
-        <>
-            <Header>
-             <LoginRegisterButtons />
-            </Header>
-
              <StyledMain>
 
                 <StyledContainerRecoverPassword onSubmit={handleSubmit(sumbit)}>
@@ -54,9 +46,6 @@ const recoverPassword = ()=>{
 
              </StyledMain>
 
-            <Footer/>
-        
-        </>
     )
 }
 
