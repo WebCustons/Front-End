@@ -5,19 +5,21 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {FormForgoutPasswordRequest,schema} from './validators';
 import { useUser } from '../../hooks/useProduct';
+import { useNavigate } from 'react-router-dom';
 
 
 export const FormForgoutPassword = () => {
-    const [forgotPassword, setForgotPassword] = useState(true);
+    
+    const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors },} = useForm<FormForgoutPasswordRequest>({
         resolver: zodResolver(schema),
     })
 
-    const { sendEmail } = useUser()
+    const { sendEmail,setForgotPassword,forgotPassword} = useUser()
 
     const submit: SubmitHandler<FormForgoutPasswordRequest> = async (email) => {
-        console.log(email);
+        sendEmail(email.email)
     }
 
     return (
@@ -32,8 +34,8 @@ export const FormForgoutPassword = () => {
             />
             <div className="buttonsForgoutPassword">
 
-                <button className="buttonVoltar" onClick={() => setForgotPassword(true)}>Voltar</button>
-                <button className="buttonSubmit">Enviar</button><br />
+                <button className="buttonVoltar" type='button' onClick={()=>setForgotPassword(true)}>Voltar</button>
+                <button className="buttonSubmit" type='submit'>Enviar</button><br />
 
             </div>
         </StyledFormForgoutPassword>

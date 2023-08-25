@@ -6,14 +6,14 @@ import { InputValidator } from "../../components/inputs"
 import { useNavigate } from "react-router-dom"
 import Header from "../../components/header"
 import { Footer } from "../../components/footer"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 import { useUser } from './../../hooks/useProduct';
 import { FormForgoutPassword } from "../../components/formForgoutPassword"
 
 const Login = () => {
   const navigate = useNavigate();
-  const [forgotPassword, setForgotPassword] = useState(true);
+  
 
   const {
     register,
@@ -24,7 +24,8 @@ const Login = () => {
     resolver: zodResolver(schema),
   })
 
-  const { login, loadingBnt,sendEmail} = useUser()
+  const { login, loadingBnt,forgotPassword,setForgotPassword} = useUser()
+
 
   const submit: SubmitHandler<LoginData> = async (data) => {
     login(data)

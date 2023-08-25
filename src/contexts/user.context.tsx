@@ -34,6 +34,9 @@ interface IUserContext {
   deleteUser: () => Promise<void>
   logoutUser: () => void
   sendEmail: (email:string) => void;
+  updateForgoutPassword: (password: string, token: string) => void;
+  forgotPassword:boolean
+  setForgotPassword:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const UserContext = createContext({} as IUserContext)
@@ -42,12 +45,59 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null)
   const [announceListUser, setAnnounceListUser] = useState<IAdvertsByUserId>()
   const [loadingBnt, setLoadingBnt] = useState(false)
+  const [forgotPassword, setForgotPassword] = useState(true);
 
   const navigate = useNavigate()
   const toast = useToast()
 
   const sendEmail = async(email:string)=>{
-    console.log(email);
+    toast({
+      title: `Carregando`,
+      status: "loading",
+      position: "top-right",
+      isClosable: true,
+    })
+    try {
+      const result = await api.post('/recoverPassword',{email:email});
+      toast({
+        title: `Enviamos um link de recuperação no seu email, por favor verifica o seu email`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      })
+      
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: `Algo deu errado,tente novamente`,
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      })
+    }
+  }
+
+  const updateForgoutPassword = async (password:string,token:string)=>{
+   try {
+    const result = await api.patch(`/recoverPassword/${token}`,{password:password});
+    toast({
+      title: `Senha alterada com sucesso`,
+      status: "success",
+      position: "top-right",
+      isClosable: true,
+    })
+    setTimeout(() => {
+      navigate('/login')
+    }, 1500)
+   } catch (error) {
+    console.log(error);
+    toast({
+      title: `Algo deu errado, tente novamente`,
+      status: "error",
+      position: "top-right",
+      isClosable: true,
+    })
+   }
   }
 
   const getUser = async () => {
@@ -66,7 +116,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   }
 
   const updateUser = async (data: TUpdateUser) => {
-    console.log(data)
     try {
       const token = localStorage.getItem("@TOKEN")
       const response = await api.patch(`/users`, data, {
@@ -223,7 +272,10 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         setLoadingBnt,
         deleteUser,
         logoutUser,
-        sendEmail
+        sendEmail,
+        updateForgoutPassword,
+        forgotPassword,
+        setForgotPassword
       }}
     >
       {children}
