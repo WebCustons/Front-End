@@ -1,26 +1,41 @@
-import { Box, Button, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
-import { useUser } from './../../hooks/useProduct';
-import { FormEditUser } from './../formEditUser/index';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { StyledUserHeader } from './style';
-
-
+import {
+  Box,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react"
+import { useUser } from "./../../hooks/useProduct"
+import { FormEditUser } from "./../formEditUser/index"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { StyledUserHeader } from "./style"
 
 export const UserHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { user, getUser } = useUser();
+  const { user, getUser, deleteUser, logoutUser } = useUser()
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    getUser();
-  }, []);
+    getUser()
+  }, [])
 
   return (
     <StyledUserHeader>
-      <Menu >
-        <MenuButton as={Button}
+      <Menu>
+        <MenuButton
+          as={Button}
           colorScheme="messenger"
           variant="ghost"
           height={"100%"}
@@ -31,8 +46,8 @@ export const UserHeader = () => {
           display={"flex"}
           color={"Black"}
           _hover={{
-            bg: 'var(--brand1)',
-            color: " var(--brand4)"
+            bg: "var(--brand1)",
+            color: " var(--brand4)",
           }}
         >
           <Box
@@ -57,10 +72,15 @@ export const UserHeader = () => {
           style={{
             position: "relative",
             width: "100%",
-          }}>
+          }}
+        >
           <MenuItem onClick={onOpen}>Editar Usuario</MenuItem>
-          <MenuItem onClick={() => navigate(`/profile/${user?.id}`)}>Meus Anuncios</MenuItem>
-          <MenuItem>Sair</MenuItem>
+          {user?.type_user == "seller" && (
+            <MenuItem onClick={() => navigate(`/profile/${user?.id}`)}>
+              Meus Anuncios
+            </MenuItem>
+          )}
+          <MenuItem onClick={logoutUser}>Sair</MenuItem>
         </MenuList>
       </Menu>
       <Modal
@@ -70,12 +90,37 @@ export const UserHeader = () => {
           <ModalHeader>Editar Usuario</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormEditUser>
+            <FormEditUser onClose={onClose}>
+              <Button
+                width={"40%"}
+                mr={3}
+                onClick={onClose}
+                borderRadius={"10px"}
+              >
+                Cancelar
+              </Button>
+              <Button
+                width="40%"
+                mr={3}
+                backgroundColor="var(--alert1)"
+                onClick={deleteUser}
+                color="var(--grey8)"
+                borderRadius="10px"
+                border="1px solid var(--alert1)"
+                transition="0.5s"
+                _hover={{
+                  bg: "transparent",
+                  color: "var(--alert1)",
+                  transition: "0.5s",
+                }}
+              >
+                Excluir Usuário
+              </Button>
             </FormEditUser>
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </StyledUserHeader>
-  );
-};
+  )
+}

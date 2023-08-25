@@ -14,7 +14,7 @@ function RoutePages() {
       <Route path="/register" element={<Register />} />
       <Route path="/profile/:id" element={<ProfilePages />} />
       <Route path="/product/:id" element={<Products />} />
-      <Route path="/recoverPassword" element={<RecoverPassword />} />
+      <Route path="/recoverPassword/:token" element={<RecoverPassword />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )

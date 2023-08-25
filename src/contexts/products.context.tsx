@@ -3,8 +3,8 @@ import { TCreateAdvertData, TPagination } from "../interfaces/advert.interface";
 import { api, apiKenzie } from "../services/api";
 import { TKenzieKars } from "../interfaces/kenzieKars.interface";
 import { useToast } from "@chakra-ui/react";
-import { useUser } from './../hooks/useProduct';
-import { AxiosError } from 'axios';
+import { useUser } from "./../hooks/useProduct";
+import { AxiosError } from "axios";
 import { TAdvert } from "../schemas/advert.schema";
 
 interface iProductContextProps {
@@ -26,8 +26,8 @@ type TFilters = {
 type TErrorResponse = {
   message: {
     [key: string]: unknown;
-  }
-}
+  };
+};
 interface IProductProvider {
   // Adverts
   getAdverts: () => void;
@@ -35,13 +35,14 @@ interface IProductProvider {
 
   // Pagination
   page: TPagination | undefined;
-  previusPage: () => void;
-  nextPage: () => void;
-  paginationByNumber: (page: number) => Promise<void>;
+  previusPage:  (data: TFilters) => Promise<void>;
+  nextPage: (data: TFilters) => Promise<void>;
+  paginationByNumber: (page: number, data: TFilters) => Promise<void>;
+
 
   // Filters
-  filters: TFilters | null;
-  setFilters: React.Dispatch<React.SetStateAction<TFilters | null>>;
+  filters: TFilters;
+  setFilters: React.Dispatch<React.SetStateAction<TFilters>>;
 
   // Kenzie Kars
   getKenzieKarsInformation: () => Promise<void>;
@@ -51,11 +52,10 @@ interface IProductProvider {
   kenzieKarModel: TKenzieKars | undefined;
   getKenzieKar: (model: string) => Promise<void>;
 
-  // Advert 
+  // Advert
   createAdvert: (data: TCreateAdvertData) => Promise<string>;
-  getAdvert: (idAdvert: number) => Promise<TAdvert>;
+  getAdvert: (idAdvert: number) => Promise<void>;
 }
-
 
 export const ProductContext = createContext({} as IProductProvider);
 
@@ -65,7 +65,10 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
-  const [kenzieKarModel, setKenzieKarModel] = useState<TKenzieKars | undefined>();
+
+  const [kenzieKarModel, setKenzieKarModel] = useState<
+    TKenzieKars | undefined
+  >();
 
   const toast = useToast();
   const { getAnnounceUser } = useUser();
@@ -74,7 +77,6 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
     const [products, filters] = await Promise.all([
       api.get("/adverts/"),
       api.get("/adverts/adverts-filters"),
-
     ]);
     setPage(products.data);
     setFilters(filters.data);
@@ -92,24 +94,24 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
         },
       });
-      const id = localStorage.getItem("@ID")
-      getAnnounceUser(id!)
+      const id = localStorage.getItem("@ID");
+      getAnnounceUser(id!);
       toast({
         title: `Sucesso  😁`,
         status: "success",
         position: "top-right",
         isClosable: true,
-      })
+      });
     } catch (error) {
       if ((error as AxiosError).response?.status != 500) {
-        const err = (error as AxiosError<TErrorResponse>);
+        const err = error as AxiosError<TErrorResponse>;
         for (const key in err.response?.data.message) {
           toast({
             title: `${key} : ${err.response?.data.message[key]}`,
             status: "error",
             position: "top-right",
             isClosable: true,
-          })
+          });
         }
       } else {
         toast({
@@ -117,16 +119,17 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           status: "warning",
           position: "top-right",
           isClosable: true,
-        })
+        });
         console.log(error);
       }
     }
-    return ""
+    return "";
   };
 
 
-  const getAdvertsByFilter = async (data: TFilters) => {
-    const queryParams = new URLSearchParams();
+  const queryParams = (data: TFilters)=>{
+
+    const queryParam = new URLSearchParams();
 
     const filterKeys = {
       brand: data?.brandAdvert,
@@ -141,40 +144,73 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     for (const [key, value] of Object.entries(filterKeys)) {
       if (!Array.isArray(value) && value !== undefined) {
-        queryParams.append(key, String(value));
+        queryParam.append(key, String(value));
       } else if (Array.isArray(value) && value.length === 1) {
-        queryParams.append(key, String(value[0]));
+        queryParam.append(key, String(value[0]));
       }
     }
+
+    return queryParam.toString()
+
+  }
+    
+  const getAdvertsByFilter = async (data: TFilters) => {
+
+    const query = queryParams(data);
+
     const [advertsFilter, productOption] = await Promise.all([
-      api.get(`/adverts/filtered?${queryParams.toString()}`),
-      api.get(`/adverts/adverts-filters?${queryParams.toString()}`),
+      api.get(`/adverts/filtered?${query}`),
+      api.get(`/adverts/adverts-filters?${query}`),
 
     ]);
     setPage(advertsFilter.data);
     setFilters(productOption.data);
   };
 
-  const previusPage = async () => {
-    if (page?.prevPage) {
+  const previusPage = async (data: TFilters) => {
+    
+
+    const query = queryParams(data);
+
+    if (page?.prevPage ) {
+    
       const url: string[] = page.prevPage.split("/");
-      const response = await api.get(`${url[3]}/${url[4]}`);
+      const pageURL = url[4].split(' ');
+
+      const queryString = pageURL[0];
+      const match = queryString.match(/\d+/);
+
+      const pages = match ? parseInt(match[0]) : null;
+
+      const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
       setPage(response.data);
     }
   };
+  const nextPage = async (data: TFilters) => {
 
-  const nextPage = async () => {
+    const query = queryParams(data);
+  
     if (page?.nextPage) {
       const url: string[] = page.nextPage.split("/");
-      const response = await api.get(`${url[3]}/${url[4]}`);
+      const pageURL = url[4].split(' ');
+
+      const queryString = pageURL[0];
+      const match = queryString.match(/\d+/);
+
+      const pages = match ? parseInt(match[0]) : null;
+
+      const response = await api.get(`/adverts/filtered?page=${pages}&${query}`);
+  
       setPage(response.data);
     }
   };
 
-  const paginationByNumber = async (page: number) => {
-    const response = await api.get(`adverts/?page=${page}&perPage=12`);
+  const paginationByNumber = async (page: number,data: TFilters) => {
+    const query = queryParams(data);
+    const response = await api.get(`/adverts/filtered?page=${page}&${query}`);
     setPage(response.data);
   };
+
 
   const getKenzieKarsInformation = async () => {
     const response = await apiKenzie.get("/cars");
@@ -196,7 +232,6 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     setKenzieKarModel(kar);
   };
-
 
   return (
     <ProductContext.Provider
@@ -229,5 +264,4 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       {children}
     </ProductContext.Provider>
   );
-
 };

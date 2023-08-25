@@ -1,24 +1,47 @@
-import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, } from "@chakra-ui/react"
-import { StyledPageProfile } from "./style"
-import { StyledContainer } from "../../../styles/Container"
-import { useEffect } from "react"
-import { ListCards } from "../../../components/listCards"
-import { FormCreateAdvert } from "../../../components/formCreateAdvert"
+import {
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Tag,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react"
+import { useUser } from "../../../hooks/useProduct"
 import { useParams } from "react-router-dom"
-import { useUser } from './../../../hooks/useProduct';
+import { useEffect } from "react"
+import { StyledPageProfile } from "./style"
+import Header from "../../../components/header"
+import { UserHeader } from "../../../components/userHeader"
+import { StyledContainer } from "../../../styles/Container"
+import { ListCards } from "../../../components/listCards"
+import { Footer } from "../../../components/footer"
+import { FormCreateAdvert } from "../../../components/formCreateAdvert"
+import { DeleteUser } from "../../../components/Buttons/DeleteUser"
 
-export const ProfileViewOwner = () => {
+type TTypeView = {
+  typeView: "admin" | "owner" | null
+}
+
+export const Profile = ({ typeView }: TTypeView) => {
   const { announceListUser, getAnnounceUser } = useUser()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { id } = useParams()
 
   useEffect(() => {
     getAnnounceUser(id!)
-  }, [])
-
+  }, [id])
 
   return (
     <StyledPageProfile>
+      <Header>
+        <UserHeader />
+      </Header>
 
       <Box as="main" background={"var(--grey8)"}>
         <Box
@@ -73,40 +96,41 @@ export const ProfileViewOwner = () => {
                 </Tag>
               </Box>
             </Box>
-            <Text className="descriptionUser">{announceListUser?.description}</Text>
-            <Button
-              width={"fit-content"}
-              backgroundColor={"transparent"}
-              border={"1px solid var(--brand1)"}
-              color={"var(--brand1)"}
-              transition={"0.5s"}
-              _hover={{
-                bg: "var(--brand1)",
-                color: "var(--grey8)",
-                transition: "0.5s",
-              }}
-              borderRadius={"10px"}
-              onClick={onOpen}
-            >
-              Criar Anuncio
-            </Button>
+            <Text className="descriptionUser">
+              {announceListUser?.description}
+            </Text>
+            {typeView == "owner" && (
+              <Button
+                width={"fit-content"}
+                backgroundColor={"transparent"}
+                border={"1px solid var(--brand1)"}
+                color={"var(--brand1)"}
+                transition={"0.5s"}
+                _hover={{
+                  bg: "var(--brand1)",
+                  color: "var(--grey8)",
+                  transition: "0.5s",
+                }}
+                borderRadius={"10px"}
+                onClick={onOpen}
+              >
+                Criar Anuncio
+              </Button>
+            )}
+            {typeView == "admin" && <DeleteUser />}
           </Box>
         </Box>
 
         <StyledContainer>
           <Box as="section" padding={"0 15px"}>
-            <Text
-              as={"h1"}
-              fontSize={"2xl"}
-              fontWeight={"bold"}
-              marginBottom={"80px"}
-            >
-              Anúncios
-            </Text>
-            <ListCards typeView={"owner"} advertsList={announceListUser?.adverts} />
+            <ListCards
+              advertsList={announceListUser?.adverts}
+              typeView={typeView}
+            />
           </Box>
         </StyledContainer>
       </Box>
+      <Footer />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"520px"}>
@@ -122,13 +146,11 @@ export const ProfileViewOwner = () => {
               >
                 Cancelar
               </Button>
-            </FormCreateAdvert >
+            </FormCreateAdvert>
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
-
-
     </StyledPageProfile>
   )
 }

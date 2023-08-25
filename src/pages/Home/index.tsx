@@ -1,6 +1,6 @@
 import { StyledHome, StyledBannerPageHome, StyledSection } from "./style"
 import Banner from "../../assets/banner_bmw.png"
-import { Button, ButtonGroup, Box, } from "@chakra-ui/react"
+import { Button, ButtonGroup, Box} from "@chakra-ui/react"
 import { useProduct, useUser } from "../../hooks/useProduct"
 import { AsideFilters } from "../../components/aside"
 import { StyledContainer } from "../../styles/Container"
@@ -8,7 +8,7 @@ import { useEffect } from "react"
 import { ListCards } from "../../components/listCards"
 
 function Home() {
-  const { getAdverts, page, previusPage, nextPage, paginationByNumber, } = useProduct()
+  const { getAdverts, page, previusPage, nextPage, paginationByNumber, filters } = useProduct()
   const {  getUser } = useUser()
 
   useEffect(() => {
@@ -22,6 +22,8 @@ function Home() {
       pages.push(i + 1)
     }
   }
+
+
 
   return (
 
@@ -61,7 +63,7 @@ function Home() {
                       borderBottom: "1px solid var(--grey1)",
                       transition: "0.5s",
                     }}
-                    onClick={() => paginationByNumber(page)}
+                    onClick={() => paginationByNumber(page,filters)}
                   >
                     {page}
                   </Button>
@@ -74,7 +76,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={previusPage}
+                    onClick={()=>previusPage(filters)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
@@ -93,7 +95,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={nextPage}
+                    onClick={()=>nextPage(filters)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
