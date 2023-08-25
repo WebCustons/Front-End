@@ -22,10 +22,8 @@ import { useNavigate } from "react-router-dom"
 import { StyledUserHeader } from "./style"
 
 export const UserHeader = () => {
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, getUser, deleteUser, logoutUser } = useUser();
-
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user, getUser, deleteUser, logoutUser } = useUser()
 
   const navigate = useNavigate()
 
@@ -77,9 +75,11 @@ export const UserHeader = () => {
           }}
         >
           <MenuItem onClick={onOpen}>Editar Usuario</MenuItem>
-          <MenuItem onClick={() => navigate(`/profile/${user?.id}`)}>
-            Meus Anuncios
-          </MenuItem>
+          {user?.type_user == "seller" && (
+            <MenuItem onClick={() => navigate(`/profile/${user?.id}`)}>
+              Meus Anuncios
+            </MenuItem>
+          )}
           <MenuItem onClick={logoutUser}>Sair</MenuItem>
         </MenuList>
       </Menu>
