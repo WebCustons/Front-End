@@ -19,4 +19,8 @@ export const CommentSchemaRequest = CommentsSchema.omit({
   created_at: true,
 });
 
+export const CommentData = z.object({
+  comment: z.string(),
+});
+
 export const AllCommentsSchema = z.array(CommentsSchema);
