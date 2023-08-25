@@ -9,7 +9,7 @@ import { Container } from "./styles";
 
 export const InputValidator = forwardRef<HTMLInputElement, InputValidatorProps>(
   ({ label, id, type, error, placeholder, ...rest }, ref) => {
-    console.log(error);
+    
     
     return (
       <Container>

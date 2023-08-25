@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { TAdvert } from "../../schemas/advert.schema";
 interface ICardProps {
+
   advert: TAdvert;
   typeView: "owner" | "admin" | "visitor";
 }
@@ -19,10 +20,18 @@ import discountImage from "../../assets/$.png";
 import { useNavigate } from "react-router-dom";
 import { BottomLogicView } from "./BottomLogicView";
 
+
 export function CardAdvert({ advert, typeView }: ICardProps) {
   // const userNameIcon: string[] = advert.Users.name.split(" ");
   // const userNameIcon: string[] = advert.Users.name.split(" ");
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
+  const brandName = advert.brand[0].toUpperCase() + advert.brand.slice(1)
+  const modelName = (
+    advert.model[0].toUpperCase() + advert.model.slice(1)
+  ).split(" ")[0]
+
+
   return (
     <ListItem
       color={`var(--grey1)`}
@@ -47,7 +56,7 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
         <CardBody
           display={"flex"}
           flexDirection={"column"}
-          gap={"1rem"}
+          gap={"15px"}
           padding={"0"}
         >
           {advert.table_fipe ? (
@@ -86,11 +95,12 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
             <Box
               display={"flex"}
               flexDirection={"column"}
-              gap={"1rem"}
+              justifyContent={"space-between"}
               width={"100%"}
+              height={"175px"}
             >
               <Heading as="h3" size="md">
-                {advert.brand} - {advert.model}
+                {brandName} - {modelName}
               </Heading>
 
               <Text
@@ -98,6 +108,13 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
                 color={`var(--grey2)`}
                 lineHeight={"1.5rem"}
                 textAlign={"left"}
+                height={"48px"}
+                overflow="hidden"
+                display="-webkit-box"
+                style={{
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                }}
               >
                 {advert.description.length > 120
                   ? advert.description.slice(0, 80) + "..."
@@ -106,9 +123,10 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
 
               {advert.user?.name && (
                 <Box
-                  // onClick={() => {
-                  //   navigate(`/profile/${advert.user.id}`)
-                  // }}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    navigate(`/profile/${advert.user.id}`)
+                  }}
                   display={"flex"}
                   gap={"1rem"}
                   justifyItems={"center"}
@@ -133,58 +151,60 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
                   </Text>
                 </Box>
               )}
+              <CardFooter
+                display={"flex"}
+                justifyContent={"space-between"}
+                width={"100%"}
+                alignItems={"center"}
+                padding={"0"}
+              >
+                <Container
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  padding={"0"}
+                >
+                  <Box display={"flex"} gap={"1rem"} width={"50%"}>
+                    <Tag
+                      color={`var(--brand1)`}
+                      backgroundColor={`var(--brand4)`}
+                      padding={"0.4rem"}
+                      borderRadius={"5px"}
+                      size="sm"
+                      fontWeight={"bold"}
+                    >
+                      {advert.mileage} KM
+                    </Tag>
+
+                    <Tag
+                      color={`var(--brand1)`}
+                      backgroundColor={`var(--brand4)`}
+                      padding={"0.4rem"}
+                      borderRadius={"5px"}
+                      size="sm"
+                      fontSize={"sm"}
+                      fontWeight={"bold"}
+                    >
+                      {advert.year}
+                    </Tag>
+                  </Box>
+
+                  <Text
+                    fontSize="md"
+                    fontWeight={"bold"}
+                    width={"50%"}
+                    textAlign={"right"}
+                  >
+                    R$ {advert.price}
+                  </Text>
+                </Container>
+              </CardFooter>
+              <BottomLogicView typeView={typeView} />
             </Box>
           </Container>
         </CardBody>
-        <CardFooter
-          display={"flex"}
-          justifyContent={"space-between"}
-          width={"100%"}
-          alignItems={"center"}
-          padding={"0"}
-        >
-          <Container
-            display={"flex"}
-            justifyContent={"space-between"}
-            paddingBottom={"1rem"}
-          >
-            <Box display={"flex"} gap={"1rem"} width={"50%"}>
-              <Tag
-                color={`var(--brand1)`}
-                backgroundColor={`var(--brand4)`}
-                padding={"0.4rem"}
-                borderRadius={"5px"}
-                size="sm"
-                fontWeight={"bold"}
-              >
-                {advert.mileage} KM
-              </Tag>
-
-              <Tag
-                color={`var(--brand1)`}
-                backgroundColor={`var(--brand4)`}
-                padding={"0.4rem"}
-                borderRadius={"5px"}
-                size="sm"
-                fontSize={"sm"}
-                fontWeight={"bold"}
-              >
-                {advert.year}
-              </Tag>
-            </Box>
-
-            <Text
-              fontSize="md"
-              fontWeight={"bold"}
-              width={"50%"}
-              textAlign={"right"}
-            >
-              R$ {advert.price}
-            </Text>
-          </Container>
-        </CardFooter>
-        <BottomLogicView typeView={typeView} />
       </Card>
     </ListItem>
+
   );
+
 }

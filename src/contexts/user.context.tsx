@@ -25,25 +25,84 @@ interface IUserContext {
   getAnnounceUser: (id: string) => Promise<void>;
   setAnnounceListUser: React.Dispatch<
     React.SetStateAction<IAdvertsByUserId | undefined>
-  >;
-  updateUser: (data: TUpdateUser) => Promise<boolean>;
-  login: (data: LoginData) => Promise<void>;
-  registerUser: (formData: ClientData) => Promise<void>;
-  loadingBnt: boolean;
-  setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteUser: () => Promise<void>;
-  logoutUser: () => void;
+
+  >
+  updateUser: (data: TUpdateUser) => Promise<boolean>
+  login: (data: LoginData) => Promise<void>
+  registerUser: (formData: ClientData) => Promise<void>
+  loadingBnt: boolean
+  setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>
+  deleteUser: () => Promise<void>
+  logoutUser: () => void
+  sendEmail: (email:string) => void;
+  updateForgoutPassword: (password: string, token: string) => void;
+  forgotPassword:boolean
+  setForgotPassword:React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
 export const UserContext = createContext({} as IUserContext);
 
 export const UserProvider = ({ children }: IUserProviderProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
-  const [announceListUser, setAnnounceListUser] = useState<IAdvertsByUserId>();
-  const [loadingBnt, setLoadingBnt] = useState(false);
+
+  const [user, setUser] = useState<IUser | null>(null)
+  const [announceListUser, setAnnounceListUser] = useState<IAdvertsByUserId>()
+  const [loadingBnt, setLoadingBnt] = useState(false)
+  const [forgotPassword, setForgotPassword] = useState(true);
+
 
   const navigate = useNavigate();
   const toast = useToast();
+
+  const sendEmail = async(email:string)=>{
+    toast({
+      title: `Carregando`,
+      status: "loading",
+      position: "top-right",
+      isClosable: true,
+    })
+    try {
+      const result = await api.post('/recoverPassword',{email:email});
+      toast({
+        title: `Enviamos um link de recuperação no seu email, por favor verifica o seu email`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      })
+      
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: `Algo deu errado,tente novamente`,
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      })
+    }
+  }
+
+  const updateForgoutPassword = async (password:string,token:string)=>{
+   try {
+    const result = await api.patch(`/recoverPassword/${token}`,{password:password});
+    toast({
+      title: `Senha alterada com sucesso`,
+      status: "success",
+      position: "top-right",
+      isClosable: true,
+    })
+    setTimeout(() => {
+      navigate('/login')
+    }, 1500)
+   } catch (error) {
+    console.log(error);
+    toast({
+      title: `Algo deu errado, tente novamente`,
+      status: "error",
+      position: "top-right",
+      isClosable: true,
+    })
+   }
+  }
 
   const getUser = async () => {
     try {
@@ -61,7 +120,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   };
 
   const updateUser = async (data: TUpdateUser) => {
-    console.log(data);
     try {
       const token = localStorage.getItem("@TOKEN");
       const response = await api.patch(`/users`, data, {
@@ -186,20 +244,24 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const deleteUser = async () => {
     try {
-      const token = localStorage.getItem("@TOKEN");
-      const id = localStorage.getItem("@ID");
-      await api.delete(`/users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      localStorage.removeItem("@TOKEN");
-      localStorage.removeItem("@ID");
-      navigate("/login", { replace: true });
+
+      if (user?.type_user == "admin") {
+        const id = announceListUser!.id
+        await api.delete(`/users/${id}`)
+        navigate("/")
+
+        return
+      }
+      const id = localStorage.getItem("@ID")
+      await api.delete(`/users/${id}`)
+      localStorage.removeItem("@TOKEN")
+      localStorage.removeItem("@ID")
+      navigate("/login")
+
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <UserContext.Provider
@@ -216,6 +278,11 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         setLoadingBnt,
         deleteUser,
         logoutUser,
+        sendEmail,
+        updateForgoutPassword,
+        forgotPassword,
+        setForgotPassword
+
       }}
     >
       {children}
