@@ -35,7 +35,7 @@ export const Profile = ({ typeView }: TTypeView) => {
 
   useEffect(() => {
     getAnnounceUser(id!)
-  }, [])
+  }, [id])
 
   return (
     <StyledPageProfile>
