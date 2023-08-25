@@ -15,7 +15,7 @@ export const ProfilePages = () => {
 
   if (user?.id?.toString() == id && user?.type_user != "seller") {
     navigate("/")
-    return
+    return <></>
   } else if (user?.id?.toString() == id) {
     return <Profile typeView="owner" />
   } else if (user?.type_user == "admin") {

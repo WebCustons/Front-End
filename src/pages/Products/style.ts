@@ -6,8 +6,10 @@ export const StyledProducts = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 30px;
-   background-color: transparent;
-
+  background-color: transparent;
+  .optionalImg{
+    cursor:pointer;
+  }
   span {
     width: 100%;
     padding: 3px;
@@ -24,7 +26,6 @@ export const StyledProducts = styled.main`
   }
 
   @media (min-width: 600px) {
-    width: 100vw;
     flex-direction: row;
     justify-content: center;
     gap:20px;

@@ -17,9 +17,10 @@ export function Products() {
     useEffect(() => {
         const fetchAdvert = async () => {
             if (id) {
-                const cover = await getAdvert(parseInt(id));
-                setAdvert(cover);
-                setCouverImg(cover.cover_image);
+                const car = await getAdvert(parseInt(id));
+                console.log(car.comments);
+                setAdvert(car);
+                setCouverImg(car.cover_image);
             }
         }
         fetchAdvert()
@@ -140,6 +141,7 @@ export function Products() {
                     >
                         {advert?.images && advert?.images.length > 1 && advert?.images.map((image) =>
                             <Image key={image.id} src={image.image}
+                                className="optionalImg"
                                 height="100px"
                                 width="100px"
                                 objectFit="cover"
@@ -148,6 +150,7 @@ export function Products() {
                             />
                         )}
                         <Image key={advert?.cover_image} src={advert?.cover_image}
+                            className="optionalImg"
                             height="100px"
                             width="100px"
                             objectFit="cover"
