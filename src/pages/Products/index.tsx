@@ -110,6 +110,39 @@ export function Products() {
                         {advert?.description}
                     </Text>
                 </Box>
+                <Box as="article"
+                    backgroundColor="var(--grey10)"
+                    width="100%"
+                    display="flex"
+                    padding="30px 20px"
+                    flexDirection="column"
+                    alignItems="initial"
+                    borderRadius="10px"
+                >
+                    <Text as="b" fontSize="xl" color={`var(--grey2)`}>
+                        Comentários
+                    </Text>
+
+                    <Box
+                        className="icon"
+                        backgroundColor={`var(--random2)`}
+                        borderRadius={"20px"}
+                        display={"flex"}
+                        width={"30px"}
+                        height={"30px"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        fontWeight={"bold"}
+                        marginRight={"5px"}
+                    >
+                        <Text fontSize="mg" color={`var(--grey10)`}>
+                            {advert?.comments[0]?.user?.name[0].toUpperCase()}
+                        </Text>
+                    </Box>
+                    <Text fontSize="xl" color={`var(--grey2)`}>
+                        {advert?.description}
+                    </Text>
+                </Box>
             </Box>
             <Box as="section"
                 width={["100%", "30%"]}
