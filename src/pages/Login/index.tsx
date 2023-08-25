@@ -9,6 +9,7 @@ import { Footer } from "../../components/footer"
 import { useState } from "react"
 import { LoginRegisterButtons } from "../../components/Buttons/LoginAndRegister"
 import { useUser } from './../../hooks/useProduct';
+import { FormForgoutPassword } from "../../components/formForgoutPassword"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Login = () => {
     resolver: zodResolver(schema),
   })
 
-  const { login, loadingBnt } = useUser()
+  const { login, loadingBnt,sendEmail} = useUser()
 
   const submit: SubmitHandler<LoginData> = async (data) => {
     login(data)
@@ -81,21 +82,7 @@ const Login = () => {
               </div>
             </div>
       ):(
-        <StyledFormForgoutPassword>
-          <InputValidator
-                  id="email"
-                  label="Digite um Email existente na plataforma:"
-                  type="email"
-                  placeholder="Digite seu Email"
-                />
-            <div className="buttonsForgoutPassword">
-
-                <button className="buttonVoltar" onClick={()=> setForgotPassword(true)}>Voltar</button>
-                <button className="buttonSubmit"onClick={()=> navigate('/recoverPassword')}>Enviar</button><br/>
-              
-
-            </div>
-        </StyledFormForgoutPassword>
+        <FormForgoutPassword/>
       )}
       </div>
       <Footer />

@@ -33,6 +33,7 @@ interface IUserContext {
   setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>
   deleteUser: () => Promise<void>
   logoutUser: () => void
+  sendEmail: (email:string) => void;
 }
 
 export const UserContext = createContext({} as IUserContext)
@@ -44,6 +45,10 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const navigate = useNavigate()
   const toast = useToast()
+
+  const sendEmail = async(email:string)=>{
+    console.log(email);
+  }
 
   const getUser = async () => {
     try {
@@ -218,6 +223,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         setLoadingBnt,
         deleteUser,
         logoutUser,
+        sendEmail
       }}
     >
       {children}
