@@ -18,6 +18,7 @@ export const CommentsProvider = ({ children }: ICommentsContextProps) => {
 
   const getComments = async () => {
     try {
+      //ajeitar
       const response = await api.get("/comments");
       setComments(response.data);
     } catch (error) {

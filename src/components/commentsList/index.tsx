@@ -2,6 +2,7 @@ import { List } from "@chakra-ui/react";
 import { ContainerList } from "./style";
 import { useComments } from "../../hooks/useComments";
 import { useEffect } from "react";
+import { CommentItem } from "../commentItem";
 
 export const CommentsList = () => {
   const { comments, getComments } = useComments();
@@ -15,11 +16,12 @@ export const CommentsList = () => {
         <h1>Comentários</h1>
         <List>
           {comments?.map((comment) => (
-            <li key={comment.id}>
-              {comment.comment}
-              {comment.creted_at}
-              {comment.user}
-            </li>
+            <CommentItem
+              key={comment.id}
+              comment={comment.comment}
+              name={comment.user.name}
+              created_at={comment.created_at}
+            ></CommentItem>
           ))}
         </List>
       </ContainerList>

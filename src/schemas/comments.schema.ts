@@ -5,14 +5,14 @@ export const CommentsSchema = z.object({
   comment: z.string(),
   user: z.number(),
   advert: z.number(),
-  creted_at: z.string(),
+  created_at: z.string(),
 });
 
 export const CommentSchemaRequest = CommentsSchema.omit({
   id: true,
   advert: true,
   user: true,
-  creted_at: true,
+  created_at: true,
 });
 
 export const AllCommentsSchema = z.array(CommentsSchema);
