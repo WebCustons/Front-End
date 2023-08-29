@@ -41,7 +41,7 @@ export const CommentItem = ({
     dia = "dia";
   }
 
-  console.log(`Passaram-se ${diasPassados} dias desde a data fornecida.`);
+  //console.log(`Passaram-se ${diasPassados} dias desde a data fornecida.`);
 
   return (
     <ListItem>

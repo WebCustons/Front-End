@@ -14,7 +14,6 @@ import { BottomLogicView } from "./BottomLogicView";
 
 export function CardAdvert({ advert, typeView }: ICardProps) {
 
-  console.log(advert.cover_image);
   
 
   const navigate = useNavigate()
