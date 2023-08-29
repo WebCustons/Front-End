@@ -1,10 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import StyledLogin,{StyledFormForgoutPassword} from "./style"
+import StyledLogin from "./style"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginData, schema } from "./validators"
 import { InputValidator } from "../../components/inputs"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
 import { useUser } from './../../hooks/useProduct';
 import { FormForgoutPassword } from "../../components/formForgoutPassword"
 
