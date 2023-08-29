@@ -23,8 +23,6 @@ function Home() {
     }
   }
 
-
-
   return (
 
       <StyledHome>
@@ -63,7 +61,7 @@ function Home() {
                       borderBottom: "1px solid var(--grey1)",
                       transition: "0.5s",
                     }}
-                    onClick={() => paginationByNumber(page,filters)}
+                    onClick={() => paginationByNumber(page,filters!)}
                   >
                     {page}
                   </Button>
@@ -76,7 +74,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={()=>previusPage(filters)}
+                    onClick={()=>previusPage(filters!)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}
@@ -95,7 +93,7 @@ function Home() {
                     backgroundColor={"transparent"}
                     variant="link"
                     color={`var(--brand1)`}
-                    onClick={()=>nextPage(filters)}
+                    onClick={()=>nextPage(filters!)}
                     cursor={"pointer"}
                     border={"1px solid transparent"}
                     transition={"0.5s"}

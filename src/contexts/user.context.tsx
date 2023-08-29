@@ -53,6 +53,9 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const navigate = useNavigate();
   const toast = useToast();
+  const id = localStorage.getItem("@ID");
+  const token = localStorage.getItem("@TOKEN");
+  
 
   const sendEmail = async(email:string)=>{
     toast({
@@ -62,7 +65,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
       isClosable: true,
     })
     try {
-      const result = await api.post('/recoverPassword',{email:email});
+      await api.post('/recoverPassword',{email:email});
       toast({
         title: `Enviamos um link de recuperação no seu email, por favor verifica o seu email`,
         status: "success",
@@ -71,19 +74,28 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
       })
       
     } catch (error) {
-      console.log(error)
-      toast({
-        title: `Algo deu errado,tente novamente`,
-        status: "error",
-        position: "top-right",
-        isClosable: true,
-      })
+      if((error as AxiosError).response?.status !== 500){
+        toast({
+          title: `Esse Email não existe na plataforma`,
+          status: "error",
+          position: "top-right",
+          isClosable: true,
+        })
+        
+      }else{
+        toast({
+          title: `Algo deu errado,tente novamente`,
+          status: "error",
+          position: "top-right",
+          isClosable: true,
+        })
+      }
     }
   }
 
   const updateForgoutPassword = async (password:string,token:string)=>{
    try {
-    const result = await api.patch(`/recoverPassword/${token}`,{password:password});
+    await api.patch(`/recoverPassword/${token}`,{password:password});
     toast({
       title: `Senha alterada com sucesso`,
       status: "success",
@@ -106,8 +118,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const getUser = async () => {
     try {
-      const id = localStorage.getItem("@ID");
-      const token = localStorage.getItem("@TOKEN");
       const userResponse = await api.get(`/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -121,7 +131,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const updateUser = async (data: TUpdateUser) => {
     try {
-      const token = localStorage.getItem("@TOKEN");
       const response = await api.patch(`/users`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -251,9 +260,6 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
         return
       }else{
-        const token = localStorage.getItem('@TOKEN');
-        const id = localStorage.getItem("@ID")
-
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
