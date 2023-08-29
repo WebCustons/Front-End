@@ -71,6 +71,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const [filters, setFilters] = useState<TFilters | null>(null);
   const [kenzieKars, setKenzieKars] = useState<TKenzieKars[]>([]);
   const [kenzieKarsBrands, setKenzieKarsBrands] = useState<string[]>([]);
+  const [comments, setComments] = useState([]);
 
   const [kenzieKarModel, setKenzieKarModel] = useState<
     TKenzieKars | undefined
@@ -78,6 +79,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const toast = useToast();
   const { getAnnounceUser } = useUser();
+  const id = localStorage.getItem("@ID");
+  const token = localStorage.getItem("@TOKEN");
 
   const getAdverts = async () => {
     const [products, filters] = await Promise.all([
@@ -97,10 +100,10 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
       data.published = true;
       await api.post("/adverts/", data, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      const id = localStorage.getItem("@ID");
+     
       getAnnounceUser(id!);
       toast({
         title: `Sucesso  😁`,
@@ -232,7 +235,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
     setKenzieKarModel(kar);
   };
-  const [comments, setComments] = useState([]);
+
 
   const getComments = async () => {
     try {
@@ -258,7 +261,6 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
 
   const setComment = async (comment: TCommentRequest, id: string) => {
     try {
-      const token = localStorage.getItem("@TOKEN");
       await api.post(`/comments/advert/${id}`, comment, {
         headers: {
           Authorization: `Bearer ${token}`,
