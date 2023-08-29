@@ -1,11 +1,15 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledPageProfile = styled.div`
   @media (min-width: 600px) {
+    .blueDiv {
+      margin-bottom: 170px;
+    }
+
     .userContainer {
       left: 10%;
       right: 10%;
-      height: 330px;
+      /* height: 330px; */
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -16,4 +20,4 @@ export const StyledPageProfile = styled.div`
       justify-content: center;
     }
   }
-`;
+`

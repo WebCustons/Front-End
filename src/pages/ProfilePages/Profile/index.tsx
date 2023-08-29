@@ -44,14 +44,16 @@ export const Profile = ({ typeView }: TTypeView) => {
           background={"var(--brand1)"}
           position={"relative"}
           height={"330px"}
-          marginBottom={"170px"}
+          marginBottom={"270px"}
+          // marginBottom={{ base: "270px", sm: "170px" }}
         >
           <Box
             className="userContainer"
             display={"flex"}
             flexDirection={"column"}
             backgroundColor={"var(--grey10)"}
-            height={"400px"}
+            // height={"400px"}
+            gap={"1rem"}
             position={"absolute"}
             top={"30%"}
             left={"4%"}
@@ -90,10 +92,15 @@ export const Profile = ({ typeView }: TTypeView) => {
                   Anunciante
                 </Tag>
               </Box>
+              <Text className="descriptionUser">
+                {/* {announceListUser?.description} */}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem
+                ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum
+                dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor
+                sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet,
+              </Text>
             </Box>
-            <Text className="descriptionUser">
-              {announceListUser?.description}
-            </Text>
             {typeView == "owner" && (
               <Button
                 width={"fit-content"}
