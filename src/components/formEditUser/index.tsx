@@ -25,14 +25,14 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
     defaultValues: {
       name: user?.name,
       email: user?.email,
-      phone: user?.phone,
+      phone: user?.phone ,
       description: user?.description,
       address: user?.address,
     },
   });
 
   const submit: SubmitHandler<TUpdateUser> = async (data) => {
-    if (user && data.email === user.email) {
+    if (data.email === user?.email) {
       delete data.email;
     }
 

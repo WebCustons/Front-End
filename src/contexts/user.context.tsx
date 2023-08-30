@@ -1,14 +1,13 @@
 import { ReactNode, createContext, useState } from "react"
 import { api } from "../services/api"
-import { IUser, TUpdateUser } from "../interfaces/user.interface"
+import { TUser, TUpdateUser, TRegisterUser } from "../interfaces/user.interface"
 import { IAdvertsByUserId } from "../schemas/advertsByUserId.schema"
 import { useToast } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { LoginData } from "../pages/Login/validators"
-import { ClientData } from "../pages/Register/validators"
 import { AxiosError } from "axios"
 
-interface IUserProviderProps {
+interface TUserProviderProps {
   children: ReactNode
 }
 
@@ -18,8 +17,8 @@ type TErrorResponse = {
   }
 }
 
-interface IUserContext {
-  user: IUser | null
+interface TUserContext {
+  user: TUser | null
   getUser: () => Promise<void>
   announceListUser: IAdvertsByUserId | undefined
   getAnnounceUser: (id: string) => Promise<void>
@@ -28,7 +27,7 @@ interface IUserContext {
   >
   updateUser: (data: TUpdateUser) => Promise<boolean>
   login: (data: LoginData) => Promise<void>
-  registerUser: (formData: ClientData) => Promise<void>
+  registerUser: (formData: TRegisterUser) => Promise<void>
   loadingBnt: boolean
   setLoadingBnt: React.Dispatch<React.SetStateAction<boolean>>
   deleteUser: () => Promise<void>
@@ -39,10 +38,10 @@ interface IUserContext {
   setForgotPassword: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const UserContext = createContext({} as IUserContext)
+export const UserContext = createContext({} as TUserContext)
 
-export const UserProvider = ({ children }: IUserProviderProps) => {
-  const [user, setUser] = useState<IUser | null>(null)
+export const UserProvider = ({ children }: TUserProviderProps) => {
+  const [user, setUser] = useState<TUser | null>(null)
   const [announceListUser, setAnnounceListUser] = useState<IAdvertsByUserId>()
   const [loadingBnt, setLoadingBnt] = useState(false)
   const [forgotPassword, setForgotPassword] = useState(true)
@@ -124,7 +123,9 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   }
 
   const updateUser = async (data: TUpdateUser) => {
+
     try {
+      setLoadingBnt(true)
       const response = await api.patch(`/users`, data, headerAuthorization)
       setUser(response.data)
       toast({
@@ -154,6 +155,8 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         })
         console.log(error)
       }
+    } finally {
+      setLoadingBnt(false)
     }
     return false
   }
@@ -207,8 +210,9 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     }
   }
 
-  const registerUser = async (formData: ClientData) => {
+  const registerUser = async (formData: TRegisterUser) => {
     try {
+      setLoadingBnt(true)
       const response = await api.post("/users", formData)
 
       toast({
@@ -224,13 +228,26 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
       setUser(response.data.user)
     } catch (error) {
-      toast({
-        title: `Verifique as informações de cadastro  😁`,
-        status: "error",
-        position: "top-right",
-        isClosable: true,
-      })
-      console.log(error)
+      if ((error as AxiosError).response?.status != 500) {
+        const err = error as AxiosError<TErrorResponse>
+        toast({
+          title: `Message: ${err.response?.data.message}`,
+          status: "error",
+          position: "top-right",
+          isClosable: true,
+        })
+
+      } else {
+        toast({
+          title: `Algo deu errado aqui estamos arrumando 😁`,
+          status: "warning",
+          position: "top-right",
+          isClosable: true,
+        })
+        console.log(error)
+      }
+    } finally {
+      setLoadingBnt(false)
     }
   }
 

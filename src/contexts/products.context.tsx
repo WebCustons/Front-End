@@ -53,7 +53,7 @@ interface IProductProvider {
   getKenzieKar: (model: string) => Promise<void>;
 
   // Advert
-  createAdvert: (data: TCreateAdvertData) => Promise<string>;
+  createAdvert: (data: TCreateAdvertData) => Promise<boolean>;
   getAdvert: (idAdvert: number) => Promise<void>;
   advert: TAdvert | undefined;
 
@@ -103,7 +103,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
-     
+
       getAnnounceUser(id!);
       toast({
         title: `Sucesso  😁`,
@@ -111,6 +111,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         position: "top-right",
         isClosable: true,
       });
+      return true
     } catch (error) {
       if ((error as AxiosError).response?.status != 500) {
         const err = error as AxiosError<TErrorResponse>;
@@ -131,8 +132,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         });
         console.log(error);
       }
+      return false
     }
-    return "";
   };
 
   const queryParams = (data: TFilters) => {

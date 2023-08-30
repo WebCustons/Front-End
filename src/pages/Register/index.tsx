@@ -1,24 +1,28 @@
 import { useForm } from "react-hook-form";
 import StyledRegister from "./style";
-import { ClientData } from "./validators";
-import {  InputValidator,  SelectValidator,  TextareaValidator,} from "../../components/inputs";
+import { InputValidator, SelectValidator, TextareaValidator, } from "../../components/inputs";
 import { useUser } from './../../hooks/useProduct';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userRegisterSchema } from './../../schemas/user.schema';
+import { TRegisterUser } from "../../interfaces/user.interface";
 
 const Register = () => {
+  const { registerUser, loadingBnt } = useUser();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ClientData>();
-  const { registerUser } = useUser();
-  const submit = async (data: ClientData) => {
+  } = useForm<TRegisterUser>({
+    mode: "onBlur",
+    resolver: zodResolver(userRegisterSchema)
+  });
+  const submit = async (data: TRegisterUser) => {
     try {
       await registerUser(data);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <StyledRegister>
       <div className="register-container">
@@ -120,7 +124,8 @@ const Register = () => {
             <SelectValidator
               label="Selecione a categoria de usuário:"
               id="type_user"
-              options={["customer", "admin", "seller"]}
+              options={["cliente", "vendedor"]}
+              value={["customer", "seller"]}
               error={errors.type_user?.message}
               {...register("type_user", { required: "Qual tipo de usuario." })}
             />
@@ -180,7 +185,10 @@ const Register = () => {
               })}
             />
 
-            <button type="submit" className="register-btn">
+            <button type="submit" className="register-btn"
+              disabled={
+                loadingBnt || (Object.keys(errors).length != 0 && true)
+              }>
               Finalizar Cadastro
             </button>
           </form>

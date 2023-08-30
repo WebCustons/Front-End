@@ -81,7 +81,7 @@ export const AsideFilters = () => {
                     />
                   )}
                   <div className="range_container">
-                    {filters?.minMileage && filters?.maxMileage && (
+                    {(filters?.minMileage != undefined) && filters?.maxMileage && (
                       <RangeFilter
                         min={filters?.minMileage}
                         max={filters?.maxMileage}
@@ -144,7 +144,7 @@ export const AsideFilters = () => {
           />
         )}
         <div className="range_container">
-          {filters?.minMileage && filters?.maxMileage && (
+            {(filters?.minMileage != undefined) && filters?.maxMileage &&(
             <RangeFilter
               min={filters?.minMileage}
               max={filters?.maxMileage}
