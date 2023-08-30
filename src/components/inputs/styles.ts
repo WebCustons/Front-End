@@ -6,7 +6,12 @@ export const Container = styled.div`
   font-family: "Lexend", sans-serif;
   margin-bottom: 10px;
   gap: 10px;
-
+  position: relative;
+  button {
+    position: absolute;
+    right: 10px;
+    bottom: 40%;
+  }
   input,
   textarea,
   option,

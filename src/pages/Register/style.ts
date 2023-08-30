@@ -56,6 +56,11 @@ const StyledRegister = styled.main`
   button {
     font-family: "Lexend", sans-serif;
   }
+  button:disabled{
+    cursor:default ;
+    background:var(--brand3);
+    border:1.5px solid var(--brand3)
+  }
   .state-box {
     display: flex;
     input {
@@ -69,6 +74,7 @@ const StyledRegister = styled.main`
       width: 90%;
     }
   }
+
   @media (min-width: 600px) {
     .state-box {
       justify-content: space-between;

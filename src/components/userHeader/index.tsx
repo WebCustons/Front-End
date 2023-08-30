@@ -65,7 +65,9 @@ export const UserHeader = () => {
             marginRight={"5px"}
           >
             <Text fontSize="mg" color={`var(--grey10)`}>
-              {user?.name[0].toUpperCase()}
+              {user?.name[0]
+                //.toUpperCase()
+              }
             </Text>
           </Box>
           {user?.name.split(" ")[0]}
