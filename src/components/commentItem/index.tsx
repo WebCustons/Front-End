@@ -17,19 +17,14 @@ export const CommentItem = ({
   created_at,
   comment,
 }: ICommentItemProps) => {
-  // Data no formato ISO 8601
   const dataISO8601 = created_at;
 
-  // Converte a data ISO 8601 para um objeto Date
   const dataFornecida = new Date(dataISO8601);
 
-  // Obtém a data atual
-  const dataAtual = new Date();
+  const dataAtual = new Date().getTime();
 
-  // Calcula a diferença em milissegundos
-  const diferencaEmMilissegundos = dataAtual - dataFornecida;
+  const diferencaEmMilissegundos = dataAtual - dataFornecida.getTime();
 
-  // Converte a diferença para dias
   const diasPassados = Math.floor(
     diferencaEmMilissegundos / (1000 * 60 * 60 * 24)
   );
@@ -40,8 +35,6 @@ export const CommentItem = ({
   } else {
     dia = "dia";
   }
-
-  //console.log(`Passaram-se ${diasPassados} dias desde a data fornecida.`);
 
   return (
     <ListItem>
