@@ -93,12 +93,7 @@ export const Profile = ({ typeView }: TTypeView) => {
                 </Tag>
               </Box>
               <Text className="descriptionUser">
-                {/* {announceListUser?.description} */}
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem
-                ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum
-                dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor
-                sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet,
+                {announceListUser?.description}
               </Text>
             </Box>
             {typeView == "owner" && (
