@@ -21,9 +21,9 @@ export const RangeFilter = ({ title, min: propMin, max: propMax, filterKey }: Fi
   const [value, setValue] = useState<number[]>([propMin, propMax]);
 
   const min = propMin || 0;
-  const max = propMax || 0;
-
-  const defaultValue = [value[0], (value[1] + value[1]) / 2];
+  const max = propMax || 0; 
+  
+  const defaultValue = [value[0], value[1]];
 
   const handleRangeChange = ([minSet, maxSet]: number[]) => {
     const newFilters = {

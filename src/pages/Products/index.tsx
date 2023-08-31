@@ -231,7 +231,10 @@ export function Products() {
             marginRight="5px"
           >
             <Text fontSize="mg" color={`var(--grey10)`}>
-              {advert?.user?.name[0].toUpperCase()}
+              {advert?.user?.name
+              //[0].toUpperCase()
+              }
+
             </Text>
           </Box>
           <Text as="b" fontSize="3xl" color={`var(--grey2)`}>

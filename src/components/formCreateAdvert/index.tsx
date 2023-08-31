@@ -57,7 +57,7 @@ export const FormCreateAdvert = ({
     setImageInputCount(imageInputCount + 1);
   };
 
-  const submit: SubmitHandler<TAdverData> = (data) => {
+  const submit: SubmitHandler<TAdverData> = async (data) => {
     const fullData = {
       ...data,
       table_fipe: kenzieKarModel!.value > data.price ? true : false,
@@ -66,8 +66,10 @@ export const FormCreateAdvert = ({
       mileage: Number(data.mileage),
       price: Number(data.price),
     };
-    createAdvert(fullData);
-    onClose();
+    const close = await createAdvert(fullData);
+    if (close) {
+      onClose();
+    }
   };
 
   useEffect(() => {

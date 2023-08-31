@@ -1,27 +1,9 @@
 import { z } from "zod";
 import { userUpdateSchema } from "../schemas/user.schema";
+import { userSchema, userRegisterSchema } from './../schemas/user.schema';
 
-export interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  cpf: string;
-  phone: string;
-  birth_date: string;
-  description: string;
-  type_user: string;
-  address: IAddress;
-}
-
-export interface IAddress {
-  id: number;
-  cep: string;
-  state: string;
-  city: string;
-  road: string;
-  number: string;
-  complement: string;
-  [key: string]: string | number;
-}
+export type TUser = z.infer<typeof userSchema>
 
 export type TUpdateUser = z.infer<typeof userUpdateSchema>;
+
+export type TRegisterUser = z.infer<typeof userRegisterSchema>
