@@ -29,7 +29,6 @@ export function Header({ children }: any) {
               bg={"var(--whiteFixed)"}
               width={"100vw"}
               zIndex={2}
-              marginTop={"24px"}
               display={"flex"}
               padding={"10px"}
               flexDirection={"column"}
