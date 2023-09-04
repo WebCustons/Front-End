@@ -1,6 +1,6 @@
 import { StyledProducts } from "./style";
 import { useEffect, useState } from "react";
-import { useProduct } from "./../../hooks/useProduct";
+import { useProduct, useUser } from "./../../hooks/useProduct";
 import { useParams } from "react-router-dom";
 import { Box, Button, Image, Text, List } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ export function Products() {
   const { id } = useParams();
 
   const { getAdvert, advert } = useProduct();
-
+  const { user } = useUser();
   const [couverImg, setCouverImg] = useState<string | undefined>();
 
   useEffect(() => {
@@ -139,18 +139,21 @@ export function Products() {
             ))}
           </List>
         </Box>
-        <Box
-          as="article"
-          backgroundColor="var(--grey10)"
-          width="100%"
-          display="flex"
-          padding="30px 20px"
-          flexDirection="column"
-          alignItems="initial"
-          borderRadius="10px"
-        >
-          <FormComment id={id!} />
-        </Box>
+
+        {user?.type_user != "admin" && (
+          <Box
+            as="article"
+            backgroundColor="var(--grey10)"
+            width="100%"
+            display="flex"
+            padding="30px 20px"
+            flexDirection="column"
+            alignItems="initial"
+            borderRadius="10px"
+          >
+            <FormComment id={id!} />
+          </Box>
+        )}
       </Box>
       <Box
         as="section"
@@ -231,10 +234,10 @@ export function Products() {
             marginRight="5px"
           >
             <Text fontSize="mg" color={`var(--grey10)`}>
-              {advert?.user?.name
-              //[0].toUpperCase()
+              {
+                advert?.user?.name
+                //[0].toUpperCase()
               }
-
             </Text>
           </Box>
           <Text as="b" fontSize="3xl" color={`var(--grey2)`}>
