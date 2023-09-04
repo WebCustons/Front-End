@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
 export const StyledPageProfile = styled.div`
+  height: 100vh;
+
   @media (min-width: 600px) {
     .blueDiv {
       margin-bottom: 170px;
