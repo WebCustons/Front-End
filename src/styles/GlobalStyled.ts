@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle`
     --random10          : #6100FF;
     --random11          : #5700E3;
     --random12          : #30007D;
+    
     }
     
     h1,h2,h3,h4,h5,h6{

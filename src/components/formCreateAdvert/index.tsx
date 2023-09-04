@@ -4,15 +4,20 @@ import { advertSchemaValidator } from "../../schemas/advert.schema";
 import { TAdverData } from "../../interfaces/advert.interface";
 import { InputValidator, SelectValidator } from "../inputs";
 import { useProduct } from "../../hooks/useProduct";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { StyledInputsContainer } from "./style";
 
 interface IFormCreateAdvertProps {
+  onClose: () => void;
   children: ReactNode;
 }
 
-export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
+export const FormCreateAdvert = ({
+  onClose,
+  children,
+}: IFormCreateAdvertProps) => {
+  const [imageInputCount, setImageInputCount] = useState(2);
   const {
     getKenzieKarsByBrand,
     getKenzieKarsInformation,
@@ -31,7 +36,28 @@ export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
     resolver: zodResolver(advertSchemaValidator),
   });
 
-  const submit: SubmitHandler<TAdverData> = (data) => {
+  const renderImageInput = () => {
+    const result = [];
+    for (let i = 0; i < imageInputCount; i++) {
+      result.push(
+        <InputValidator
+          id={`image${i}`}
+          key={`image${i}`}
+          label={`${i + 1}ª da galeria`}
+          placeholder="Insira a imagem de capa aqui"
+          error={errors.images?.message}
+          {...register(`images.${i}`, { required: "Informe a imagem" })}
+        />
+      );
+    }
+    return result;
+  };
+
+  const addImageInput = () => {
+    setImageInputCount(imageInputCount + 1);
+  };
+
+  const submit: SubmitHandler<TAdverData> = async (data) => {
     const fullData = {
       ...data,
       table_fipe: kenzieKarModel!.value > data.price ? true : false,
@@ -40,7 +66,10 @@ export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
       mileage: Number(data.mileage),
       price: Number(data.price),
     };
-    createAdvert(fullData);
+    const close = await createAdvert(fullData);
+    if (close) {
+      onClose();
+    }
   };
 
   useEffect(() => {
@@ -126,20 +155,22 @@ export const FormCreateAdvert = ({ children }: IFormCreateAdvertProps) => {
         error={errors.cover_image?.message}
         {...register("cover_image", { required: "Informe imagem de capa" })}
       />
-      <InputValidator
-        id="image1"
-        label="1ª Imagem da galeria"
-        placeholder="Insira a imagem de capa aqui"
-        error={errors.image_gallery?.message}
-        {...register("image_gallery.0", { required: "Informe a imagem" })}
-      />
-      <InputValidator
-        id="image2"
-        label="2ª Imagem da galeria"
-        placeholder="Insira a imagem de capa aqui"
-        error={errors.image_gallery?.message}
-        {...register("image_gallery.1", { required: "Informe a imagem" })}
-      />
+      {renderImageInput()}
+      <Button
+        fontSize={"0.75rem"}
+        fontWeight={"bold"}
+        color={"var(--brand1)"}
+        backgroundColor={"var(--brand4)"}
+        transition={"0.5s"}
+        _hover={{
+          filter: "brightness(0.95)",
+          transition: "0.5s",
+        }}
+        marginBottom={"1rem"}
+        onClick={addImageInput}
+      >
+        Adicionar campo para imagem da galeria
+      </Button>
       <ButtonGroup width={"100%"} justifyContent={"space-between"}>
         {children}
         <Button
