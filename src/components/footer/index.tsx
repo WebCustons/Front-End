@@ -1,6 +1,7 @@
 import StyledFooter from './style';
 import Logo from '../../assets/logo_2.png';
 import {IoIosArrowUp} from 'react-icons/io';
+import { Link } from '@chakra-ui/react';
 
 export function Footer() {
 
@@ -11,6 +12,7 @@ export function Footer() {
         <StyledFooter>
             <img src={Logo}/>
             <p>© 2023 - Todos os direitos reservados.</p>
+            <Link href='/about'>Equipe de desenvolvimento</Link>
             <button onClick={scrollToTop}>
                 <IoIosArrowUp/>
             </button>

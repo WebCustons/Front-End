@@ -5,6 +5,7 @@ import Register from "../pages/Register/index"
 import { Products } from "../pages/Products"
 import RecoverPassword from "../pages/RecoverPassword"
 import { ProfilePages } from "../pages/ProfilePages"
+import { About } from "../pages/About"
 
 function RoutePages() {
   return (
@@ -15,6 +16,7 @@ function RoutePages() {
       <Route path="/profile/:id" element={<ProfilePages />} />
       <Route path="/product/:id" element={<Products />} />
       <Route path="/recoverPassword/:token" element={<RecoverPassword />} />
+      <Route path="/about" element={<About />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )

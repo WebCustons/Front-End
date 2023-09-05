@@ -8,6 +8,9 @@ const StyledFooter = styled.footer`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  a  {
+    color: var(--grey10);
+  }
   @media (min-width: 600px) {
     flex-direction: row;
 
@@ -21,9 +24,10 @@ const StyledFooter = styled.footer`
     }
   }
 
-  p {
+  p  {
     color: var(--grey10);
   }
+
 
   img {
     width: 250px;
