@@ -27,7 +27,6 @@ export const FilterComponent = ({ title, filter, filterKey }: FilterProps) => {
         {filterArray.map((value: string) => {
           const lines = value.split('\n');  
           const firstLine = lines[0];  
-          
           return (
             <li key={value} onClick={() => handleFilterClick(value)}>
               <button className={filterArray.length <= 1 ? "select" : undefined}>

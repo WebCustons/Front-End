@@ -1,6 +1,6 @@
 import { StyledProducts } from "./style";
 import { useEffect, useState } from "react";
-import { useProduct, useUser } from "./../../hooks/useProduct";
+import { useProduct } from "./../../hooks/useProduct";
 import { useParams } from "react-router-dom";
 import { Box, Button, Image, Text, List, Link } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,6 @@ export function Products() {
   const { id } = useParams();
 
   const { getAdvert, advert } = useProduct();
-  const { user } = useUser();
   const [couverImg, setCouverImg] = useState<string | undefined>();
 
   useEffect(() => {
@@ -22,7 +21,6 @@ export function Products() {
         await getAdvert(parseInt(id));
 
         setCouverImg(advert?.cover_image);
-        console.log(advert);
       }
     };
     fetchAdvert();
@@ -238,7 +236,7 @@ export function Products() {
               marginRight="5px"
             >
               <Text fontSize="2xl" color={`var(--grey10)`}>
-                {advert?.user?.name[0] ? advert?.user?.name[0].toUpperCase() : advert?.user?.name}
+                {advert?.user?.name.split('\n')[0][0].toUpperCase()}
               </Text>
             </Box>
             <Text as="b" fontSize="3xl" color={`var(--grey2)`}>
