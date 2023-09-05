@@ -15,10 +15,10 @@ import image404 from "../../assets/image404.png"
 
 interface ICardProps {
   advert: TAdvert
-  typeView: "owner" | "admin" | "visitor"
+  typeView: "owner" | "admin" | "visitor" | null
 }
 import discountImage from "../../assets/$.png"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { BottomLogicView } from "../Buttons/BottomLogicView"
 
 export function CardAdvert({ advert, typeView }: ICardProps) {
@@ -27,7 +27,8 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
   const modelName = (
     advert.model[0].toUpperCase() + advert.model.slice(1)
   ).split(" ")[0]
-
+  const { id } = useParams();
+  
   return (
     <ListItem
       color={`var(--grey1)`}
@@ -194,7 +195,7 @@ export function CardAdvert({ advert, typeView }: ICardProps) {
                   </Text>
                 </Container>
               </CardFooter>
-              <BottomLogicView typeView={typeView} />
+              <BottomLogicView typeView={typeView} idAdvert={advert.id} idUser={String(id)} />
             </Box>
           </Container>
         </CardBody>

@@ -1,6 +1,6 @@
 import { StyledProducts } from "./style";
 import { useEffect, useState } from "react";
-import { useProduct } from "./../../hooks/useProduct";
+import { useProduct, useUser } from "./../../hooks/useProduct";
 import { useParams } from "react-router-dom";
 import { Box, Button, Image, Text, List, Link } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ export function Products() {
 
   const { getAdvert, advert } = useProduct();
   const [couverImg, setCouverImg] = useState<string | undefined>();
+  const {user} = useUser();
 
   useEffect(() => {
     const fetchAdvert = async () => {
@@ -144,18 +145,22 @@ export function Products() {
               ))}
             </List>
           </Box>
-          <Box
-            as="article"
-            backgroundColor="var(--grey10)"
-            width="100%"
-            display="flex"
-            padding="30px 20px"
-            flexDirection="column"
-            alignItems="initial"
-            borderRadius="10px"
-          >
-            <FormComment id={id!} />
-          </Box>
+          {user?.type_user !== 'admin' && 
+           <Box
+           as="article"
+           backgroundColor="var(--grey10)"
+           width="100%"
+           display="flex"
+           padding="30px 20px"
+           flexDirection="column"
+           alignItems="initial"
+           borderRadius="10px"
+         >
+           <FormComment id={id!} />
+         </Box>  
+         
+         }
+         
         </Box>
         <Box
           as="section"
@@ -251,7 +256,7 @@ export function Products() {
                 navigate(`/profile/${advert?.user?.id}`);
               }}
             >
-              Ver Todos os Anuncius
+              Ver Todos os Anúncios
             </Button>
           </Box>
         </Box>

@@ -44,7 +44,7 @@ export const userRegisterSchema = z.object({
     /^\d{3}\.\d{3}\.\d{3}-\d{2}$/i,
     "CPF inválido. Ex: 000.000.000-00"
   ),
-  phone: z.string().min(11,"Numero Precisar se valido"),
+  phone: z.string().max(11,"Numero Precisar se valido"),
   birth_date: z.string().regex(
     /^\d{4}-\d{2}-\d{2}$/i,
     "Formato de data de nascimento inválido Ex: 0000-00-00 ."
