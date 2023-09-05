@@ -1,6 +1,6 @@
 import { StyledProducts } from "./style";
 import { useEffect, useState } from "react";
-import { useProduct } from "./../../hooks/useProduct";
+import { useProduct, useUser } from "./../../hooks/useProduct";
 import { useParams } from "react-router-dom";
 import { Box, Button, Image, Text, List, Link } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ export function Products() {
   const { id } = useParams();
 
   const { getAdvert, advert } = useProduct();
-
+  const { user } = useUser();
   const [couverImg, setCouverImg] = useState<string | undefined>();
 
   useEffect(() => {

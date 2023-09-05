@@ -120,10 +120,16 @@ export const Profile = ({ typeView }: TTypeView) => {
 
         <StyledContainer>
           <Box as="section" padding={"0 15px"}>
-            <ListCards
-              advertsList={announceListUser?.adverts}
-              typeView={typeView}
-            />
+            {announceListUser?.adverts.length == 0 ? (
+              <Text fontSize={"3xl"}>
+                Esse usuário ainda não tem nenhum anuncio cadastrado 😔
+              </Text>
+            ) : (
+              <ListCards
+                advertsList={announceListUser?.adverts}
+                typeView={typeView}
+              />
+            )}
           </Box>
         </StyledContainer>
       </Box>
