@@ -56,6 +56,7 @@ interface IProductProvider {
   createAdvert: (data: TCreateAdvertData) => Promise<boolean>;
   getAdvert: (idAdvert: number) => Promise<void>;
   advert: TAdvert | undefined;
+  adminDeleteAdvert: (idAdvert:number, idUser:string) => void;
 
   // Comments
   getComments: () => void;
@@ -81,6 +82,33 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   const { getAnnounceUser } = useUser();
   const id = localStorage.getItem("@ID");
   const token = localStorage.getItem("@TOKEN");
+
+
+  const adminDeleteAdvert = async (idAdvert:number, idUser:string)=>{
+    console.log(idUser)
+    try {
+      await api.delete(`/adverts/${idAdvert}`,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      toast({
+        title: `Anuncio deletado com sucesso 😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      });
+      getAnnounceUser(idUser)
+    } catch (error) {
+      toast({
+        title: `Ops, algum deu errado`,
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      });
+      console.log(error)
+    }
+  }
 
   const getAdverts = async () => {
     const [products, filters] = await Promise.all([
@@ -300,6 +328,7 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         createAdvert,
         getAdvert,
         advert,
+        adminDeleteAdvert,
 
         // Comments
         getComments,

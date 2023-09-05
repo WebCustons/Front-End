@@ -126,6 +126,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
     try {
       setLoadingBnt(true)
+     
       const response = await api.patch(`/users`, data, headerAuthorization)
       setUser(response.data)
       toast({
@@ -138,14 +139,15 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
     } catch (error) {
       if ((error as AxiosError).response?.status != 500) {
         const err = error as AxiosError<TErrorResponse>;
-        for (const key in err.response?.data.message) {
+        console.log(err);
+        
           toast({
-            title: `${key} : ${err.response?.data.message[key]}`,
+            title: `${err.response?.data.message}`,
             status: "error",
             position: "top-right",
             isClosable: true,
           });
-        }
+        
       } else {
         toast({
           title: `Algo deu errado aqui estamos arrumando 😁`,
@@ -262,7 +264,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
     try {
       if (user?.type_user == "admin") {
         const id = announceListUser!.id;
-        await api.delete(`/users/${id}`);
+        await api.delete(`/users/${id}`,headerAuthorization);
         toast({
           title: `Usuário excluído com sucesso 😁`,
           status: "success",

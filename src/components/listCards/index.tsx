@@ -10,6 +10,7 @@ interface ListCardsProps {
 }
 
 export const ListCards = ({ advertsList, typeView }: ListCardsProps) => {
+
   return (
     <>
       <Text
