@@ -35,8 +35,8 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
     if (data.email === user?.email) {
       delete data.email;
     }
-
-    await updateUser(data);
+    
+    await updateUser(data); 
     onClose();
   };
 

@@ -115,8 +115,10 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
   const getUser = async () => {
     try {
-      const userResponse = await api.get(`/users/${id}`, headerAuthorization);
-      setUser(userResponse.data);
+      if (id) {
+        const userResponse = await api.get(`/users/${id}`, headerAuthorization);
+        setUser(userResponse.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -134,6 +136,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         position: "top-right",
         isClosable: true,
       });
+      getAnnounceUser(response.data.id)
       return true;
     } catch (error) {
       if ((error as AxiosError).response?.status != 500) {
@@ -148,14 +151,13 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         }
       } else {
         toast({
-          title: `Algo deu errado aqui estamos arrumando 😁`,
+          title: `Algo deu errado aqui estamos arrumando 😔`,
           status: "warning",
           position: "top-right",
           isClosable: true,
         });
         console.log(error);
       }
-    } finally {
       setLoadingBnt(false)
     }
     return false;
@@ -187,6 +189,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
       });
       setTimeout(() => {
         navigate(profileRoute);
+        setLoadingBnt(false);
       }, 1500);
     } catch (error: unknown) {
       if ((error as AxiosError).response?.status != 500) {
@@ -198,14 +201,13 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         });
       } else {
         toast({
-          title: `Algo deu errado aqui estamos arrumando 😁`,
+          title: `Algo deu errado aqui estamos arrumando 😔`,
           status: "warning",
           position: "top-right",
           isClosable: true,
         });
         console.log(error);
       }
-    } finally {
       setLoadingBnt(false);
     }
   };
@@ -239,7 +241,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
       } else {
         toast({
-          title: `Algo deu errado aqui estamos arrumando 😁`,
+          title: `Algo deu errado aqui estamos arrumando 😔`,
           status: "warning",
           position: "top-right",
           isClosable: true,
@@ -292,7 +294,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
     } catch (error) {
       toast({
-        title: `Algo deu errado aqui estamos arrumando 😁`,
+        title: `Algo deu errado aqui estamos arrumando 😔`,
         status: "warning",
         position: "top-right",
         isClosable: true,

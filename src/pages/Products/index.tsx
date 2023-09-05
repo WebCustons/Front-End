@@ -1,8 +1,8 @@
 import { StyledProducts } from "./style";
 import { useEffect, useState } from "react";
-import { useProduct } from "./../../hooks/useProduct";
+import { useProduct, useUser } from "./../../hooks/useProduct";
 import { useParams } from "react-router-dom";
-import { Box, Button, Image, Text, List, Link } from "@chakra-ui/react";
+import { Box, Button, Image, Text, List } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FormComment } from "../../components/formComment";
 import { CommentItem } from "../../components/commentItem";
@@ -13,8 +13,17 @@ export function Products() {
   const { id } = useParams();
 
   const { getAdvert, advert } = useProduct();
+  const { user } = useUser()
   const [couverImg, setCouverImg] = useState<string | undefined>();
 
+  const toConversation = () => {
+    if (user) {
+      console.log(user);
+      navigate(`https://api.whatsapp.com/send?phone=${advert?.user?.phone}`)
+    } else {
+      navigate(`/login`)
+    }
+  }
   useEffect(() => {
     const fetchAdvert = async () => {
       if (id) {
@@ -89,19 +98,15 @@ export function Products() {
                 R$ {advert?.price},00
               </Text>
             </Box>
-            <Link
+            <Button
               backgroundColor="var(--brand1)"
               fontWeight="500"
               color="white"
               width="30%"
-              textAlign="center"
-              borderRadius="5px"
-              height="100%"
-              href={`https://api.whatsapp.com/send?phone=${advert?.user?.phone}`}
-              isExternal
+              onClick={toConversation}
             >
               Comprar
-            </Link>
+            </Button>
           </Box>
           <Box
             as="article"
