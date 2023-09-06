@@ -16,6 +16,7 @@ export function Products() {
   const [couverImg, setCouverImg] = useState<string | undefined>();
   const {user} = useUser();
 
+
   useEffect(() => {
     const fetchAdvert = async () => {
       if (id) {
@@ -26,6 +27,7 @@ export function Products() {
     };
     fetchAdvert();
   }, [id]);
+
 
   return (
     <StyledProducts>
@@ -148,7 +150,13 @@ export function Products() {
               ))}
             </List>
           </Box>
-          {user?.type_user !== 'admin' && 
+          {localStorage.getItem("@TOKEN") == undefined ? (
+            <></>
+          ) 
+          
+          : 
+    
+          user?.type_user !== 'admin' && 
            <Box
            as="article"
            backgroundColor="var(--grey10)"
@@ -160,8 +168,8 @@ export function Products() {
            borderRadius="10px"
          >
            <FormComment id={id!} />
-         </Box>  
-         
+         </Box>
+          
          }
          
         </Box>

@@ -51,7 +51,7 @@ const Login = () => {
                   {...register("password", { required: "Digite sua Senha." })}
                 />
                 <div>
-                  <span className="remember-password" style={{cursor:"pointer",width:'50%',alignSelf:"flex-end"}} onClick={()=>setForgotPassword(false)}>Esqueci minha senha</span>
+                  <span className="remember-password" onClick={()=>setForgotPassword(false)}><p>Esqueci minha senha</p></span>
                 </div>
                 <div className="confirm-box">
                   <button
