@@ -93,6 +93,11 @@ const StyledLogin = styled.main`
     font-family: "Lexend", sans-serif;
     font-size: 0.8rem;
     color: var(--grey3);
+    font-weight: bold;
+    transition: box-shadow 0.3s ease-in-out;
+    p{
+      cursor: pointer;
+    }
   }
   .not-acount {
     color: var(--grey3);

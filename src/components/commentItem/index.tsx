@@ -5,17 +5,34 @@ import {
   Box,
   ListItem,
   Text,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
+import { FormEditComment } from "../formEditComment";
+import { useProduct, useUser } from "../../hooks/useProduct";
 
 interface ICommentItemProps {
   name: string;
   created_at: string;
   comment: string;
+  idUserComment:number;
+  idComment:number;
+  idAdvert:number;
 }
 export const CommentItem = ({
   name,
   created_at,
   comment,
+  idUserComment,
+  idComment,
+  idAdvert,
 }: ICommentItemProps) => {
   const dataISO8601 = created_at;
 
@@ -35,6 +52,10 @@ export const CommentItem = ({
   } else {
     dia = "dia";
   }
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const {user} = useUser();
+  const { deleteComment} = useProduct();
 
   return (
     <ListItem>
@@ -79,6 +100,44 @@ export const CommentItem = ({
         </CardHeader>
         <CardBody>
           <Text>{comment}</Text>
+          { idUserComment == Number(localStorage.getItem('@ID')) ? (
+
+            <>
+          <button onClick={onOpen}>Editar</button>
+          
+          <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent maxW={"520px"}>
+            <ModalHeader>Editar Comentario</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormEditComment onClose={onClose} comment={comment} idComment={idComment} idAdvert={idAdvert}>
+              <Button
+                  width={"40%"}
+                  mr={3}
+                  onClick={onClose}
+                  borderRadius={"10px"}
+                >
+                  Cancelar
+                </Button>
+              </FormEditComment>
+             
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+          </ModalContent>
+        </Modal>
+            </>
+           
+          ) :
+          ( user?.type_user == 'admin' ? (
+            <>
+              <button onClick={()=>deleteComment(idComment,idAdvert)}>Excluir Comentario</button>
+            </>
+          ):
+          <>
+          </>)
+
+          }
         </CardBody>
       </Card>
     </ListItem>

@@ -11,6 +11,7 @@ const commentsSchema = z.object({
   comment: z.string(),
   created_at: z.string(),
   user: z.object({
+    id:z.number(),
     name: z.string(),
   }),
 })

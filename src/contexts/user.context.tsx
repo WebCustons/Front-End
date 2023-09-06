@@ -134,6 +134,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         position: "top-right",
         isClosable: true,
       })
+      getAnnounceUser(response.data.id)
       return true
     } catch (error) {
       if ((error as AxiosError).response?.status != 500) {
@@ -187,6 +188,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
       })
       setTimeout(() => {
         navigate(profileRoute)
+        setLoadingBnt(false)
       }, 1500)
     } catch (error: unknown) {
       if ((error as AxiosError).response?.status != 500) {
@@ -204,9 +206,8 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
           isClosable: true,
         })
         console.log(error)
+        setLoadingBnt(false)
       }
-    } finally {
-      setLoadingBnt(false)
     }
   }
 

@@ -7,7 +7,6 @@ import { useUser } from "./../hooks/useProduct"
 import { AxiosError } from "axios"
 import { TAdvert, TUpdateAdvert } from "../schemas/advert.schema"
 import { TCommentRequest } from "../interfaces/comment.interface"
-import { bool } from "prop-types"
 
 interface iProductContextProps {
   children: ReactNode
@@ -64,6 +63,12 @@ interface IProductProvider {
   getComments: () => void
   comments: TCommentRequest[]
   setComment: (comment: TCommentRequest, id: string) => void
+  updateComment: (
+    comment: object,
+    idComment: number,
+    idAdvert: number
+  ) => Promise<void>
+  deleteComment: (idComment: number, idAdvert: number) => Promise<void>
 }
 
 export const ProductContext = createContext({} as IProductProvider)
@@ -173,9 +178,48 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
   }
 
   const getAdvert = async (idAdvert: number) => {
+    const product = await api.get(`/adverts/${idAdvert}`)
+    setAdverts(product.data)
+  }
+
+  const updateComment = async (
+    comment: object,
+    idComment: number,
+    idAdvert: number
+  ) => {
     try {
-      const product = await api.get(`/adverts/${idAdvert}`)
-      setAdverts(product.data)
+      await api.patch(`/comments/${idComment}`, comment, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      toast({
+        title: `Comentario atualizado com sucesso 😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      })
+
+      await getAdvert(idAdvert)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deleteComment = async (idComment: number, idAdvert: number) => {
+    try {
+      await api.delete(`/comments/${idComment}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      toast({
+        title: `Comentario Deletado com sucesso 😁`,
+        status: "success",
+        position: "top-right",
+        isClosable: true,
+      })
+      await getAdvert(idAdvert)
     } catch (error) {
       console.log(error)
     }
@@ -388,6 +432,8 @@ export const ProductProvider = ({ children }: iProductContextProps) => {
         getComments,
         setComment,
         comments,
+        updateComment,
+        deleteComment,
       }}
     >
       {children}
