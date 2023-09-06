@@ -28,7 +28,7 @@ type TTypeView = {
 }
 
 export const Profile = ({ typeView }: TTypeView) => {
-  const { announceListUser, getAnnounceUser } = useUser()
+  const { announceListUser, getAnnounceUser} = useUser()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { id } = useParams()
 

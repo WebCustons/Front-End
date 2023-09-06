@@ -15,6 +15,8 @@ export function Products() {
   const { getAdvert, advert } = useProduct();
   const { user } = useUser()
   const [couverImg, setCouverImg] = useState<string | undefined>();
+  const {user} = useUser();
+
 
   const toConversation = () => {
     if (user) {
@@ -34,6 +36,7 @@ export function Products() {
     };
     fetchAdvert();
   }, [id]);
+
 
   return (
     <StyledProducts>
@@ -145,22 +148,35 @@ export function Products() {
                   comment={comment.comment}
                   name={comment.user.name}
                   created_at={comment.created_at}
+                  idUserComment={comment.user.id}
+                  idComment={comment.id}
+                  idAdvert={Number(id)}
                 />
               ))}
             </List>
           </Box>
-          <Box
-            as="article"
-            backgroundColor="var(--grey10)"
-            width="100%"
-            display="flex"
-            padding="30px 20px"
-            flexDirection="column"
-            alignItems="initial"
-            borderRadius="10px"
-          >
-            <FormComment id={id!} />
-          </Box>
+          {localStorage.getItem("@TOKEN") == undefined ? (
+            <></>
+          ) 
+          
+          : 
+    
+          user?.type_user !== 'admin' && 
+           <Box
+           as="article"
+           backgroundColor="var(--grey10)"
+           width="100%"
+           display="flex"
+           padding="30px 20px"
+           flexDirection="column"
+           alignItems="initial"
+           borderRadius="10px"
+         >
+           <FormComment id={id!} />
+         </Box>
+          
+         }
+         
         </Box>
         <Box
           as="section"
@@ -256,7 +272,7 @@ export function Products() {
                 navigate(`/profile/${advert?.user?.id}`);
               }}
             >
-              Ver Todos os Anuncius
+              Ver Todos os Anúncios
             </Button>
           </Box>
         </Box>
