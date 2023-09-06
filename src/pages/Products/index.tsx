@@ -2,8 +2,8 @@ import { StyledProducts } from "./style";
 import { useEffect, useState } from "react";
 import { useProduct, useUser } from "./../../hooks/useProduct";
 import { useParams } from "react-router-dom";
-import { Box, Button, Image, Text, List } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Box, Button, Image, Text, List, Link } from "@chakra-ui/react";
+import { useNavigate, } from "react-router-dom";
 import { FormComment } from "../../components/formComment";
 import { CommentItem } from "../../components/commentItem";
 import { StyledContainer } from './../../styles/Container';
@@ -12,31 +12,21 @@ export function Products() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const { userId, user } = useUser();
   const { getAdvert, advert } = useProduct();
-  const { user } = useUser()
   const [couverImg, setCouverImg] = useState<string | undefined>();
-  const {user} = useUser();
 
 
-  const toConversation = () => {
-    if (user) {
-      console.log(user);
-      navigate(`https://api.whatsapp.com/send?phone=${advert?.user?.phone}`)
-    } else {
-      navigate(`/login`)
-    }
-  }
   useEffect(() => {
     const fetchAdvert = async () => {
       if (id) {
         await getAdvert(parseInt(id));
-
         setCouverImg(advert?.cover_image);
+
       }
     };
     fetchAdvert();
   }, [id]);
-
 
   return (
     <StyledProducts>
@@ -59,7 +49,7 @@ export function Products() {
           padding="3px"
         >
           <Image
-            src={couverImg}
+            src={couverImg ? couverImg : advert?.cover_image}
             backgroundColor="var(--grey10)"
             height="400px"
             width={["100%", "700px"]}
@@ -101,15 +91,34 @@ export function Products() {
                 R$ {advert?.price},00
               </Text>
             </Box>
-            <Button
-              backgroundColor="var(--brand1)"
-              fontWeight="500"
-              color="white"
-              width="30%"
-              onClick={toConversation}
-            >
-              Comprar
-            </Button>
+            {userId ?
+              <Link
+                backgroundColor="var(--brand1)"
+                fontWeight="500"
+                color="white"
+                width="30%"
+                textAlign="center"
+                borderRadius="5px"
+                height="100%"
+                href={`https://api.whatsapp.com/send?phone=${advert?.user?.phone}`}
+                isExternal
+              >
+                Comprar
+              </Link>
+              :
+              <Link
+                backgroundColor="var(--brand1)"
+                fontWeight="500"
+                color="white"
+                width="30%"
+                textAlign="center"
+                borderRadius="5px"
+                height="100%"
+                href={`/login`}
+              >
+                Comprar
+              </Link>
+            }
           </Box>
           <Box
             as="article"
@@ -157,26 +166,26 @@ export function Products() {
           </Box>
           {localStorage.getItem("@TOKEN") == undefined ? (
             <></>
-          ) 
-          
-          : 
-    
-          user?.type_user !== 'admin' && 
-           <Box
-           as="article"
-           backgroundColor="var(--grey10)"
-           width="100%"
-           display="flex"
-           padding="30px 20px"
-           flexDirection="column"
-           alignItems="initial"
-           borderRadius="10px"
-         >
-           <FormComment id={id!} />
-         </Box>
-          
-         }
-         
+          )
+
+            :
+
+            user?.type_user !== 'admin' &&
+            <Box
+              as="article"
+              backgroundColor="var(--grey10)"
+              width="100%"
+              display="flex"
+              padding="30px 20px"
+              flexDirection="column"
+              alignItems="initial"
+              borderRadius="10px"
+            >
+              <FormComment id={id!} />
+            </Box>
+
+          }
+
         </Box>
         <Box
           as="section"
@@ -276,7 +285,7 @@ export function Products() {
             </Button>
           </Box>
         </Box>
-      </StyledContainer>
-    </StyledProducts>
+      </StyledContainer >
+    </StyledProducts >
   );
 }

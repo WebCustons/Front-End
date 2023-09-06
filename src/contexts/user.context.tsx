@@ -18,6 +18,7 @@ type TErrorResponse = {
 }
 
 interface TUserContext {
+  userId: string | null
   user: TUser | null
   getUser: () => Promise<void>
   announceListUser: IAdvertsByUserId | undefined
@@ -48,7 +49,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
   const navigate = useNavigate()
   const toast = useToast()
-  const id = localStorage.getItem("@ID")
+  const userId = localStorage.getItem("@ID")
   const token = localStorage.getItem("@TOKEN")
   const headerAuthorization = {
     headers: {
@@ -115,8 +116,8 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
   const getUser = async () => {
     try {
-      if (id) {
-        const userResponse = await api.get(`/users/${id}`, headerAuthorization)
+      if (userId) {
+        const userResponse = await api.get(`/users/${userId}`, headerAuthorization)
         setUser(userResponse.data)
       }
     } catch (error) {
@@ -276,7 +277,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         return
       }
 
-      await api.delete(`/users/${id}`, headerAuthorization)
+      await api.delete(`/users/${userId}`, headerAuthorization)
 
       localStorage.removeItem("@TOKEN")
       localStorage.removeItem("@ID")
@@ -304,6 +305,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
+        userId,
         user,
         getUser,
         announceListUser,
