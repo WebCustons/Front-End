@@ -1,5 +1,5 @@
 import { StyledAbout } from "./styled";
-import { AboutCarousel } from "../../Components/AboutCarousel";
+import { AboutCarousel } from "../../components/AboutCarousel";
 
 export const About = () => {
   return (
