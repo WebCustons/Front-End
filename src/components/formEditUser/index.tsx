@@ -1,19 +1,19 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { userUpdateSchema } from "../../schemas/user.schema";
-import { TUpdateUser } from "./../../interfaces/user.interface";
-import { InputValidator } from "../inputs";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-import { useUser } from "./../../hooks/useProduct";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ReactNode, useEffect } from "react"
+import { useForm, SubmitHandler } from "react-hook-form"
+import { userUpdateSchema } from "../../schemas/user.schema"
+import { TUpdateUser } from "./../../interfaces/user.interface"
+import { InputValidator } from "../inputs"
+import { Button, ButtonGroup } from "@chakra-ui/react"
+import { useUser } from "./../../hooks/useProduct"
 
 interface IFormEditUserProps {
-  onClose: () => void;
-  children: ReactNode;
+  onClose: () => void
+  children: ReactNode
 }
 
 export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
-  const { updateUser, user, getUser } = useUser();
+  const { updateUser, user, getUser } = useUser()
 
   const {
     register,
@@ -25,24 +25,24 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
     defaultValues: {
       name: user?.name,
       email: user?.email,
-      phone: user?.phone ,
+      phone: user?.phone,
       description: user?.description,
       address: user?.address,
     },
-  });
+  })
 
   const submit: SubmitHandler<TUpdateUser> = async (data) => {
     if (data.email === user?.email) {
-      delete data.email;
+      delete data.email
     }
 
-    await updateUser(data);
-    onClose();
-  };
+    await updateUser(data)
+    onClose()
+  }
 
   useEffect(() => {
-    getUser();
-  }, []);
+    getUser()
+  }, [])
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -126,5 +126,5 @@ export const FormEditUser = ({ onClose, children }: IFormEditUserProps) => {
         </Button>
       </ButtonGroup>
     </form>
-  );
-};
+  )
+}
