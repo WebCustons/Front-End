@@ -141,6 +141,9 @@ export function Products() {
                   comment={comment.comment}
                   name={comment.user.name}
                   created_at={comment.created_at}
+                  idUserComment={comment.user.id}
+                  idComment={comment.id}
+                  idAdvert={Number(id)}
                 />
               ))}
             </List>

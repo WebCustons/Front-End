@@ -10,7 +10,7 @@ export const StyledFilterComponent = styled.ul`
   button {
     background: transparent;
     color: black;
-    width: 50%;
+    width: 100%;
     height: 100%;
     text-align: initial;
     margin-top: 0;
