@@ -17,7 +17,7 @@ const responsive = {
 const team = [
   {
     name: "Mateus Carius",
-    avatar: "https://ca.slack-edge.com/TQZR39SET-U042UM0BHE2-1810affbde70-512",
+    avatar: "https://media.licdn.com/dms/image/D4D35AQFS5vjknF_TUQ/profile-framedphoto-shrink_800_800/0/1684502415698?e=1694545200&v=beta&t=Tu7oMS8MHJsQ7c1xbzLVw6aWN9fbcjTNCLiDdjAdvVE",
     linkedin: "https://www.linkedin.com/in/mateus-carius-604033148/",
     github: "https://github.com/MattCari",
   },
@@ -29,31 +29,31 @@ const team = [
   },
   {
     name: "Matheus Ferreira",
-    avatar: "https://ca.slack-edge.com/TQZR39SET-U041XDXGKN1-df3166a76fd8-512",
+    avatar: "https://media.licdn.com/dms/image/D4D35AQFctHVdxPO54Q/profile-framedphoto-shrink_800_800/0/1673880619583?e=1694545200&v=beta&t=Mdv4rxLcORs-gSUeJ8ZD1PSZIo3I97f-8b7mowFzCG4",
     linkedin: "https://www.linkedin.com/in/matheusferreira33/",
     github: "https://github.com/MatheusFerreira33",
   },
   {
     name: "Natã Lomeu",
-    avatar: "https://ca.slack-edge.com/TQZR39SET-U03KV6GAD88-b91d9b18f194-512",
+    avatar: "https://media.licdn.com/dms/image/D4E35AQH8rQSxNBRxcA/profile-framedphoto-shrink_400_400/0/1673269407485?e=1694545200&v=beta&t=PZCAZ7VEGLRRW5_lmZ1Fo37dLsMQSs03wDmGOjXBaYI",
     linkedin: "https://www.linkedin.com/in/natangaf/",
     github: "https://github.com/Natangaf",
   },
   {
     name: "Christian Vada",
-    avatar: "https://ca.slack-edge.com/TQZR39SET-U03UEDRGBA4-ddfe6f7c8b08-512",
+    avatar: "https://media.licdn.com/dms/image/D4D35AQEJUHbAmuWI_Q/profile-framedphoto-shrink_800_800/0/1680572153463?e=1694545200&v=beta&t=eeHPXwHqyRfPQ4wXJvuCxvqeDyQB37nDieyeXZp4atY",
     linkedin: "https://www.linkedin.com/in/christianvada9/",
     github: "https://github.com/ChristianVada",
   },
   {
     name: "Bruno Henrique",
-    avatar: "https://ca.slack-edge.com/TQZR39SET-U03JYR1217Y-2cccda05ec1f-512",
+    avatar: "https://media.licdn.com/dms/image/D4D35AQFSUi1Xyo4PsQ/profile-framedphoto-shrink_800_800/0/1679056751085?e=1694545200&v=beta&t=5vvE62GBnlkfoGKPvYByJA2tj1runI6S5wSa_iTE3jI",
     linkedin: "https://www.linkedin.com/in/brunohgsantos/",
     github: "https://github.com/Brunohgs21",
   },
   {
     name: "Bruno Nunes",
-    avatar: "https://ca.slack-edge.com/TQZR39SET-U03PS5V3EHW-05bd08fcda4a-512",
+    avatar: "https://media.licdn.com/dms/image/D4D35AQGVTaA0WMVkPQ/profile-framedphoto-shrink_800_800/0/1692276325639?e=1694545200&v=beta&t=HpRHyPpi4x5htdqP1lTmN3IotkHu0wybnq9wIDtU4x4",
     linkedin: "https://www.linkedin.com/in/bruno-nunes-204a2623b/",
     github: "https://github.com/Bruno-Nuness",
   },

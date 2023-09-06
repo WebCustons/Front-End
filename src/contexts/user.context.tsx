@@ -18,6 +18,7 @@ type TErrorResponse = {
 }
 
 interface TUserContext {
+  userId: string | null
   user: TUser | null
   getUser: () => Promise<void>
   announceListUser: IAdvertsByUserId | undefined
@@ -48,7 +49,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
   const navigate = useNavigate()
   const toast = useToast()
-  const id = localStorage.getItem("@ID")
+  const userId = localStorage.getItem("@ID")
   const token = localStorage.getItem("@TOKEN")
   const headerAuthorization = {
     headers: {
@@ -115,8 +116,10 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
 
   const getUser = async () => {
     try {
-      const userResponse = await api.get(`/users/${id}`, headerAuthorization)
-      setUser(userResponse.data)
+      if (userId) {
+        const userResponse = await api.get(`/users/${userId}`, headerAuthorization)
+        setUser(userResponse.data)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -133,9 +136,8 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         status: "success",
         position: "top-right",
         isClosable: true,
-      })
-      getAnnounceUser(response.data.id)
-      return true
+      });
+      return true;
     } catch (error) {
       if ((error as AxiosError).response?.status != 500) {
         const err = error as AxiosError<TErrorResponse>
@@ -149,14 +151,13 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         })
       } else {
         toast({
-          title: `Algo deu errado aqui estamos arrumando 😁`,
+          title: `Algo deu errado aqui estamos arrumando 😔`,
           status: "warning",
           position: "top-right",
           isClosable: true,
         })
         console.log(error)
       }
-    } finally {
       setLoadingBnt(false)
     }
     return false
@@ -187,9 +188,8 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         isClosable: true,
       })
       setTimeout(() => {
-        navigate(profileRoute)
-        setLoadingBnt(false)
-      }, 1500)
+        navigate(profileRoute);
+      }, 1500);
     } catch (error: unknown) {
       if ((error as AxiosError).response?.status != 500) {
         toast({
@@ -200,7 +200,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         })
       } else {
         toast({
-          title: `Algo deu errado aqui estamos arrumando 😁`,
+          title: `Algo deu errado aqui estamos arrumando 😔`,
           status: "warning",
           position: "top-right",
           isClosable: true,
@@ -208,6 +208,8 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         console.log(error)
         setLoadingBnt(false)
       }
+    } finally {
+      setLoadingBnt(false);
     }
   }
 
@@ -239,7 +241,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         })
       } else {
         toast({
-          title: `Algo deu errado aqui estamos arrumando 😁`,
+          title: `Algo deu errado aqui estamos arrumando 😔`,
           status: "warning",
           position: "top-right",
           isClosable: true,
@@ -275,7 +277,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
         return
       }
 
-      await api.delete(`/users/${id}`, headerAuthorization)
+      await api.delete(`/users/${userId}`, headerAuthorization)
 
       localStorage.removeItem("@TOKEN")
       localStorage.removeItem("@ID")
@@ -291,7 +293,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
       }, 1500)
     } catch (error) {
       toast({
-        title: `Algo deu errado aqui estamos arrumando 😁`,
+        title: `Algo deu errado aqui estamos arrumando 😔`,
         status: "warning",
         position: "top-right",
         isClosable: true,
@@ -303,6 +305,7 @@ export const UserProvider = ({ children }: TUserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
+        userId,
         user,
         getUser,
         announceListUser,
